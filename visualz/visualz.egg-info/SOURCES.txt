@@ -1,0 +1,9 @@
+README.md
+setup.cfg
+setup.py
+visualz/__init__.py
+visualz.egg-info/PKG-INFO
+visualz.egg-info/SOURCES.txt
+visualz.egg-info/dependency_links.txt
+visualz.egg-info/not-zip-safe
+visualz.egg-info/top_level.txt

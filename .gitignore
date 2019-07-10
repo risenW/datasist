@@ -1,0 +1,6 @@
+/visualz.egg-info/
+*.cfg
+setup.py
+.pypirc
+/visualz/__pycache__
+dist
