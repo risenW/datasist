@@ -15,7 +15,7 @@ from scipy.stats import norm, skew #for some statistics
 
 
 
-def plot_bar(data, cat_feats, fig_size=(5,5)):
+def bar_cat_feats(data, cat_feats, fig_size=(5,5), save_fig=False):
     '''
     Makes a bar plot of all categorical features to show their counts.
     
@@ -44,4 +44,60 @@ def plot_bar(data, cat_feats, fig_size=(5,5)):
             v_count = data[feat].value_counts()
             v_count.plot.bar(ax = ax)
             ax.set_title("Bar plot for " + feat)
+
+            if save_fig:
+                plt.savefig('Barplot_{}'.format(feat))
+
+
+
+
+
+def box_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
+    '''
+    Makes a box plot of all numerical features against a specified categorical target column.
+ 
+    Parameters
+    ------------
+
+    data : Pandas dataframe.
+    num_feats: Scalar, array, or list. 
+               The numerical features in the dataset, if not provided, 
+               we try to infer the numerical columns from the dataframe.
+    target: array, pandas series, list.
+            A categorical target column. Maximun number of categories is 7 and minimum is 1
+    fig_size: tuple
+              The size of the figure object
+    large_data: boolean
+            If True, then sns boxenplot is used instead of normal boxplot. Boxenplot is 
+            better for large dataset
+    '''
+
+    if target is None:
+        raise ValueError('Target value cannot be None')
+
+    if len(data[target].unique()) > 7:
+        raise AttributeError("Target categories must be less than seven")
+
+
+    if num_feats is None:
+        #TODO: Get numerical features from data
+        pass
+    
+    if large_data:
+        #use advanced sns boxenplot
+        pass
+
+
+    for feat in num_feats:
+        fig = plt.figure(figsize=fig_size)
+        ax = fig.gca()
+
+        sns.set_style("whitegrid")
+        sns.boxplot(target, feat, data=data, ax=ax)
+        plt.xlabel(feat) # Set text for the x axis
+        plt.ylabel(target)# Set text for y axis
+        plt.title('Box plot of {} against {}'.format(feat, target))
+        if save_fig:
+            plt.savefig('fig_{}_vs_{}'.format(feat,target))
+        plt.show()
 
