@@ -159,3 +159,54 @@ def violin_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), sav
             #TODO Add function to save to a specified directory
             plt.savefig('fig_{}_vs_{}'.format(feat,target))
         plt.show()
+
+
+
+
+
+def hist_num_feats(data=None, num_feats=None, bins=5, show_dist_type=False, fig_size=(5,5), save_fig=False):
+    '''
+    Makes an histogram plot of all numerical features. Helps to show the distribution of the features.
+    
+ 
+    Parameters
+    ------------
+
+    data : Pandas dataframe.
+    num_feats: Scalar, array, or list. 
+               The numerical features in the dataset, if not provided, 
+               we try to infer the numerical columns from the dataframe.
+    bins: int
+            The number of bins to use.
+    show_dist_type: boolean
+            If True, Calculates the skewness of the data and display one of (Left skewed, right skewed or normal) 
+    fig_size: tuple
+              The size of the figure object
+    save_fig: boolean
+            If True, saves the current plot to the current working directory
+    '''
+
+
+    if num_feats is None:
+        #TODO: Get numerical features from data
+        pass
+
+    for feat in num_feats:
+        fig = plt.figure(figsize=fig_size)
+        ax = fig.gca()
+
+        data[feat].plot.hist(ax = ax, bins = bins) # Use the plot.hist method on subset of the data frame
+        ax.set_xlabel(feat) # Set text for the x axis
+        ax.set_ylabel('Count')# Set text for y axis
+
+        if show_dist_type:
+            ##TODO Add Code to calculate skewness
+            pass
+        else:
+            ax.set_title('Histogram of ' + feat)
+
+        if save_fig:
+            #TODO Add function to save to a specified directory
+            plt.savefig('fig_hist_{}'.format(feat))
+
+        plt.show()
