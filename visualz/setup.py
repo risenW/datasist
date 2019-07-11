@@ -12,11 +12,11 @@ setup(name='visualz',
       zip_safe=False)
 
 
-#       setup(
-#     name="gitcen",
-#     version='0.1.0',
-#     description="A project to find git information.",
-#     long_description="A project to find git information about authors' commits,most active days and time.",
+#   setup(
+#     name="visualz",
+#     version='0.1',
+#     description="'A data visualization library for quick and easy data exploration",
+#     long_description="A visualizaion library that offers great exploration for shorter lines of codes.",
 #     author="Anwesha Das.",
 #     author_email="anwesha@das.community",
 #     url="https://github.com/anweshadas/gitcen",
