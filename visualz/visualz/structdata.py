@@ -85,19 +85,28 @@ def box_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), large_
     
     if large_data:
         #use advanced sns boxenplot
-        pass
+         for feat in num_feats:
+            fig = plt.figure(figsize=fig_size)
+            ax = fig.gca()
 
+            sns.set_style("whitegrid")
+            sns.boxenplot(target, feat, data=data, ax=ax)
+            plt.xlabel(feat) # Set text for the x axis
+            plt.ylabel(target)# Set text for y axis
+            plt.title('Box plot of {} against {}'.format(feat, target))
+            if save_fig:
+                plt.savefig('fig_{}_vs_{}'.format(feat,target))
+            plt.show()
+    else:
+         for feat in num_feats:
+            fig = plt.figure(figsize=fig_size)
+            ax = fig.gca()
 
-    for feat in num_feats:
-        fig = plt.figure(figsize=fig_size)
-        ax = fig.gca()
-
-        sns.set_style("whitegrid")
-        sns.boxplot(target, feat, data=data, ax=ax)
-        plt.xlabel(feat) # Set text for the x axis
-        plt.ylabel(target)# Set text for y axis
-        plt.title('Box plot of {} against {}'.format(feat, target))
-        if save_fig:
-            plt.savefig('fig_{}_vs_{}'.format(feat,target))
-        plt.show()
-
+            sns.set_style("whitegrid")
+            sns.boxplot(target, feat, data=data, ax=ax)
+            plt.xlabel(feat) # Set text for the x axis
+            plt.ylabel(target)# Set text for y axis
+            plt.title('Box plot of {} against {}'.format(feat, target))
+            if save_fig:
+                plt.savefig('fig_{}_vs_{}'.format(feat,target))
+            plt.show()
