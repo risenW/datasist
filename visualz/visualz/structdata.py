@@ -15,7 +15,7 @@ from scipy.stats import norm, skew #for some statistics
 
 
 
-def bar_cat_features(data, cat_features, fig_size=(5,5), save_fig=False):
+def bar_cat_features(data=None, cat_features=None, fig_size=(5,5), save_fig=False):
     '''
     Makes a bar plot of all categorical features to show their counts.
     
@@ -29,24 +29,28 @@ def bar_cat_features(data, cat_features, fig_size=(5,5), save_fig=False):
     fig_size: tuple
               The size of the figure object
     '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        #TODO: Get categorical featureures from data
-        pass
+        cat_features = []
+        for col in data.columns:
+            if data[col].dtypes == 'object':
+                cat_features.append(col)
+                
 
-    else:
+    for feature in cat_features:
+        fig = plt.figure(figsize=fig_size)
+        ax = fig.gca()
 
-        for feature in cat_features:
-            fig = plt.figure(figsize=fig_size)
-            ax = fig.gca()
+        #get the value count of the column
+        v_count = data[feature].value_counts()
+        v_count.plot.bar(ax = ax)
+        plt.xticks(rotation=90)
+        ax.set_title("Bar plot for " + feature)
 
-            #get the value count of the column
-            v_count = data[feature].value_counts()
-            v_count.plot.bar(ax = ax)
-            ax.set_title("Bar plot for " + feature)
-
-            if save_fig:
-                plt.savefig('Barplot_{}'.format(feature))
+        if save_fig:
+            plt.savefig('Barplot_{}'.format(feature))
 
 
 
@@ -81,9 +85,14 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
         raise AttributeError("Target categories must be less than seven")
 
 
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
     if num_features is None:
-        #TODO: Get numerical featureures from data
-        pass
+        num_features = []
+        for col in data.columns:
+            if data[col].dtypes != 'object':
+                num_features.append(col)
     
     if large_data:
         #use advanced sns boxenplot
@@ -95,6 +104,7 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
             sns.boxenplot(target, feature, data=data, ax=ax)
             plt.xlabel(feature) # Set text for the x axis
             plt.ylabel(target)# Set text for y axis
+            plt.xticks(rotation=90)
             plt.title('Box plot of {} against {}'.format(feature, target))
             if save_fig:
                 plt.savefig('fig_{}_vs_{}'.format(feature,target))
@@ -108,6 +118,7 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
             sns.boxplot(target, feature, data=data, ax=ax)
             plt.xlabel(feature) # Set text for the x axis
             plt.ylabel(target)# Set text for y axis
+            plt.xticks(rotation=90)
             plt.title('Box plot of {} against {}'.format(feature, target))
             if save_fig:
                 plt.savefig('fig_{}_vs_{}'.format(feature,target))
@@ -142,9 +153,14 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
         raise AttributeError("Target categories must be less than seven")
 
 
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
     if num_features is None:
-        #TODO: Get numerical featureures from data
-        pass
+        num_features = []
+        for col in data.columns:
+            if data[col].dtypes != 'object':
+                num_features.append(col)
 
     for feature in num_features:
         fig = plt.figure(figsize=fig_size)
@@ -152,6 +168,7 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
 
         sns.set_style("whitegrid")
         sns.violin(target, feature, data=data, ax=ax)
+        plt.xticks(rotation=90)
         plt.xlabel(feature) # Set text for the x axis
         plt.ylabel(target)# Set text for y axis
         plt.title('Violin plot of {} against {}'.format(feature, target))
@@ -187,9 +204,14 @@ def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False
     '''
 
 
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
     if num_features is None:
-        #TODO: Get numerical featureures from data
-        pass
+        num_features = []
+        for col in data.columns:
+            if data[col].dtypes != 'object':
+                num_features.append(col)
 
     for feature in num_features:
         fig = plt.figure(figsize=fig_size)
@@ -236,10 +258,14 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
     '''
 
 
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
     if cat_features is None:
-        #TODO: Get categorical featureures from data
-        #TODO: Drop target from cat_features
-        pass
+        cat_features = []
+        for col in data.columns:
+            if data[col].dtypes == 'object':
+                cat_features.append(col)
 
     #remove target from cat_features
     cat_features.remove(target)
@@ -275,7 +301,7 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
     data.drop(['dummy_count'], axis=1, inplace = True)
 
 
-def class_in_cat_feature(data, cat_features, plot=False, save_fig=False):
+def class_in_cat_feature(data=None, cat_features=None, plot=False, save_fig=False):
     '''
     Prints the categories and counts of a categorical feature
 
@@ -286,13 +312,18 @@ def class_in_cat_feature(data, cat_features, plot=False, save_fig=False):
                The categorical features in the dataset, if not provided, 
                we try to infer the categorical columns from the dataframe.
     '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
     if cat_features is None:
-        #TODO: Get categorical featureures from data
-        #TODO: Drop target from cat_features
-        pass
+        cat_features = []
+        for col in data.columns:
+            if data[col].dtypes == 'object':
+                cat_features.append(col)
+                        
 
     for feature in cat_features:
-        print('Value Count for', feature)
+        print('Class Count for', feature)
         print(data[feature].value_counts())
         print("-----------------------------")
 
