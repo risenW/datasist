@@ -17,7 +17,7 @@ from scipy.stats import norm, skew #for some statistics
 
 def bar_cat_features(data, cat_features, fig_size=(5,5), save_fig=False):
     '''
-    Makes a bar plot of all categorical featureures to show their counts.
+    Makes a bar plot of all categorical features to show their counts.
     
     Parameters
     ------------
@@ -195,7 +195,7 @@ def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False
         fig = plt.figure(figsize=fig_size)
         ax = fig.gca()
 
-        data[feature].plot.hist(ax = ax, bins = bins) # Use the plot.hist method on subset of the data frame
+        sns.distplot(data[feature], ax=ax, bins=bins)
         ax.set_xlabel(feature) # Set text for the x axis
         ax.set_ylabel('Count')# Set text for y axis
 
@@ -275,4 +275,27 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
     data.drop(['dummy_count'], axis=1, inplace = True)
 
 
+def class_in_cat_feature(data, cat_features, plot=False, save_fig=False):
+    '''
+    Prints the categories and counts of a categorical feature
+
+    Parameters:
+    
+    data: Pandas DataFrame or Series
+    cat_features: Scalar, array, or list. 
+               The categorical features in the dataset, if not provided, 
+               we try to infer the categorical columns from the dataframe.
+    '''
+    if cat_features is None:
+        #TODO: Get categorical featureures from data
+        #TODO: Drop target from cat_features
+        pass
+
+    for feature in cat_features:
+        print('Value Count for', feature)
+        print(data[feature].value_counts())
+        print("-----------------------------")
+
+    if plot:
+        bar_cat_features(data, cat_features, save_fig=save_fig)
 
