@@ -330,3 +330,54 @@ def class_in_cat_feature(data=None, cat_features=None, plot=False, save_fig=Fals
     if plot:
         bar_cat_features(data, cat_features, save_fig=save_fig)
 
+
+
+def scatter_num_2_num_feat(data=None, num_features=None, target=None, separate_by='', fig_size=(10,10), save_fig=False):
+    '''
+    Makes an histogram plot of all numerical featureures. Helps to show the distribution of the featureures.
+    
+ 
+    Parameters
+    ------------
+
+    data : Pandas dataframe.
+    num_features: Scalar, array, or list. 
+               The numerical featureures in the dataset, if not provided, 
+               we try to infer the numerical columns from the dataframe.
+    separate_by: string
+            The cateogical feature to use in class separation. Also called 'hue' in seaborn
+    fig_size: tuple
+              The size of the figure object
+    save_fig: boolean
+            If True, saves the current plot to the current working directory
+    '''
+
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
+    if separate_by == '':
+        pass
+    else:
+        if separate_by not in data.columns:
+            raise ValueError("{} not found in data columns".format(separate_by))
+
+    
+    if target is None:
+        raise ValueError('Target value cannot be None')
+
+    if num_features is None:
+        num_features = []
+        for col in data.columns:
+            if data[col].dtypes != 'object':
+                num_features.append(col)
+
+    for feature in num_features:
+        fig = plt.figure(figsize=fig_size) # define plot area
+        ax = fig.gca() # define axis  
+        sns.scatterplot(x=feature, y=target, data=data, hue=separate_by)
+        ax.set_title("Scatter Plot of '{}' vs. '{}' \n Separated by: '{}'".format(feature, target, separate_by))
+        if save_fig:
+            plt.savefig('fig_num_2_num_{}'.format(feature))
+
+
