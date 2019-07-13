@@ -15,53 +15,53 @@ from scipy.stats import norm, skew #for some statistics
 
 
 
-def bar_cat_feats(data, cat_feats, fig_size=(5,5), save_fig=False):
+def bar_cat_features(data, cat_features, fig_size=(5,5), save_fig=False):
     '''
-    Makes a bar plot of all categorical features to show their counts.
+    Makes a bar plot of all categorical featureures to show their counts.
     
     Parameters
     ------------
 
     data : Pandas dataframe.
-    cat_feats: Scalar, array, or list. 
-               The categorical features in the dataset, if not provided, 
+    cat_features: Scalar, array, or list. 
+               The categorical featureures in the dataset, if not provided, 
                we try to infer the categorical columns from the dataframe.
     fig_size: tuple
               The size of the figure object
     '''
 
-    if cat_feats is None:
-        #TODO: Get categorical features from data
+    if cat_features is None:
+        #TODO: Get categorical featureures from data
         pass
 
     else:
 
-        for feat in cat_feats:
+        for feature in cat_features:
             fig = plt.figure(figsize=fig_size)
             ax = fig.gca()
 
             #get the value count of the column
-            v_count = data[feat].value_counts()
+            v_count = data[feature].value_counts()
             v_count.plot.bar(ax = ax)
-            ax.set_title("Bar plot for " + feat)
+            ax.set_title("Bar plot for " + feature)
 
             if save_fig:
-                plt.savefig('Barplot_{}'.format(feat))
+                plt.savefig('Barplot_{}'.format(feature))
 
 
 
 
 
-def box_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
+def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
     '''
-    Makes a box plot of all numerical features against a specified categorical target column.
+    Makes a box plot of all numerical featureures against a specified categorical target column.
  
     Parameters
     ------------
 
     data : Pandas dataframe.
-    num_feats: Scalar, array, or list. 
-               The numerical features in the dataset, if not provided, 
+    num_features: Scalar, array, or list. 
+               The numerical featureures in the dataset, if not provided, 
                we try to infer the numerical columns from the dataframe.
     target: array, pandas series, list.
             A categorical target column. Maximun number of categories is 7 and minimum is 1
@@ -81,51 +81,51 @@ def box_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), large_
         raise AttributeError("Target categories must be less than seven")
 
 
-    if num_feats is None:
-        #TODO: Get numerical features from data
+    if num_features is None:
+        #TODO: Get numerical featureures from data
         pass
     
     if large_data:
         #use advanced sns boxenplot
-         for feat in num_feats:
+         for feature in num_features:
             fig = plt.figure(figsize=fig_size)
             ax = fig.gca()
 
             sns.set_style("whitegrid")
-            sns.boxenplot(target, feat, data=data, ax=ax)
-            plt.xlabel(feat) # Set text for the x axis
+            sns.boxenplot(target, feature, data=data, ax=ax)
+            plt.xlabel(feature) # Set text for the x axis
             plt.ylabel(target)# Set text for y axis
-            plt.title('Box plot of {} against {}'.format(feat, target))
+            plt.title('Box plot of {} against {}'.format(feature, target))
             if save_fig:
-                plt.savefig('fig_{}_vs_{}'.format(feat,target))
+                plt.savefig('fig_{}_vs_{}'.format(feature,target))
             plt.show()
     else:
-         for feat in num_feats:
+         for feature in num_features:
             fig = plt.figure(figsize=fig_size)
             ax = fig.gca()
 
             sns.set_style("whitegrid")
-            sns.boxplot(target, feat, data=data, ax=ax)
-            plt.xlabel(feat) # Set text for the x axis
+            sns.boxplot(target, feature, data=data, ax=ax)
+            plt.xlabel(feature) # Set text for the x axis
             plt.ylabel(target)# Set text for y axis
-            plt.title('Box plot of {} against {}'.format(feat, target))
+            plt.title('Box plot of {} against {}'.format(feature, target))
             if save_fig:
-                plt.savefig('fig_{}_vs_{}'.format(feat,target))
+                plt.savefig('fig_{}_vs_{}'.format(feature,target))
             plt.show()
 
 
 
 
-def violin_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), save_fig=False):
+def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,5), save_fig=False):
     '''
-    Makes a violin plot of all numerical features against a specified categorical target column.
+    Makes a violin plot of all numerical featureures against a specified categorical target column.
  
     Parameters
     ------------
 
     data : Pandas dataframe.
-    num_feats: Scalar, array, or list. 
-               The numerical features in the dataset, if not provided, 
+    num_features: Scalar, array, or list. 
+               The numerical featureures in the dataset, if not provided, 
                we try to infer the numerical columns from the dataframe.
     target: array, pandas series, list.
             A categorical target column. Maximun number of categories is 7 and minimum is 1
@@ -142,39 +142,39 @@ def violin_num_2_cat(data=None, num_feats=None, target=None, fig_size=(5,5), sav
         raise AttributeError("Target categories must be less than seven")
 
 
-    if num_feats is None:
-        #TODO: Get numerical features from data
+    if num_features is None:
+        #TODO: Get numerical featureures from data
         pass
 
-    for feat in num_feats:
+    for feature in num_features:
         fig = plt.figure(figsize=fig_size)
         ax = fig.gca()
 
         sns.set_style("whitegrid")
-        sns.violin(target, feat, data=data, ax=ax)
-        plt.xlabel(feat) # Set text for the x axis
+        sns.violin(target, feature, data=data, ax=ax)
+        plt.xlabel(feature) # Set text for the x axis
         plt.ylabel(target)# Set text for y axis
-        plt.title('Violin plot of {} against {}'.format(feat, target))
+        plt.title('Violin plot of {} against {}'.format(feature, target))
         if save_fig:
             #TODO Add function to save to a specified directory
-            plt.savefig('fig_{}_vs_{}'.format(feat,target))
+            plt.savefig('fig_{}_vs_{}'.format(feature,target))
         plt.show()
 
 
 
 
 
-def hist_num_feats(data=None, num_feats=None, bins=5, show_dist_type=False, fig_size=(5,5), save_fig=False):
+def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False, fig_size=(5,5), save_fig=False):
     '''
-    Makes an histogram plot of all numerical features. Helps to show the distribution of the features.
+    Makes an histogram plot of all numerical featureures. Helps to show the distribution of the featureures.
     
  
     Parameters
     ------------
 
     data : Pandas dataframe.
-    num_feats: Scalar, array, or list. 
-               The numerical features in the dataset, if not provided, 
+    num_features: Scalar, array, or list. 
+               The numerical featureures in the dataset, if not provided, 
                we try to infer the numerical columns from the dataframe.
     bins: int
             The number of bins to use.
@@ -187,26 +187,92 @@ def hist_num_feats(data=None, num_feats=None, bins=5, show_dist_type=False, fig_
     '''
 
 
-    if num_feats is None:
-        #TODO: Get numerical features from data
+    if num_features is None:
+        #TODO: Get numerical featureures from data
         pass
 
-    for feat in num_feats:
+    for feature in num_features:
         fig = plt.figure(figsize=fig_size)
         ax = fig.gca()
 
-        data[feat].plot.hist(ax = ax, bins = bins) # Use the plot.hist method on subset of the data frame
-        ax.set_xlabel(feat) # Set text for the x axis
+        data[feature].plot.hist(ax = ax, bins = bins) # Use the plot.hist method on subset of the data frame
+        ax.set_xlabel(feature) # Set text for the x axis
         ax.set_ylabel('Count')# Set text for y axis
 
         if show_dist_type:
             ##TODO Add Code to calculate skewness
             pass
         else:
-            ax.set_title('Histogram of ' + feat)
+            ax.set_title('Histogram of ' + feature)
 
         if save_fig:
             #TODO Add function to save to a specified directory
-            plt.savefig('fig_hist_{}'.format(feat))
+            plt.savefig('fig_hist_{}'.format(feature))
 
         plt.show()
+
+
+
+
+
+
+def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
+    '''
+    Makes a side by side bar plot of all categorical featureures against the target classes.
+    
+ 
+    Parameters
+    ------------
+
+    data : Pandas dataframe.
+            The data we are working with.
+    cat_features: Scalar, array, or list. 
+               The categorical features in the dataset, if not provided, 
+               we try to infer the categorical columns from the dataframe.
+    fig_size: tuple
+              The size of the figure object
+    save_fig: boolean
+            If True, saves the current plot to the current working directory
+    '''
+
+
+    if cat_features is None:
+        #TODO: Get categorical featureures from data
+        #TODO: Drop target from cat_features
+        pass
+
+    #remove target from cat_features
+    cat_features.remove(target)
+
+    #Create a dummy column to hold count of values
+    data['dummy_count'] = np.ones(shape = data.shape[0])
+    #Loop over each categorical featureure and plot the acceptance rate for each category.
+    for feature in cat_features:
+        counts = data[['dummy_count', target, feature]].groupby([target, feature], as_index = False).count() #get the counts for each category
+        #get the categories
+        cats = list(data[target].unique())
+
+        if len(cats) > 6:
+            raise ValueError("Target column: '{}' must contain less than six unique classes".format(target))
+        
+        #create new figure
+        _ = plt.figure(figsize = fig_size)
+
+        for i, cat in enumerate(cats): 
+            plt.subplot(1, len(cats), i+1)
+            #Get the counts each category in target     
+            temp = counts[counts[target] == cat][[feature, 'dummy_count']] 
+            sns.barplot(x=feature, y='dummy_count', data=temp)
+            plt.xticks(rotation=90)
+            plt.title('Counts for {} \n class {}'.format(feature, cat))
+            plt.ylabel('count')
+
+            if save_fig:
+                plt.savefig('fig_cat_2_cat_target_{}'.format(feature))
+
+
+    #Drop the dummy_count column from data
+    data.drop(['dummy_count'], axis=1, inplace = True)
+
+
+
