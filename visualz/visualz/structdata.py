@@ -119,7 +119,7 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
             plt.xlabel(feature) # Set text for the x axis
             plt.ylabel(target)# Set text for y axis
             plt.xticks(rotation=90)
-            plt.title('Box plot of {} against {}'.format(feature, target))
+            plt.title("Box plot of '{}' vs. '{}'".format(feature, target))
             if save_fig:
                 plt.savefig('fig_{}_vs_{}'.format(feature,target))
             plt.show()
@@ -167,11 +167,11 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
         ax = fig.gca()
 
         sns.set_style("whitegrid")
-        sns.violin(target, feature, data=data, ax=ax)
+        sns.violinplot(target, feature, data=data, ax=ax)
         plt.xticks(rotation=90)
         plt.xlabel(feature) # Set text for the x axis
         plt.ylabel(target)# Set text for y axis
-        plt.title('Violin plot of {} against {}'.format(feature, target))
+        plt.title("Violin plot of '{}' vs. '{}'".format(feature, target))
         if save_fig:
             #TODO Add function to save to a specified directory
             plt.savefig('fig_{}_vs_{}'.format(feature,target))
