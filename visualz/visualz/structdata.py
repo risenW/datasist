@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import datastats
 import warnings
 
 def ignore_warn(*args, **kwargs):
@@ -33,12 +34,8 @@ def bar_cat_features(data=None, cat_features=None, fig_size=(5,5), save_fig=Fals
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        cat_features = []
-        for col in data.columns:
-            if data[col].dtypes == 'object':
-                cat_features.append(col)
-                
-
+        cat_features = datastats.get_cat_feats(data)
+        
     for feature in cat_features:
         fig = plt.figure(figsize=fig_size)
         ax = fig.gca()
@@ -89,10 +86,7 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if num_features is None:
-        num_features = []
-        for col in data.columns:
-            if data[col].dtypes != 'object':
-                num_features.append(col)
+        num_features = datastats.get_num_feats(data)
     
     if large_data:
         #use advanced sns boxenplot
@@ -157,10 +151,7 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if num_features is None:
-        num_features = []
-        for col in data.columns:
-            if data[col].dtypes != 'object':
-                num_features.append(col)
+        num_features = datastats.get_num_feats(data)
 
     for feature in num_features:
         fig = plt.figure(figsize=fig_size)
@@ -208,10 +199,7 @@ def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if num_features is None:
-        num_features = []
-        for col in data.columns:
-            if data[col].dtypes != 'object':
-                num_features.append(col)
+        num_features = datastats.get_num_feats(data)
 
     for feature in num_features:
         fig = plt.figure(figsize=fig_size)
@@ -262,10 +250,8 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        cat_features = []
-        for col in data.columns:
-            if data[col].dtypes == 'object':
-                cat_features.append(col)
+        cat_features = datastats.get_cat_feats(data)
+
 
     #remove target from cat_features
     cat_features.remove(target)
@@ -316,10 +302,8 @@ def class_in_cat_feature(data=None, cat_features=None, plot=False, save_fig=Fals
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        cat_features = []
-        for col in data.columns:
-            if data[col].dtypes == 'object':
-                cat_features.append(col)
+        cat_features = datastats.get_cat_feats(data)
+
                         
 
     for feature in cat_features:
@@ -367,10 +351,7 @@ def scatter_num_2_num_feat(data=None, num_features=None, target=None, separate_b
         raise ValueError('Target value cannot be None')
 
     if num_features is None:
-        num_features = []
-        for col in data.columns:
-            if data[col].dtypes != 'object':
-                num_features.append(col)
+        num_features = datastats.get_num_feats(data)
 
     for feature in num_features:
         fig = plt.figure(figsize=fig_size) # define plot area
