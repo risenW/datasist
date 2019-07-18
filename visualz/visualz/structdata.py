@@ -100,8 +100,8 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
 
             sns.set_style("whitegrid")
             sns.boxenplot(target, feature, data=data, ax=ax)
-            plt.xlabel(feature) # Set text for the x axis
-            plt.ylabel(target)# Set text for y axis
+            plt.ylabel(feature) # Set text for the x axis
+            plt.xlabel(target)# Set text for y axis
             plt.xticks(rotation=90)
             plt.title('Box plot of {} against {}'.format(feature, target))
             if save_fig:
@@ -114,8 +114,8 @@ def box_num_2_cat_target(data=None, num_features=None, target=None, fig_size=(5,
 
             sns.set_style("whitegrid")
             sns.boxplot(target, feature, data=data, ax=ax)
-            plt.xlabel(feature) # Set text for the x axis
-            plt.ylabel(target)# Set text for y axis
+            plt.ylabel(feature) # Set text for the x axis
+            plt.xlabel(target)# Set text for y axis
             plt.xticks(rotation=90)
             plt.title("Box plot of '{}' vs. '{}'".format(feature, target))
             if save_fig:
@@ -164,8 +164,8 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
         sns.set_style("whitegrid")
         sns.violinplot(target, feature, data=data, ax=ax)
         plt.xticks(rotation=90)
-        plt.xlabel(feature) # Set text for the x axis
-        plt.ylabel(target)# Set text for y axis
+        plt.ylabel(feature) # Set text for the x axis
+        plt.xlabel(target)# Set text for y axis
         plt.title("Violin plot of '{}' vs. '{}'".format(feature, target))
         if save_fig:
             #TODO Add function to save to a specified directory
@@ -176,7 +176,7 @@ def violin_num_2_cat_target(data=None, num_features=None, target=None, fig_size=
 
 
 
-def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False, fig_size=(5,5), save_fig=False):
+def hist_num_features(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(5,5), save_fig=False):
     '''
     Makes an histogram plot of all numerical featureures. Helps to show the distribution of the featureures.
     
@@ -253,7 +253,7 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        cat_features = dt.get_cat_feats(data)
+        cat_features = datastats.get_cat_feats(data)
 
     #remove target from cat_features
     try:
