@@ -4,3 +4,5 @@ setup.py
 .pypirc
 /visualz/__pycache__
 dist
+*ipynb
+Xente
