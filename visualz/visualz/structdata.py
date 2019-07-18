@@ -37,17 +37,21 @@ def bar_cat_features(data=None, cat_features=None, fig_size=(5,5), save_fig=Fals
         cat_features = datastats.get_cat_feats(data)
         
     for feature in cat_features:
-        fig = plt.figure(figsize=fig_size)
-        ax = fig.gca()
+        #Check the size of categories in the feature: Anything greater than 20 is not plotted
+        if len(data[feature].unique()) > 20:
+            print("Unique Values in {} is too large to plot".format(feature))
+        else:
+            fig = plt.figure(figsize=fig_size)
+            ax = fig.gca()
 
-        #get the value count of the column
-        v_count = data[feature].value_counts()
-        v_count.plot.bar(ax = ax)
-        plt.xticks(rotation=90)
-        ax.set_title("Bar plot for " + feature)
+            #get the value count of the column
+            v_count = data[feature].value_counts()
+            v_count.plot.bar(ax = ax)
+            plt.xticks(rotation=90)
+            ax.set_title("Bar plot for " + feature)
 
-        if save_fig:
-            plt.savefig('Barplot_{}'.format(feature))
+            if save_fig:
+                plt.savefig('Barplot_{}'.format(feature))
 
 
 
@@ -225,7 +229,6 @@ def hist_num_features(data=None, num_features=None, bins=5, show_dist_type=False
 
 
 
-
 def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
     '''
     Makes a side by side bar plot of all categorical featureures against the target classes.
@@ -250,37 +253,48 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if cat_features is None:
-        cat_features = datastats.get_cat_feats(data)
-
+        cat_features = dt.get_cat_feats(data)
 
     #remove target from cat_features
-    cat_features.remove(target)
+    try:
+        cat_features.remove(target)
+    except:
+        pass
+    
+    if len(data[target].unique()) > 7:
+        raise AttributeError("Target categories must be less than seven")
 
     #Create a dummy column to hold count of values
     data['dummy_count'] = np.ones(shape = data.shape[0])
     #Loop over each categorical featureure and plot the acceptance rate for each category.
     for feature in cat_features:
-        counts = data[['dummy_count', target, feature]].groupby([target, feature], as_index = False).count() #get the counts for each category
-        #get the categories
-        cats = list(data[target].unique())
+        #Plots are made for only categories with less than 10 unique values because of speed
+        if len(data[feature].unique()) > 10 :
+            print("{} feature has too many categories and will not be ploted".format(feature))
+            
+        else:     
+            counts = data[['dummy_count', target, feature]].groupby([target, feature], as_index = False).count()
+            #get the categories
+            cats = list(data[target].unique())
 
-        if len(cats) > 6:
-            raise ValueError("Target column: '{}' must contain less than six unique classes".format(target))
-        
-        #create new figure
-        _ = plt.figure(figsize = fig_size)
+            if len(cats) > 6:
+                raise ValueError("Target column: '{}' must contain less than six unique classes".format(target))
 
-        for i, cat in enumerate(cats): 
-            plt.subplot(1, len(cats), i+1)
-            #Get the counts each category in target     
-            temp = counts[counts[target] == cat][[feature, 'dummy_count']] 
-            sns.barplot(x=feature, y='dummy_count', data=temp)
-            plt.xticks(rotation=90)
-            plt.title('Counts for {} \n class {}'.format(feature, cat))
-            plt.ylabel('count')
+            #create new figure
+            _ = plt.figure(figsize = fig_size)
 
-            if save_fig:
-                plt.savefig('fig_cat_2_cat_target_{}'.format(feature))
+            for i, cat in enumerate(cats): 
+                plt.subplot(1, len(cats), i+1)
+                #Get the counts each category in target     
+                temp = counts[counts[target] == cat][[feature, 'dummy_count']] 
+                sns.barplot(x=feature, y='dummy_count', data=temp)
+                plt.xticks(rotation=90)
+                plt.title('Counts for {} \n class {}'.format(feature, cat))
+                plt.ylabel('count')
+                plt.tight_layout(2)
+
+                if save_fig:
+                    plt.savefig('fig_cat_2_cat_target_{}'.format(feature))
 
 
     #Drop the dummy_count column from data
