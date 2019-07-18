@@ -1,0 +1,17 @@
+Column Name,Definition
+TransactionId,Unique �transaction identifier on platform
+BatchId,Unique number assigned to a batch of transactions for processing
+AccountId,Unique number identifying the customer on platform
+SubscriptionId,Unique number identifying the customer subscription
+CustomerId,Unique identifier attached to Account
+CurrencyCode,Country currency
+CountryCode,Numerical geographical code of country
+ProviderId,Source provider of Item �bought.
+ProductId,Item name being bought.
+ProductCategory,ProductIds are organized into these broader product categories.
+ChannelId,"Identifies if customer used web,Android, IOS, pay later or checkout."
+Amount,Value of the transaction. Positive for debits from customer account and negative for credit into customer account
+Value,Absolute value of the amount
+TransactionStartTime,Transaction start time
+PricingStrategy,Category of Xente's pricing structure for merchants
+FraudResult,Fraud status of transaction 1 -yes or 0-No
