@@ -16,7 +16,7 @@ from scipy.stats import norm, skew #for some statistics
 
 
 
-def bar_cat_features(data=None, cat_features=None, fig_size=(5,5), save_fig=False):
+def bar_cat_features(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):
     '''
     Makes a bar plot of all categorical features to show their counts.
     
@@ -38,15 +38,14 @@ def bar_cat_features(data=None, cat_features=None, fig_size=(5,5), save_fig=Fals
         
     for feature in cat_features:
         #Check the size of categories in the feature: Anything greater than 20 is not plotted
-        if len(data[feature].unique()) > 20:
+        if len(data[feature].unique()) > 30:
             print("Unique Values in {} is too large to plot".format(feature))
+            print('\n')
         else:
             fig = plt.figure(figsize=fig_size)
             ax = fig.gca()
 
-            #get the value count of the column
-            v_count = data[feature].value_counts()
-            v_count.plot.bar(ax = ax)
+            sns.countplot(x=feature, hue=separate_by, data=data)
             plt.xticks(rotation=90)
             ax.set_title("Bar plot for " + feature)
 
@@ -209,7 +208,7 @@ def hist_num_features(data=None, num_features=None, bins=None, show_dist_type=Fa
         fig = plt.figure(figsize=fig_size)
         ax = fig.gca()
 
-        sns.distplot(data[feature], ax=ax, bins=bins)
+        sns.distplot(data[feature].values, ax=ax, bins=bins)
         ax.set_xlabel(feature) # Set text for the x axis
         ax.set_ylabel('Count')# Set text for y axis
 
@@ -231,7 +230,7 @@ def hist_num_features(data=None, num_features=None, bins=None, show_dist_type=Fa
 
 def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
     '''
-    Makes a side by side bar plot of all categorical featureures against the target classes.
+    Makes a side by side bar plot of all categorical features against the target classes.
     
  
     Parameters
@@ -330,7 +329,7 @@ def class_in_cat_feature(data=None, cat_features=None, plot=False, save_fig=Fals
 
 
 
-def scatter_num_2_num_feat(data=None, num_features=None, target=None, separate_by='', fig_size=(10,10), save_fig=False):
+def scatter_num_2_num_feat(data=None, num_features=None, target=None, separate_by=None, fig_size=(10,10), save_fig=False):
     '''
     Makes an histogram plot of all numerical featureures. Helps to show the distribution of the featureures.
     
@@ -374,7 +373,3 @@ def scatter_num_2_num_feat(data=None, num_features=None, target=None, separate_b
         ax.set_title("Scatter Plot of '{}' vs. '{}' \n Separated by: '{}'".format(feature, target, separate_by))
         if save_fig:
             plt.savefig('fig_num_2_num_{}'.format(feature))
-
-
-
-##TODO Add Grid scatter plot
