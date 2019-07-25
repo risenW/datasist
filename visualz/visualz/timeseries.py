@@ -110,3 +110,9 @@ def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marke
             plt.show()           
 
 
+
+def set_date_index(data, date_feature):
+    #Make time_col the index
+    data[date_feature] = pd.to_datetime(data[date_feature])
+    #Set as time_col as DataFrame index
+    return data.set_index(date_feature)
