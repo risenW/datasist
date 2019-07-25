@@ -50,8 +50,8 @@ def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_
     if drop_date_feature:
         df.drop(date_features, axis=1, inplace=True)
 
-
     return df
+
 
 
 def describe_date(data, date_feature):
@@ -61,6 +61,8 @@ def describe_date(data, date_feature):
 
     df = get_date_info(data, date_feature)
     print(df.describe())
+
+
 
 
 def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marker='.', figsize=(15,10), y_label='Daily Totals',save_fig=False, alpha=0.5, linestyle='None'):
@@ -77,6 +79,8 @@ def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marke
 
     if num_features is None:
         num_features = datastats.get_num_feats(data)
+        #remove the time_Col from num_features
+        num_features.remove(time_col)
 
     if time_col is None:
         raise ValueError("time_col: Expecting a Datetime Series, got 'None'")
