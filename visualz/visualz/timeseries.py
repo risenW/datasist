@@ -13,42 +13,53 @@ warnings.warn = ignore_warn #ignore annoying warning (from sklearn and seaborn)
 
 
 
-def get_date_info(data=None, date_feat=None, drop_date=True, concatenate=False):
+def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_date_feature=True):
     '''
     TODO UPdate Doc
     Returns the date information from a given date column
     
     '''
-    df = pd.DataFrame()
-    df["date" + date_feat]=pd.to_datetime(data[date_feat])
-    df[date_feat + "_dayofweek"] = df["date" + date_feat].dt.dayofweek
-    df[date_feat + "_dayofyear"] =  df["date" + date_feat].dt.dayofyear
-    df[date_feat + "_dayofmonth"] = df["date" + date_feat].dt.day
-    df[date_feat + "_hour"] = df["date" + date_feat].dt.hour
-    df[date_feat + "_minute"] = df["date" + date_feat].dt.minute
-    df[date_feat + "_is_weekend"] = df["date" + date_feat].apply( lambda x : 1 if x  in [5,6] else 0 )
-    df[date_feat + "_year"] = df["date" + date_feat].dt.year
-    df[date_feat + "_quarter"] = df["date" + date_feat].dt.quarter
-    df[date_feat + "_month"] = df["date" + date_feat].dt.month
+    df = data.copy()
+
+    for date_feature in date_features:
+        #Convert date feature to Pandas DateTime
+        df[date_feature]=pd.to_datetime(df[date_feature])
+
+        #specify columns to return
+        dict_dates = {  "dow":  df[date_feature].dt.weekday_name,
+                        "doy":   df[date_feature].dt.dayofyear,
+                        "dom": df[date_feature].dt.day,
+                        "hr": df[date_feature].dt.hour,
+                        "minute":   df[date_feature].dt.minute,
+                        "is_wkd":  df[date_feature].apply( lambda x : 1 if x  in [5,6] else 0 ),
+                        "yr": df[date_feature].dt.year,
+                        "qtr":  df[date_feature].dt.quarter,
+                        "mth": df[date_feature].dt.month
+                    } 
+        date_fts = ['dow', 'doy', 'dom', 'hr', 'minute', 'is_wkd', 'yr', 'qtr', 'mth']
+
+        if date_cols_to_return is None:
+            #return all features
+            for dt_ft in date_fts:
+                df[date_feature + '_' + dt_ft] = dict_dates[dt_ft]
+        else:
+            #Return only sepcified date features
+            for dt_ft in date_cols_to_return:
+                df[date_feature + '_' + dt_ft] = dict_dates[dt_ft]
     
-    
-    if concatenate:
-        df = pd.concat((data, df), axis=1)
-        if drop_date:
-            df.drop(["date" + date_feat, date_feat], axis=1, inplace=True)
-    else:
-        if drop_date:
-            df.drop(["date" + date_feat], axis=1, inplace=True)
-      
+    if drop_date_feature:
+        df.drop(date_features, axis=1, inplace=True)
+
+
     return df
 
 
-def describe_date(data, date_feat):
+def describe_date(data, date_feature):
     '''
     Calculate statistics of the date feature
     '''
 
-    df = get_date_info(data, date_feat)
+    df = get_date_info(data, date_feature)
     print(df.describe())
 
 
