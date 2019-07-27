@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import datastats
-import structdata
 import warnings
 
 def ignore_warn(*args, **kwargs):
@@ -145,3 +143,4 @@ def set_date_index(data, date_feature):
     data[date_feature] = pd.to_datetime(data[date_feature])
     #Set as time_col as DataFrame index
     return data.set_index(date_feature)
+

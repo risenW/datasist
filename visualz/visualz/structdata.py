@@ -3,17 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import datastats
 import warnings
+
+# from datastats import get_cat_feats, get_num_feats
 
 def ignore_warn(*args, **kwargs):
     pass
 warnings.warn = ignore_warn #ignore annoying warning (from sklearn and seaborn)
-
-
-from scipy import stats
-from scipy.stats import norm, skew #for some statistics
-
 
 
 def bar_cat_features(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):

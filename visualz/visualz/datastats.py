@@ -1,8 +1,5 @@
 import numpy as numpy
 import pandas as pd
-import math 
-import structdata
-
 
 
 def describe(data, name='', date_cols=None, show_categories=False, plot_missing=False):

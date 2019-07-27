@@ -1,8 +1,3 @@
-/visualz.egg-info/
-*.cfg
-setup.py
-.pypirc
-/visualz/__pycache__
-dist
-*ipynb
-Xente
+/*egg-info
+*.pyc
+/dist/

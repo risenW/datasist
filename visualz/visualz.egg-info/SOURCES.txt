@@ -2,6 +2,10 @@ README.md
 setup.cfg
 setup.py
 visualz/__init__.py
+visualz/datastats.py
+visualz/image.py
+visualz/structdata.py
+visualz/timeseries.py
 visualz.egg-info/PKG-INFO
 visualz.egg-info/SOURCES.txt
 visualz.egg-info/dependency_links.txt
