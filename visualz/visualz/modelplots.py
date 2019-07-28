@@ -73,4 +73,24 @@ def train_classifier(train_data = None, target=None, val_data=None, val_data_tar
                 plt.savefig("roc_plot.png")
 
 
-    return model
+
+def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
+                  sample_submision_file=None, submission_col_name=None, 
+                  submision_file_name=None):
+    '''
+    Train and model and makes prediction with it on the final test set. Also
+    returns a sample submission file for data science competitions
+    
+    Parameters:
+
+    '''
+    model.fit(train_data, target)
+    pred = model.predict(test_data)
+
+    if make_submission_file:
+        sub = sample_submision_file
+        sub[submission_col_name] = pred
+        sub.to_csv(submision_file_name + '.csv', index=False)
+        print("File has been saved to current working directory")
+    else:
+        return pred
