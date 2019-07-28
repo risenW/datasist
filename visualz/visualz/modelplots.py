@@ -1,0 +1,76 @@
+from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy_score, recall_score,f1_score, make_scorer
+from sklearn.model_selection import KFold, cross_val_score
+import numpy as np
+import pandas as pd
+
+
+def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
+    '''
+    train a classification model and returns all the popular performance
+    metric
+    Parameters:
+    #TODO update Doc
+    
+'''
+    if train_data is None:
+        raise ValueError("train_data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if target is None:
+        raise ValueError("target: Expecting a Series/ numpy1D array, got 'None'")
+
+    #initialize variables to hold calculations
+    pred, acc, f1, precision, recall, confusion_mat = 0, 0, 0, 0, 0, None
+
+    if cross_validate:
+        dict_scorers  = {'acc' : accuracy_score,
+                    'f1' : f1_score,
+                    'precision': precision_score, 
+                    'recall' : recall_score}
+
+        metric_names = ['Accuracy', 'F1_score', 'Precision', 'Recall']
+
+        for metric_name, scorer in zip(metric_names, dict_scorers):
+            cv_score = np.mean(cross_val_score(model, train_data, target, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
+            print("{} is {}".format(metric_name,  round(cv_score * 100, 4)))
+        #TODO Add cross validation function for confusion matrix
+  
+    else:
+        if val_data is None:
+            raise ValueError("val_data: Expecting a DataFrame/ numpy2d array, got 'None'")
+        
+        if val_data_target is None:
+            raise ValueError("val_data_target: Expecting a Series/ numpy1D array, got 'None'")
+
+        model.fit(train_data, target)
+        pred = model.predict(val_data)
+        acc = accuracy_score(val_data_target, pred)
+        f1 = f1_score(val_data_target, pred)
+        precision = precision_score(val_data_target, pred)
+        recall = recall_score(val_data_target, pred)
+        confusion_mat = confusion_matrix(val_data_target, pred)
+
+        print("Accuracy is ", round(acc * 100))
+        print("F1 score is ", round(f1 * 100))
+        print("Precision is ", round(precision * 100))
+        print("Recall is ", round(recall * 100))
+        print("*" * 100)
+        print("confusion Matrix")
+        print('                 Score positive    Score negative')
+        print('Actual positive    %6d' % confusion_mat[0,0] + '             %5d' % confusion_mat[0,1])
+        print('Actual negative    %6d' % confusion_mat[1,0] + '             %5d' % confusion_mat[1,1])
+        print('')
+    
+        if show_roc_plot:        
+            fpr, tpr, thresholds = roc_curve(val_data_target, pred)
+            plt.plot([0, 1], [0, 1], linestyle='--')
+            # plot the roc curve for the model
+            plt.plot(fpr, tpr, marker='.')
+            # show the plot
+            plt.title("roc curve for the {}".format(model.__class__))
+            plt.show()
+
+            if save_plot:
+                plt.savefig("roc_plot.png")
+
+
+    return model
