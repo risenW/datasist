@@ -1,4 +1,8 @@
 
+import pandas as pd
+import numpy as np
+
+
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
     '''
     Creates a balanced data set for training or testing from an imbalanced data set
@@ -7,7 +11,7 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    if target is None:
+    if target_name is None:
         raise ValueError("target: Expecting a Series/ numpy1D array, got 'None'")
     
     temp_data = data.copy()

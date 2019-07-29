@@ -2,6 +2,7 @@ from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
@@ -43,35 +44,7 @@ def train_classifier(train_data = None, target=None, val_data=None, val_data_tar
 
         model.fit(train_data, target)
         pred = model.predict(val_data)
-        acc = accuracy_score(val_data_target, pred)
-        f1 = f1_score(val_data_target, pred)
-        precision = precision_score(val_data_target, pred)
-        recall = recall_score(val_data_target, pred)
-        confusion_mat = confusion_matrix(val_data_target, pred)
-
-        print("Accuracy is ", round(acc * 100))
-        print("F1 score is ", round(f1 * 100))
-        print("Precision is ", round(precision * 100))
-        print("Recall is ", round(recall * 100))
-        print("*" * 100)
-        print("confusion Matrix")
-        print('                 Score positive    Score negative')
-        print('Actual positive    %6d' % confusion_mat[0,0] + '             %5d' % confusion_mat[0,1])
-        print('Actual negative    %6d' % confusion_mat[1,0] + '             %5d' % confusion_mat[1,1])
-        print('')
-    
-        if show_roc_plot:        
-            fpr, tpr, thresholds = roc_curve(val_data_target, pred)
-            plt.plot([0, 1], [0, 1], linestyle='--')
-            # plot the roc curve for the model
-            plt.plot(fpr, tpr, marker='.')
-            # show the plot
-            plt.title("roc curve for the {}".format(model.__class__))
-            plt.show()
-
-            if save_plot:
-                plt.savefig("roc_plot.png")
-
+        get_classification_report(val_data_target, pred, show_roc_plot, save_plot)
 
 
 def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
@@ -95,3 +68,33 @@ def train_predict(model=None, train_data=None, target=None, test_data=None, make
     else:
         return pred
 
+
+def get_classification_report(target=None, prediction=None, show_roc_plot=True, save_plot=False):
+    acc = accuracy_score(target, pred)
+    f1 = f1_score(target, pred)
+    precision = precision_score(target, pred)
+    recall = recall_score(target, pred)
+    confusion_mat = confusion_matrix(target, pred)
+
+    print("Accuracy is ", round(acc * 100))
+    print("F1 score is ", round(f1 * 100))
+    print("Precision is ", round(precision * 100))
+    print("Recall is ", round(recall * 100))
+    print("*" * 100)
+    print("confusion Matrix")
+    print('                 Score positive    Score negative')
+    print('Actual positive    %6d' % confusion_mat[0,0] + '             %5d' % confusion_mat[0,1])
+    print('Actual negative    %6d' % confusion_mat[1,0] + '             %5d' % confusion_mat[1,1])
+    print('')
+
+    if show_roc_plot:        
+        fpr, tpr, thresholds = roc_curve(val_data_target, pred)
+        plt.plot([0, 1], [0, 1], linestyle='--')
+        # plot the roc curve for the model
+        plt.plot(fpr, tpr, marker='.')
+        # show the plot
+        plt.title("roc curve for the {}".format(model.__class__))
+        plt.show()
+
+        if save_plot:
+            plt.savefig("roc_plot.png")
