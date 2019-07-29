@@ -69,7 +69,7 @@ def train_predict(model=None, train_data=None, target=None, test_data=None, make
         return pred
 
 
-def get_classification_report(target=None, prediction=None, show_roc_plot=True, save_plot=False):
+def get_classification_report(target=None, pred=None, show_roc_plot=True, save_plot=False):
     acc = accuracy_score(target, pred)
     f1 = f1_score(target, pred)
     precision = precision_score(target, pred)
@@ -88,12 +88,12 @@ def get_classification_report(target=None, prediction=None, show_roc_plot=True, 
     print('')
 
     if show_roc_plot:        
-        fpr, tpr, thresholds = roc_curve(val_data_target, pred)
+        fpr, tpr, thresholds = roc_curve(target, pred)
         plt.plot([0, 1], [0, 1], linestyle='--')
         # plot the roc curve for the model
         plt.plot(fpr, tpr, marker='.')
         # show the plot
-        plt.title("roc curve for the {}".format(model.__class__))
+        plt.title("roc curve")
         plt.show()
 
         if save_plot:
