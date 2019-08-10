@@ -46,7 +46,7 @@ def describe(data, name='', date_cols=None, show_categories=False, plot_missing=
         space()       
 
     print('Missing Values in Data')
-    print(data.isna().sum())
+    display_missing(data)
 
     #Plots the missing values
     if plot_missing:
@@ -101,6 +101,8 @@ def get_unique_counts(data):
     return dic
 
 
+    def display_missing(data):
+        print(data.isna().sum())
 
 
 def space():

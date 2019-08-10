@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+from . import datastats
 
 # from datastats import get_cat_feats, get_num_feats
 
