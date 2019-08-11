@@ -10,14 +10,6 @@ class Datastats:
         self.data = data
 
 
-    def _space(self):
-        print('-' * 100)
-        print('\n')
-
-    def _check_data(self):
-        print('-' * 100)
-        print('\n')
-        
     def describe(self, data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
         '''
         Calculates statistics and information about a data set. Information like
@@ -142,4 +134,11 @@ class Datastats:
             return df
 
 
+    def _space(self):
+        print('-' * 100)
+        print('\n')
 
+    def _check_data(self):
+        print('-' * 100)
+        print('\n')
+            
