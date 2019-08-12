@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+
+
+
 class Datastats:
 
     def __init__(self, data):
@@ -20,6 +23,7 @@ class Datastats:
         data: Pandas DataFrame
             The data to describe
         '''
+        
         data = self.data if data is None else data
 
         ## Get categorical features
