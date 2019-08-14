@@ -65,4 +65,5 @@ using the structdata module, we can quickly describe the data set.
 
 ```python
 ds.structdata.describe(df)
+
 ```
