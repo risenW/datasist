@@ -1,3 +1,9 @@
+'''
+This module contains all functions relating to the cleaning and exploration of structured data sets; mostly in pandas format
+
+'''
+
+
 import numpy as numpy
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -82,7 +88,7 @@ def get_num_feats(data=None):
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
-    
+
     num_features = []
     for col in data.columns:
         if data[col].dtypes != 'object':

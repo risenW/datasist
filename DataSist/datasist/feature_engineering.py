@@ -1,3 +1,6 @@
+'''
+This module contains all functions relating to feature engineering
+'''
 
 import pandas as pd
 import numpy as np
@@ -5,8 +8,9 @@ import numpy as np
 
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
     '''
-    Creates a balanced data set for training or testing from an imbalanced data set
+    Creates a balanced data set from an imbalanced data
     Parameter:
+    
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")

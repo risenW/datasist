@@ -1,3 +1,8 @@
+'''
+This module contains all functions relating to modeling in using sklearn library.
+
+'''
+
 from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy_score, recall_score,f1_score, make_scorer
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np

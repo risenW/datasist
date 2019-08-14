@@ -1,14 +1,12 @@
-#import neccessary modules and libraries for analysis
+'''
+This module contains all functions relating to timeseries data
+
+'''
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import warnings
-
-def ignore_warn(*args, **kwargs):
-    pass
-warnings.warn = ignore_warn #ignore annoying warning (from sklearn and seaborn)
-
 
 
 def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_date_feature=True):
