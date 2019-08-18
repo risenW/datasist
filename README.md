@@ -45,6 +45,7 @@ in automatically (the `-e` option is for installing it in [development
 mode]:
 
 ```sh
+cd datasist
 pip install -e .
 ```
 
@@ -53,17 +54,5 @@ No official documentation yet
 
 ### Usage
 #### Jupyter Notebook
+ Check out this jupyter notebook for a detailed example [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
 
-Start by loading in your pandas DataFrame, e.g. by using
-```python
-import pandas as pd
-import datasist as ds
-
-df = pd.read_csv('iris.csv')
-```
-using the structdata module, we can quickly describe the data set.
-
-```python
-ds.structdata.describe(df)
-
-```
