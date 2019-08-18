@@ -8,9 +8,9 @@
 
 ## What is it?
 
-**datasist** is a python package providing fast, quick, and a abstracted interface to 
+**datasist** is a python package providing fast, quick, and an abstracted interface to 
 popular and frequently used functions or techniques relating to data analysis, vusialization, data exploration,
-feature engineering etc.
+feature engineering, Computer, NLP, Deep Learning, modelling, model deployment etc.
 
 
 ## Where to get it
