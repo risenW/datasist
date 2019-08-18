@@ -14,13 +14,25 @@ from IPython.display import display
 
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
     '''
-    Calculates statistics and information about a data set. Information like
+    Calculates statistics and information about a data set. Information displayed are
     shapes, size, number of categorical/numeric or date features, number of missing values
-    data types of objects e.t.c
+    data types of objects etc.
 
     Parameters:
     data: Pandas DataFrame
-        The data to describe
+        The data to describe.
+    name: str, optional
+        The name of the data set passed to the function.
+    date_cols: list/series/array
+         Date column names in the data set.
+    show_categories: bool, default False
+        Displays the unique classes and counts in each of the categorical feature in the data set.
+    plot_missing: bool, default True
+        Plots missing values as a heatmap
+
+    Returns
+    -------
+    None
     '''
     
     if data is None:
@@ -85,6 +97,15 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
 def get_cat_feats(data=None):
     '''
     Returns the categorical features in a data set
+
+    Parameters:
+    -----------
+    data: DataFrame or named Series 
+
+    Returns
+    -------
+    List
+        A list of all the categorical features in a dataset.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -100,6 +121,15 @@ def get_cat_feats(data=None):
 def get_num_feats(data=None):
     '''
     Returns the numerical features in a data set
+
+    Parameters:
+    -----------
+    data: DataFrame or named Series 
+
+    Returns
+    -------
+    List
+        A list of all the numerical features in a dataset.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -115,7 +145,19 @@ def get_num_feats(data=None):
 
 
 def get_unique_counts(data=None):
-    '''Gets the unique count of elements in a data set'''
+    '''
+    Gets the unique count of features in a data set.
+
+    Parameters
+    -----------
+    data: DataFrame or named Series 
+
+    Returns
+    -------
+    DataFrame or Series
+        Unique value counts of the features in a dataset.
+    
+    '''
 
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -135,6 +177,17 @@ def get_unique_counts(data=None):
 def display_missing(data=None, plot=True):
     '''
     Display missing values as a pandas dataframe.
+
+    Parameters
+    ----------
+    data: DataFrame or named Series
+    plot: bool, Default True
+        Plots missing values in dataset as a heatmap
+    
+    Returns
+    -------
+    Image:
+        Heatmap plot of missing values
     '''
 
     if data is None:
