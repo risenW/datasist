@@ -15,8 +15,8 @@ from IPython.display import display
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
     '''
     Calculates statistics and information about a data set. Information displayed are
-    shapes, size, number of categorical/numeric or date features, number of missing values
-    data types of objects etc.
+    shapes, size, number of categorical/numeric/date features, missing values,
+    dtypes of objects etc.
 
     Parameters:
     data: Pandas DataFrame
