@@ -9,6 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from .visualizations import class_in_cat_feature, plot_missing
+from IPython.display import display
 
 
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
@@ -31,35 +32,49 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     #Get numerical features
     num_features = get_num_feats(data)
 
+    print('First five data points')
+    display(data.head())
+    _space()
+
+    print('Last five data points')
+    display(data.tail())
+    _space()
 
     print('Shape of {} data set: {}'.format(name, data.shape))
     _space()
+
     print('Size of {} data set: {}'.format(name, data.size))
     _space()
+
     print('Data Types')
     print("Note: All Non-numerical features are identified as objects")
-    print(data.dtypes)
+    display(pd.DataFrame(data.dtypes, columns=['Data Type']))
     _space()
+
     print('Numerical Features in Data set')
     print(num_features)
     _space()
-    print('Statistical Description of Numerical Columns')
-    print(data.describe())
+
+    print('Statistical Description of Columns')
+    display(data.describe())
     _space()
+
     print('Categorical Features in Data set')
-    print(cat_features)
+    display(cat_features)
     _space()
+    
     print('Unique class Count of Categorical features')
-    print(get_unique_counts(data))
+    display(get_unique_counts(data))
     _space()
 
     if show_categories:     
         print('Classes in Categorical Columns')
-        print(class_in_cat_feature(data, cat_features))
+        print("-"*30)
+        class_in_cat_feature(data, cat_features)
         _space()
 
     print('Missing Values in Data')
-    print(display_missing(data))
+    display(display_missing(data))
 
     #Plots the missing values
     if plot_missing:
@@ -113,6 +128,7 @@ def get_unique_counts(data=None):
         
     dic = list(zip(features, temp_len))
     dic = pd.DataFrame(dic, columns=['Feature', 'Unique Count'])
+    dic = dic.style.bar(subset=['Unique Count'], align='mid')
     return dic
 
 
@@ -139,7 +155,6 @@ def display_missing(data=None, plot=True):
 
 
 def _space():
-    print('-' * 100)
     print('\n')
 
         

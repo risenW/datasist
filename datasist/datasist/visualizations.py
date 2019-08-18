@@ -9,6 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from . import structdata
+from IPython.display import display
+
 
 
 
@@ -266,6 +268,7 @@ def bar_cat_2_cat_target(data=None, cat_features=None, target=None, fig_size=(12
         pass
     
     if len(data[target].unique()) > 7:
+        #TODO Plot only a subset of the features say top 10
         raise AttributeError("Target categories must be less than seven")
 
     #Create a dummy column to hold count of values
@@ -327,8 +330,7 @@ def class_in_cat_feature(data=None, cat_features=None, plot=False, save_fig=Fals
 
     for feature in cat_features:
         print('Class Count for', feature)
-        print(data[feature].value_counts())
-        print("-----------------------------")
+        display(pd.DataFrame(data[feature].value_counts()))
 
     if plot:
         bar_cat_features(data, cat_features, save_fig=save_fig)
