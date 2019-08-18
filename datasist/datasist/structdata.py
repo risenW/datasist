@@ -8,7 +8,7 @@ import numpy as numpy
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from .visualizations import class_in_cat_feature, plot_missing
+from .visualizations import class_count, plot_missing
 from IPython.display import display
 
 
@@ -145,7 +145,7 @@ def get_num_feats(data=None):
 
 def get_unique_counts(data=None):
     '''
-    Gets the unique count of features in a data set.
+    Gets the unique count of categorical features in a data set.
 
     Parameters
     -----------
