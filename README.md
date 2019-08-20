@@ -56,3 +56,5 @@ No official documentation yet
 #### Jupyter Notebook
  Check out this jupyter notebook for a detailed example [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
 
+
+#### we are working hard to release the first official version on the 30th of September 2019. Stay with us, while we build your favorite data assistant! 
