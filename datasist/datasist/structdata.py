@@ -75,8 +75,15 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     display(cat_features)
     _space()
     
+    print("\n--------Null Value------")
+    display(data.isna().sum())
+          
     print('Unique class Count of Categorical features')
     display(get_unique_counts(data))
+    _space()
+    
+    print('Value count the no. of non-NA/null observations across the given axis. It works with non-floating type data as well.)
+    display(data.count())
     _space()
 
     if show_categories:     
