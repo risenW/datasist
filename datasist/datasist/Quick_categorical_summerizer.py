@@ -24,6 +24,15 @@ def quick_CSummarizer(dataframe, x=None, y=None, hue=None, palette='Set1', verbo
     Returns
     =======
     Quick Stats of the data and also the count plot
+    
+    E.g
+    c_palette = ['tab:blue', 'tab:orange']
+categorical_summarized(train, y = 'date_block_num', palette=c_palette)
+
+
+# Feature Variable: Gender
+categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)
+
     '''
     if x == None:
         column_interested = y
@@ -40,8 +49,4 @@ def quick_CSummarizer(dataframe, x=None, y=None, hue=None, palette='Set1', verbo
     plt.show()
     
     
-    '''
-    E.g
-    c_palette = ['tab:blue', 'tab:orange']
-categorical_summarized(train, y = 'date_block_num', palette=c_palette)
-    '''
+   
