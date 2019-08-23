@@ -82,7 +82,7 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     if show_categories:     
         print('Classes in Categorical Columns')
         print("-"*30)
-        class_in_cat_feature(data, cat_features)
+        class_count(data, cat_features)
         _space()
 
     print('Missing Values in Data')

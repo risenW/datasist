@@ -6,6 +6,42 @@ import pandas as pd
 import numpy as np
 
 
+def drop_missing(data=None, percent=99):
+    '''
+    Drops missing columns with [percent] of missing data.
+
+    Parameters:
+    data: Pandas DataFrame or Series.
+    percent: float, Default 99
+        Percentage of missing values to be in a column before it is eligible for removal.
+
+    Returns:
+        Pandas DataFrame or Series.
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    temp_data = data.copy()
+    missing_percent = (temp_data.isna().sum() / temp_data.shape[0]) * 100
+    cols_2_drop = missing_percent[missing_percent.values > percent].index
+    #Drop missing values
+    temp_data.drop(cols_2_drop, axis=1, inplace=True)
+
+    return temp_data
+
+
+
+def fill_missing(data=None, method='mode'):
+    '''
+    
+    
+    '''
+
+
+
+
+
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
     '''
     Creates a balanced data set from an imbalanced data
