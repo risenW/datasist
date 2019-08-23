@@ -87,3 +87,22 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
     
     return temp_data, new_data, original_target, new_data_target
     
+def clean_numerical_columns(data , *lister):
+    '''
+    fills all missing values in numerical columns 
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if lister is None:
+         raise ValueError("lister: Expected a list of columns")
+
+    for i in range(len(lister)):
+        mean = data[lister[i]].mean()
+        data[lister[i]] = data[lister[i]].fillna(mean)
+
+    return data
+
+    
+
+    

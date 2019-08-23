@@ -8,9 +8,9 @@
 
 ## What is it?
 
-**datasist** is a python package providing fast, quick, and a abstracted interface to 
+**datasist** is a python package providing fast, quick, and an abstracted interface to 
 popular and frequently used functions or techniques relating to data analysis, vusialization, data exploration,
-feature engineering etc.
+feature engineering, Computer, NLP, Deep Learning, modelling, model deployment etc.
 
 
 ## Where to get it
@@ -45,6 +45,7 @@ in automatically (the `-e` option is for installing it in [development
 mode]:
 
 ```sh
+cd datasist
 pip install -e .
 ```
 
@@ -53,17 +54,7 @@ No official documentation yet
 
 ### Usage
 #### Jupyter Notebook
+ Check out this jupyter notebook for a detailed example [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
 
-Start by loading in your pandas DataFrame, e.g. by using
-```python
-import pandas as pd
-import datasist as ds
 
-df = pd.read_csv('iris.csv')
-```
-using the structdata module, we can quickly describe the data set.
-
-```python
-ds.structdata.describe(df)
-
-```
+#### we are working hard to release the first official version on the 30th of September 2019. Stay with us, while we build your favorite data assistant! 
