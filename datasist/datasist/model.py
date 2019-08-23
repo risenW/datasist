@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from .visualizations import plot_auc
+
 
 def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
     '''
@@ -93,13 +95,14 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
     print('')
 
     if show_roc_plot:        
-        fpr, tpr, thresholds = roc_curve(target, pred)
-        plt.plot([0, 1], [0, 1], linestyle='--')
-        # plot the roc curve for the model
-        plt.plot(fpr, tpr, marker='.')
-        # show the plot
-        plt.title("roc curve")
-        plt.show()
+        plot_auc(target, pred)
+        # fpr, tpr, thresholds = roc_curve(target, pred)
+        # plt.plot([0, 1], [0, 1], linestyle='--')
+        # # plot the roc curve for the model
+        # plt.plot(fpr, tpr, marker='.')
+        # # show the plot
+        # plt.title("roc curve")
+        # plt.show()
 
         if save_plot:
             plt.savefig("roc_plot.png")

@@ -5,6 +5,8 @@ This module contains all functions relating to feature engineering
 import pandas as pd
 import numpy as np
 
+from .structdata import get_cat_feats, get_num_feats
+
 
 def drop_missing(data=None, percent=99):
     '''
@@ -32,13 +34,22 @@ def drop_missing(data=None, percent=99):
 
 
 
-def fill_missing(data=None, method='mode'):
+def fill_missing_cats(data=None, cat_features = None, method='mode'):
     '''
-    
-    
+    Fill missing values using [method].
+
     '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
 
+    if cat_features is None:
+        cat_features = get_cat_feats(data)
 
+    if method is 'mode':
+        for feat in cat_features:
+            data[feat].fillna(data[feat].mode())
+
+    return data
 
 
 
@@ -86,20 +97,23 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
     print("shape of created data target {}".format(new_data_target.shape))
     
     return temp_data, new_data, original_target, new_data_target
+
+
+
     
-def clean_numerical_columns(data , *lister):
+def clean_numerical_columns(data=None, features=None):
     '''
     fills all missing values in numerical columns 
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    if lister is None:
-         raise ValueError("lister: Expected a list of columns")
+    if features is None:
+         raise ValueError("features: Expected a list of columns")
 
-    for i in range(len(lister)):
-        mean = data[lister[i]].mean()
-        data[lister[i]] = data[lister[i]].fillna(mean)
+    for i in range(len(features)):
+        mean = data[features[i]].mean()
+        data[features[i]] = data[features[i]].fillna(mean)
 
     return data
 

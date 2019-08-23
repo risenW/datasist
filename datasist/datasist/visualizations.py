@@ -418,6 +418,9 @@ def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig
         if save_fig:
             plt.savefig('fig_scatterplot_{}'.format(feature))
 
+
+
+
 def plot_confusion_matrix(y_true, y_pred, classes,
                           normalize=False,
                           title=None,
@@ -475,7 +478,9 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     return ax
 
 
-def plot_auc(labels, probs):
+
+
+def plot_auc(labels, predictions):
     '''
     Compute the false positive rate, true positive rate and threshold along with the AUC
 
@@ -484,7 +489,7 @@ def plot_auc(labels, probs):
     :return: plots the Receiver operating characteristics
     '''
 
-    fpr, tpr, threshold = sklm.roc_curve(labels, probs[:, 1])
+    fpr, tpr, threshold = sklm.roc_curve(labels, predictions)
     auc = sklm.auc(fpr, tpr)
 
     ## Plot the result
@@ -497,6 +502,9 @@ def plot_auc(labels, probs):
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
     plt.show()
+
+
+
 
 def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alpha = 0.2):
     '''
