@@ -143,7 +143,7 @@ def get_num_feats(data=None):
 
 
 
-def get_date_cols(data=None, convert=True):
+def get_date_cols(data=None):
     '''
     Returns the Datetime columns in a data set.
 
@@ -159,7 +159,6 @@ def get_date_cols(data=None, convert=True):
         Date column names in the data set
     '''
 
-    
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
@@ -167,7 +166,7 @@ def get_date_cols(data=None, convert=True):
     date_cols = set(data.dtypes[data.dtypes == 'datetime64[ns, UTC]'].index)
     #infer Date columns 
     date_cols = date_cols.union(_match_date(data))
-
+       
     return date_cols
 
 

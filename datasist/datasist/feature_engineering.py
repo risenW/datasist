@@ -5,7 +5,7 @@ This module contains all functions relating to feature engineering
 import pandas as pd
 import numpy as np
 
-from .structdata import get_cat_feats, get_num_feats
+from .structdata import get_cat_feats, get_num_feats, get_date_cols
 
 
 def drop_missing(data=None, percent=99):
@@ -116,6 +116,20 @@ def clean_numerical_columns(data=None, features=None):
         data[features[i]] = data[features[i]].fillna(mean)
 
     return data
+
+
+
+def to_date(data):
+    '''
+    Automatically convert all date time columns to pandas Datetime format
+    '''
+
+    date_cols = get_date_cols(data)
+    for col in date_cols:
+        data[col] = pd.to_datetime(data[col])
+    
+    return data
+
 
     
 
