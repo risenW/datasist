@@ -143,6 +143,35 @@ def get_num_feats(data=None):
 
 
 
+def get_date_cols(data=None, convert=True):
+    '''
+    Returns the Datetime columns in a data set.
+
+    Parameters
+    ----------
+    data: DataFrame or named Series
+        Data set to infer datetime columns from.
+    convert: bool, Default True
+        Converts the inferred date columns to pandas DateTime type
+    Returns
+    -------
+    List
+        Date column names in the data set
+    '''
+
+    
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
+    #Get existing date columns in pandas Datetime64 format
+    date_cols = set(data.dtypes[data.dtypes == 'datetime64[ns, UTC]'].index)
+    #infer Date columns 
+    date_cols = date_cols.union(_match_date(data))
+
+    return date_cols
+
+
+
 def get_unique_counts(data=None):
     '''
     Gets the unique count of categorical features in a data set.
@@ -210,3 +239,10 @@ def _space():
     print('\n')
 
         
+
+def _match_date(data):
+    '''
+    Return a list of columns that matches the DateTime expression
+    '''
+    mask = data.head().astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
+    return set(data.loc[:, mask].columns)

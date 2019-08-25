@@ -100,7 +100,7 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
 
 
 
-    
+#TODO Update function to take type of fill value
 def clean_numerical_columns(data=None, features=None):
     '''
     fills all missing values in numerical columns 
