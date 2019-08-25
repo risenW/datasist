@@ -59,9 +59,15 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     _space()
 
     print('Data Types')
-    print("Note: All Non-numerical features are identified as objects")
+    print("Note: All Non-numerical features are identified as objects in pandas")
     display(pd.DataFrame(data.dtypes, columns=['Data Type']))
     _space()
+
+    date_cols = get_date_cols(data)
+    if len(date_cols) is not 0:
+        print("Column(s) {} should be in Datetime format. Use the [to_date]\
+            function in datasist.feature_engineering to coonvert to Pandas Datetime format".format(date_cols))
+        _space()
 
     print('Numerical Features in Data set')
     print(num_features)

@@ -33,10 +33,9 @@ def drop_missing(data=None, percent=99):
     return temp_data
 
 
-
 def fill_missing_cats(data=None, cat_features = None, method='mode'):
     '''
-    Fill missing values using [method].
+    Fill missing values using categorical features [method].
 
     '''
     if data is None:
@@ -52,6 +51,22 @@ def fill_missing_cats(data=None, cat_features = None, method='mode'):
     return data
 
 
+#TODO Update function to take different types of fill value
+def fill_missing_num(data=None, features=None):
+    '''
+    fills all missing values in numerical columns 
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if features is None:
+         raise ValueError("features: Expected a list of columns")
+
+    for i in range(len(features)):
+        mean = data[features[i]].mean()
+        data[features[i]] = data[features[i]].fillna(mean)
+
+    return data
 
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
     '''
@@ -98,24 +113,6 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
     
     return temp_data, new_data, original_target, new_data_target
 
-
-
-#TODO Update function to take type of fill value
-def clean_numerical_columns(data=None, features=None):
-    '''
-    fills all missing values in numerical columns 
-    '''
-    if data is None:
-        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
-    
-    if features is None:
-         raise ValueError("features: Expected a list of columns")
-
-    for i in range(len(features)):
-        mean = data[features[i]].mean()
-        data[features[i]] = data[features[i]].fillna(mean)
-
-    return data
 
 
 
