@@ -80,7 +80,7 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     print('Categorical Features in Data set')
     display(cat_features)
     _space()
-    
+          
     print('Unique class Count of Categorical features')
     display(get_unique_counts(data))
     _space()
@@ -238,6 +238,48 @@ def display_missing(data=None, plot=True):
         return df
     else:
         return df
+
+
+
+
+
+def quick_CSummarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=True):
+    '''
+    Helper function that gives a quick summary of a given column of categorical data
+    Arguments
+    =========
+    dataframe: pandas dataframe
+    x: str. horizontal axis to plot the labels of categorical data, y would be the count
+    y: str. vertical axis to plot the labels of categorical data, x would be the count
+    hue: str. if you want to compare it another variable (usually the target variable)
+    palette: array-like. Colour of the plot
+    Returns
+    =======
+    Quick Stats of the data and also the count plot
+    
+    E.g
+    c_palette = ['tab:blue', 'tab:orange']
+categorical_summarized(train, y = 'date_block_num', palette=c_palette)
+
+
+# Feature Variable: Gender
+categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)
+
+    '''
+    if x == None:
+        column_interested = y
+    else:
+        column_interested = x
+    series = data[column_interested]
+    print(series.describe())
+    print('mode: ', series.mode())
+    if verbose:
+        print('='*80)
+        print(series.value_counts())
+
+    sns.countplot(x=x, y=y, hue=hue, data=data, palette=palette)
+    plt.show()
+    
 
 
 def _space():
