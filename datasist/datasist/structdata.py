@@ -291,5 +291,5 @@ def _match_date(data):
     '''
     Return a list of columns that matches the DateTime expression
     '''
-    mask = data.head().astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
+    mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)

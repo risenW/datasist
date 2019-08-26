@@ -24,13 +24,45 @@ def drop_missing(data=None, percent=99):
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    temp_data = data.copy()
-    missing_percent = (temp_data.isna().sum() / temp_data.shape[0]) * 100
+    missing_percent = (data.isna().sum() / data.shape[0]) * 100
     cols_2_drop = missing_percent[missing_percent.values > percent].index
     #Drop missing values
-    temp_data.drop(cols_2_drop, axis=1, inplace=True)
+    data.drop(cols_2_drop, axis=1, inplace=True)
 
-    return temp_data
+
+
+def drop_redundant(data):
+    '''
+    Removes features with the same value in all cell. 
+    Drops feature If Nan is the second unique class as well.
+    Parameters:
+        data: DataFrame or named series
+    
+    Returns:
+        DataFrame or named series
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    #get columns
+    cols_2_drop = _nan_in_class(data)
+    data.drop(cols_2_drop, axis=1, inplace=True)
+    
+    
+
+def _nan_in_class(data):
+    cols = []
+    for col in data.columns:
+        if len(data[col].unique()) == 1:
+            cols.append(col)
+
+        if len(data[col].unique()) == 2:
+            if np.nan in list(data[col].unique()):
+                cols.append(col)
+
+    return cols
+
 
 
 def fill_missing_cats(data=None, cat_features = None, method='mode'):
