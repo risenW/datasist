@@ -75,12 +75,13 @@ def fill_missing_cats(data=None, cat_features = None, method='mode'):
 
     if cat_features is None:
         cat_features = get_cat_feats(data)
-
+    #TODO fill only columns with missing values
+    temp_data = data.copy()
     if method is 'mode':
         for feat in cat_features:
-            data[feat].fillna(data[feat].mode())
+            temp_data[feat].fillna(temp_data[feat].mode(), inplace=True)
 
-    return data
+    return temp_data
 
 
 #TODO Update function to take different types of fill value
@@ -96,9 +97,10 @@ def fill_missing_num(data=None, features=None):
 
     for i in range(len(features)):
         mean = data[features[i]].mean()
-        data[features[i]] = data[features[i]].fillna(mean)
+        data[features[i]] = data[features[i]].fillna(mean, inplace=True)
 
     return data
+
 
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
     '''
