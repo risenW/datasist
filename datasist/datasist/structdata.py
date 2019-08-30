@@ -116,10 +116,7 @@ def get_cat_feats(data=None):
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    cat_features = []
-    for col in data.columns:
-        if data[col].dtypes == 'object':
-            cat_features.append(col)
+    cat_features = num_features = data.select_dtypes(include=['object']).columns
 
     return cat_features
 
@@ -140,11 +137,8 @@ def get_num_feats(data=None):
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    num_features = []
-    for col in data.columns:
-        if data[col].dtypes != 'object':
-            num_features.append(col)
-    
+    num_features = data.select_dtypes(exclude=['object', 'datetime64']).columns
+
     return num_features
 
 
