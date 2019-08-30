@@ -8,8 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from .structdata import get_cat_feats, get_num_feats, get_date_cols
 
-def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_date_feature=True):
+
+
+def get_date_feats(data=None, date_features=None, date_cols_to_return=None, drop_date_feature=True):
     '''
     TODO UPdate Doc
     Returns the date information from a given date column
@@ -50,12 +53,62 @@ def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_
 
 
 
+
+
+def extract_time(data=None, time_cols=None, subset=None, drop=True):
+    '''
+    Returns time information in a pandas dataframe as a new set of columns 
+    added to the original data frame.
+    For extracting DateTime features, use datasist.timeseries.get_date_feats function
+    
+    Parameters:
+    -----------
+    data: DataFrame or named Series
+        The data set to extract time information from.
+    time_cols: List, Array
+        Name of time columns/features in data set.
+    subset: List, Array
+        Time features to return default to [hours, minutes and seconds].
+    drop: bool, Default True
+        Drops the original time features from the data set.
+
+    Return:
+    -------
+        DataFrame or Series.
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if time_cols is None:
+        raise ValueError("time_cols: Expecting a list, series/ numpy1D array, got 'None'")
+    
+    df = data.copy()
+    
+    if subset is None:
+        subset = ['hours', 'minutes', 'seconds']
+    
+    for time_col in time_cols:  
+        #Convert time columns to pandas time delta
+        df[time_col] = pd.to_timedelta(df[time_col])
+        
+        for val in subset:
+            df[time_col + "_" + val] = df[time_col].dt.components[val]
+        
+    if drop:
+        #Drop original time columns
+        df.drop(time_cols, axis=1, inplace=True)
+        
+    return df
+
+
+
 def describe_date(data, date_feature):
     '''
     Calculate statistics of the date feature
     '''
 
-    df = get_date_info(data, date_feature)
+    df = get_date_feats(data, date_feature)
     print(df.describe())
 
 
@@ -74,7 +127,7 @@ def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marke
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
     if num_features is None:
-        num_features = datastats.get_num_feats(data)
+        num_features = get_num_feats(data)
         #remove the time_Col from num_features
         num_features.remove(time_col)
 

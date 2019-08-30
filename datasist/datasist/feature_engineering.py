@@ -164,7 +164,6 @@ def create_balanced_data(data, target_name, target_cats=None, n_classes=None, re
 
 
 
-
 def to_date(data):
     '''
     Automatically convert all date time columns to pandas Datetime format
