@@ -58,4 +58,4 @@ No official documentation yet
  Check out this jupyter notebook for a basic example in using datasist [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
 
 
-#### Datasist v1 will official be available for install from the 30th of September 2019. Stay with us, while we build your favorite data assistant! 
+#### Datasist v1 will officially be available for pip installs from the 30th of September 2019. Stay with us, while we build your favorite data assistant! 
