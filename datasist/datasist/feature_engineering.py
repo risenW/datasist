@@ -4,7 +4,6 @@ This module contains all functions relating to feature engineering
 
 import pandas as pd
 import numpy as np
-
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
 
 
