@@ -65,22 +65,36 @@ def _nan_in_class(data):
 
 
 
-def fill_missing_cats(data=None, cat_features = None, method='mode'):
+def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     '''
-    Fill missing values using categorical features [method].
+    Fill missing values using the mode of the categorical features.
+    Parameters:
+    ----------
+    data: DataFrame or name Series.
+        Data set to perform operation on.
+    cat_features: List, Series, Array.
+        categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+    missing_encoding: List, Series, Array.
+            Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
+    '''
 
-    '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
 
     if cat_features is None:
         cat_features = get_cat_feats(data)
-    #TODO fill only columns with missing values
-    temp_data = data.copy()
-    if method is 'mode':
-        for feat in cat_features:
-            temp_data[feat].fillna(temp_data[feat].mode(), inplace=True)
 
+    temp_data = data.copy()
+    #change all possible missing values to NaN
+    if missing_encoding is None:
+        missing_encoding = ['', ' ', -99, -999]
+
+    temp_data.replace(missing_encoding, np.NaN, inplace=True)
+    
+    for col in cat_features:
+        most_freq = temp_data[col].mode()[0]
+        temp_data[col] = temp_data[col].replace(np.NaN, most_freq)
+    
     return temp_data
 
 
@@ -100,6 +114,7 @@ def fill_missing_num(data=None, features=None):
         data[features[i]] = data[features[i]].fillna(mean, inplace=True)
 
     return data
+
 
 
 def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
