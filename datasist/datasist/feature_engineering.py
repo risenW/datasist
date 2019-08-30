@@ -134,50 +134,59 @@ def fill_missing_num(data=None, features=None, method='mean'):
 
 
 
-def create_balanced_data(data, target_name, target_cats=None, n_classes=None, replacement=False ):
+
+def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
     '''
-    Creates a balanced data set from an imbalanced data
+    Creates a balanced data set from an imbalanced one. Used in a classification task.
+
     Parameter:
-    
+    data: DataFrame, name series.
+        The imbalanced dataset.
+    target: str
+        Name of the target column.
+    categories: list
+        Unique categories in the target column. If not set, we use infer the unique categories in the column.
+    class_sizes: list
+        Size of each specified class. Must be in order with categoriess parameter.
+    replacement: bool, Default True.
+        samples with or without replacement.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    if target_name is None:
-        raise ValueError("target: Expecting a Series/ numpy1D array, got 'None'")
+    if target is None:
+        raise ValueError("target: Expecting a String got 'None'")
+
+    if categories is None:
+        categories = list(data[target].unique())
+    
+    if class_sizes is None:
+        #set size for each class to same value
+        temp_val = int(data.shape[0] / len(data[target].unique()))
+        class_sizes = [temp_val for _ in list(data[target].unique())]
+
     
     temp_data = data.copy()
-    new_data_size = sum(n_classes)
-    classes = []
-    class_index = []
+    data_category = []
+    data_class_indx = []
     
-    #get classes from data
-    for t_cat in target_cats: 
-        classes.append(temp_data[temp_data[target_name] == t_cat])
+    #get data corrresponding to each of the categories
+    for cat in categories: 
+        data_category.append(temp_data[temp_data[target] == cat])
     
-    for n_class, clas in zip(n_classes, classes):
-        class_index.append(clas.sample(n_class, replace=True).index)
+    #sample and get the index corresponding to each category
+    for class_size, cat in zip(class_sizes, data_category):
+        data_class_indx.append(cat.sample(class_size, replace=True).index)
         
     #concat data together
-    new_data = pd.concat([temp_data.loc[indx] for indx in class_index], ignore_index=True).sample(new_data_size).reset_index(drop=True)
-    new_data_target = new_data[target_name]
-    #drop new data target
-    new_data.drop(target_name, axis=1, inplace=True)
+    new_data = pd.concat([temp_data.loc[indx] for indx in data_class_indx], ignore_index=True).sample(sum(class_sizes)).reset_index(drop=True)
     
     if not replacement:
-        for indx in class_index:
+        for indx in data_class_indx:
             temp_data.drop(indx, inplace=True)
             
-    #drop target from data
-    original_target = temp_data[target_name]
-    temp_data.drop(target_name, axis=1, inplace=True)
-    
-    print("shape of data {}".format(temp_data.shape))
-    print("shape of data target {}".format(original_target.shape))
-    print("shape of created data {}".format(new_data.shape))
-    print("shape of created data target {}".format(new_data_target.shape))
-    
-    return temp_data, new_data, original_target, new_data_target
+        
+    return new_data
 
 
 
