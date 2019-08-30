@@ -97,22 +97,40 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     return temp_data
 
 
-#TODO Update function to take different types of fill value
-def fill_missing_num(data=None, features=None):
+def fill_missing_num(data=None, features=None, method='mean'):
     '''
-    fills all missing values in numerical columns 
+    fill missing values in numerical columns with specified [method] value
+    Parameters:
+    ----------
+    data: DataFrame or name Series.
+        The data set to fill
+    features: list.
+        List of columns to fill
+    method: str, Default 'mean'
+        method to use in calculating fill value.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
     if features is None:
-         raise ValueError("features: Expected a list of columns")
+        #get numerical features with missing values
+        num_feats = get_num_feats(data)
+        temp_data = data[num_feats].isna().sum()
+        features = list(temp_data[num_feats][temp_data[num_feats] > 0].index)
+        print("Found {} with missing values.".format(features))
 
-    for i in range(len(features)):
-        mean = data[features[i]].mean()
-        data[features[i]] = data[features[i]].fillna(mean, inplace=True)
-
-    return data
+    for feat in features:
+        if method is 'mean':
+            mean = data[feat].mean()
+            data[feat].fillna(mean, inplace=True)
+        elif method is 'median':
+            median = data[feat].median()
+            data[feat].fillna(median, inplace=True)
+        elif method is 'mode':
+            mode = data[feat].mode()[0]
+            data[feat].fillna(mode, inplace=True)
+   
+    return "Filled all missing values successfully"
 
 
 

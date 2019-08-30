@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from IPython.display import display
-from .structdata import get_cat_feats, get_num_feats, get_subset
+from .structdata import get_cat_feats, get_num_feats, get_date_cols
 
 
 

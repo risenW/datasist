@@ -201,19 +201,19 @@ def get_unique_counts(data=None):
     return dic
 
 
-def display_missing(data=None, plot=True):
+def display_missing(data=None, plot=False):
     '''
     Display missing values as a pandas dataframe.
 
     Parameters
     ----------
     data: DataFrame or named Series
-    plot: bool, Default True
+    plot: bool, Default False
         Plots missing values in dataset as a heatmap
     
     Returns
     -------
-    Image:
+    Matplotlib Figure:
         Heatmap plot of missing values
     '''
 
