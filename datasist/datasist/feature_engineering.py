@@ -172,7 +172,7 @@ def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=No
     for cat in cat_features:      
         temp = df.groupby([cat]).agg(statistics)[col_to_merge]
         #rename columns
-        temp = temp.rename(columns={'mean': cat + '_mean', 'count': cat + "_count"})
+        temp = temp.rename(columns={'mean': cat + '_' + col_to_merge + '_mean', 'count': cat + '_' + col_to_merge +  "_count"})
         #merge the data sets
         df = df.merge(temp, how='left', on=cat)
     
