@@ -180,6 +180,36 @@ def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=No
     return df
 
 
+def get_qcut(data=None, col=None, q=None, duplicates='drop', return_type='float64'):
+    '''
+    Cuts a series into bins using the pandas qcut function
+    and returns the resulting bins as a series for merging.
+    Parameter:
+    ----------
+    data: DataFrame, named Series
+        Data set to perform operation on.
+    col: str
+        column to cut/binnarize.
+    q: integer or array of quantiles
+        Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+        array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+    duplicates: Default 'drop',
+        If bin edges are not unique drop non-uniques.
+    return_type: dtype, Default (float64)
+        Dtype of series to return. One of [float64, str, int64]
+    
+    Returns:
+    --------
+    Series, 1D-Array
+        binned series
+    '''
+
+    temp_df = pd.qcut(data[col], q=q, duplicates=duplicates).to_frame().astype('str')
+    #retrieve only the qcut categories
+    df = temp_df[col].str.split(',').apply(lambda x: x[0][1:]).astype(return_type)
+    
+    return df
+
 
 def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
     '''
