@@ -275,6 +275,28 @@ categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)
     plt.show()
     
 
+def join_train_and_test(data_train=None, data_test=None):
+    '''
+    Joins two data sets and returns a dictionary containing their sizes and the concatenated data. 
+    Used mostly before feature engineering to combine train and test set together.
+
+    Parameter:
+    ----------
+    data_train: DataFrame, named series.
+        First data usually called train date to join.
+    data_test: DataFrame, named series.
+        Second data set to join, usually called test.
+    
+    Returns:
+    -------
+    Tuple: Merged data, size of train and size of test
+    '''
+
+    n_train = data_train.shape[0]
+    n_test = data_test.shape[0]
+    all_data = pd.concat([data_train, data_test],sort=False).reset_index(drop=True)
+    
+    return all_data, n_train, n_test
 
 
 def _space():
