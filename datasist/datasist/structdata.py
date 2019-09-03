@@ -118,7 +118,7 @@ def get_cat_feats(data=None):
 
     cat_features = num_features = data.select_dtypes(include=['object']).columns
 
-    return cat_features
+    return list(cat_features)
 
 
 def get_num_feats(data=None):
@@ -139,7 +139,7 @@ def get_num_feats(data=None):
 
     num_features = data.select_dtypes(exclude=['object', 'datetime64']).columns
 
-    return num_features
+    return list(num_features)
 
 
 
