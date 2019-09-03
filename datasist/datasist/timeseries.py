@@ -69,9 +69,9 @@ def extract_dates(data=None, date_cols=None, subset=None, drop=True):
             #Return only sepcified date features
             for date_ft in subset:
                 df[date_col + '_' + date_ft] = dict_dates[date_ft]
-    
+    #Drops original time columns from the dataset
     if drop:
-        df.drop(subset, axis=1, inplace=True)
+        df.drop(date_cols, axis=1, inplace=True)
 
     return df
 
