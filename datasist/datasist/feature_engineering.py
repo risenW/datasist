@@ -25,6 +25,7 @@ def drop_missing(data=None, percent=99):
     
     missing_percent = (data.isna().sum() / data.shape[0]) * 100
     cols_2_drop = missing_percent[missing_percent.values > percent].index
+    print("Dropped {}".format(list(cols_2_drop)))
     #Drop missing values
     data.drop(cols_2_drop, axis=1, inplace=True)
 
@@ -46,6 +47,7 @@ def drop_redundant(data):
     
     #get columns
     cols_2_drop = _nan_in_class(data)
+    print("Dropped {}".format(cols_2_drop))
     data.drop(cols_2_drop, axis=1, inplace=True)
     
     
@@ -133,6 +135,49 @@ def fill_missing_num(data=None, features=None, method='mean'):
     return "Filled all missing values successfully"
 
 
+def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
+    '''
+    Performs a groupby on the specified categorical features and merges
+    the result to the original dataframe.
+
+    Parameter:
+    ----------
+    data: DataFrame
+        Data set to perform operation on.
+    cat_features: list, series, 1D-array
+        categorical features to groupby.
+    statistics: list, series, 1D-array, Default ['mean', 'count]
+        aggregates to perform on grouped data.
+    col_to_merge: str
+        The column to merge on the dataset. Must be present in the data set.
+    Returns:
+        Merged dataframe.
+
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if statistics is None:     
+        statistics = ['mean', 'count']
+    
+    if cat_features is None:
+        cat_features = get_num_feats(data)
+
+    if col_to_merge is None:
+        raise ValueError("col_to_merge: Expecting a string [column to merge on], got 'None'")
+
+    
+    df = data.copy()
+    
+    for cat in cat_features:      
+        temp = df.groupby([cat]).agg(statistics)[col_to_merge]
+        #rename columns
+        temp = temp.rename(columns={'mean': cat + '_mean', 'count': cat + "_count"})
+        #merge the data sets
+        df = df.merge(temp, how='left', on=cat)
+    
+    
+    return df
 
 
 def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):

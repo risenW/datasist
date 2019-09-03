@@ -276,6 +276,7 @@ categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)
     
 
 
+
 def _space():
     print('\n')
 
