@@ -180,6 +180,7 @@ def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=No
     return df
 
 
+
 def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
     '''
     Creates a balanced data set from an imbalanced one. Used in a classification task.

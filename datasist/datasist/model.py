@@ -54,11 +54,41 @@ def train_classifier(train_data = None, target=None, val_data=None, val_data_tar
         get_classification_report(val_data_target, pred, show_roc_plot, save_plot)
 
 
+def plot_feature_importance(estimator=None, col_names=None):
+    '''
+    Plots the feature importance from a trained scikit learn estimator
+    as a bar chart.
+    Parameters:
+    -----------
+    estimator: scikit estimator.
+        Model that has been fit and contains the feature_importance_ attribute.
+    col_names: list
+        The names of the columns. Must map unto feature importance array.
+    Returns:
+    --------
+    Matplotlib figure showing feature importances
+    '''
+    if estimator is None:
+        raise ValueError("estimator: Expecting an estimator that implements the fit api, got None")
+    if col_names is None:
+        raise ValueError("col_names: Expecting a list of column names, got 'None'")
+    
+    if len(col_names) != len(estimator.feature_importances_):
+        raise ValueError("col_names: Lenght of col_names must match lenght of feature importances")
+
+    imps = estimator.feature_importances_
+    feats_imp = pd.DataFrame({"features": col_names, "importance": imps}).sort_values(by='importance', ascending=False)
+    sns.barplot(x='features', y='importance', data=feats_imp)
+    plt.xticks(rotation=90)
+    plt.title("Feature importance plot")
+    plt.show()
+
+
 def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
                   sample_submision_file=None, submission_col_name=None, 
                   submision_file_name=None):
     '''
-    Train and model and makes prediction with it on the final test set. Also
+    Train a model and makes prediction with it on the final test set. Also
     returns a sample submission file for data science competitions
     
     Parameters:
@@ -74,6 +104,7 @@ def train_predict(model=None, train_data=None, target=None, test_data=None, make
         print("File has been saved to current working directory")
     else:
         return pred
+
 
 
 def get_classification_report(target=None, pred=None, show_roc_plot=True, save_plot=False):
