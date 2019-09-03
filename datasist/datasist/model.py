@@ -7,6 +7,7 @@ from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 from .visualizations import plot_auc
