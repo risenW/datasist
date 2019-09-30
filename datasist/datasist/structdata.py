@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from .visualizations import class_count, plot_missing
 from IPython.display import display
+from collections import Counter
 
 
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
@@ -206,7 +207,47 @@ def display_missing(data=None, plot=True):
         return df
 
 
+def detect_outliers(df, n, features):
+    '''
+        Detect Rows with outliers.
+
+        Parameters
+        ----------
+        df: DataFrame or named Series
+        n: the bench mark for the number of allowable outliers in a column
+        features: Specific columns you want to check for outliers and it accepts only numerical values
+
+        Returns
+        -------
+        The rows where outliers are present
+        '''
+
+    outlier_indices = []
+
+    # iterate over features(columns)
+    for col in features:
+        # 1st quartile (25%)
+        Q1 = numpy.percentile(df[col], 25)
+        # 3rd quartile (75%)
+        Q3 = numpy.percentile(df[col], 75)
+        # Interquartile range (IQR)
+        IQR = Q3 - Q1
+
+        # outlier step
+        outlier_step = 1.5 * IQR
+
+        # Determine a list of indices of outliers for feature col
+        outlier_list_col = df[(df[col] < Q1 - outlier_step) | (df[col] > Q3 + outlier_step)].index
+
+        # append the found outlier indices for col to the list of outlier indices
+        outlier_indices.extend(outlier_list_col)
+
+    # select observations containing more than 2 outliers
+    outlier_indices = Counter(outlier_indices)
+    multiple_outliers = list(k for k, v in outlier_indices.items() if v > n)
+
+    return multiple_outliers
+
+
 def _space():
     print('\n')
-
-        
