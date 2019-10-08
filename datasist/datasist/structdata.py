@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from .visualizations import class_count, plot_missing
 from IPython.display import display
+from collections import Counter
+
 
 
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
@@ -340,6 +342,7 @@ def detect_outliers(df, n, features):
     return multiple_outliers
 
 
+
 def _space():
     print('\n')
 
@@ -351,5 +354,3 @@ def _match_date(data):
     '''
     mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)
-
-
