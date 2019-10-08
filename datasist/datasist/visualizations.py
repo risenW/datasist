@@ -366,8 +366,11 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
                         
 
     for feature in cat_features:
-        print('Class Count for', feature)
-        display(pd.DataFrame(data[feature].value_counts()))
+        if data[feature].nunique() > 15:
+            print("Unique classes in {} too large".format(feature))
+        else:
+            print('Class Count for', feature)
+            display(pd.DataFrame(data[feature].value_counts()))
 
     if plot:
         countplot(data, cat_features, save_fig=save_fig)
