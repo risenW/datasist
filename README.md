@@ -8,7 +8,9 @@
 
 ## What is it?
 
-**Datasist** is a python package providing fast, quick, and an abstracted interface to popular and frequently used functions or techniques relating to data analysis, visualization, data exploration, feature engineering, Computer, NLP, Deep Learning, modeling, model deployment etc. 
+**Datasist** is a python package providing fast, quick, and an abstracted interface to 
+popular and frequently used functions or techniques relating to data analysis, visualization, data exploration,
+feature engineering, Computer, NLP, Deep Learning, modelling, model deployment etc.
 
 
 ## Where to get it
@@ -26,23 +28,24 @@ package index]
 - matplotlib
 
 
-## Installation from sources (<b>For contributors</b>)
+## Installation from source (<b>For contributors</b>)
 To install datasist from source you need python 3 in addition to the normal
-dependencies above.
+dependencies above. 
 
-
-Clone the repo at https://github.com/risenW/datasist.git, then execute:
+Run the following command in a terminal/command prompt
 
 ```sh
+git clone https://github.com/risenW/datasist.git
 cd datasist
 python setup.py install
 ```
 
-Alternatively, you can use `pip` if you want all the dependencies pulled
+Alternatively, you can use install with `pip` after cloning, if you want all the dependencies pulled
 in automatically (the `-e` option is for installing it in [development
 mode]:
 
 ```sh
+git clone https://github.com/risenW/datasist.git
 cd datasist
 pip install -e .
 ```
@@ -52,7 +55,7 @@ No official documentation yet
 
 ### Usage
 #### Jupyter Notebook
- Check out this jupyter notebook for a detailed example [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
+ Check out this jupyter notebook for a basic example in using datasist [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
 
 
-#### we are working hard to release the first official version on the 30th of September 2019. Stay with us, while we build your favorite data assistant! 
+#### Datasist v1 will officially be available for pip installs from the 30th of September 2019. Stay with us, while we build your favorite data assistant! 

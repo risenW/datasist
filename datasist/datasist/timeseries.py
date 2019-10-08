@@ -1,5 +1,5 @@
 '''
-This module contains all functions relating to timeseries data
+This module contains all functions relating to time series data
 
 '''
 
@@ -7,79 +7,189 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from IPython.display import display
+from .structdata import get_cat_feats, get_num_feats, get_date_cols
 
 
-def get_date_info(data=None, date_features=None, date_cols_to_return=None, drop_date_feature=True):
+
+def extract_dates(data=None, date_cols=None, subset=None, drop=True):
     '''
-    TODO UPdate Doc
-    Returns the date information from a given date column
+    Extracts date information in a dataframe and append to the original data as new columns.
+    For extracting only time features, use datasist.timeseries.extract_time function
     
+    Parameters:
+    -----------
+    data: DataFrame or named Series
+        The data set to extract date information from.
+    date_cols: List, Array
+        Name of date columns/features in data set.
+    subset: List, Array
+        Date features to return. One of:
+        'dow' ==> day of the week
+        'doy' ==> day of the year
+        'dom' ==> day of the month
+        'hr' ==> hour
+        'min', ==> minute
+        'is_wkd' ==> is weekend?
+        'yr' ==> year
+        'qtr' ==> quarter
+        'mth' ==> month
+    drop: bool, Default True
+        Drops the original date columns from the data set.
+
+    Return:
+    -------
+        DataFrame or Series.
     '''
+
     df = data.copy()
 
-    for date_feature in date_features:
+    for date_col in date_cols:
         #Convert date feature to Pandas DateTime
-        df[date_feature]=pd.to_datetime(df[date_feature])
+        df[date_col ]= pd.to_datetime(df[date_col])
 
         #specify columns to return
-        dict_dates = {  "dow":  df[date_feature].dt.weekday_name,
-                        "doy":   df[date_feature].dt.dayofyear,
-                        "dom": df[date_feature].dt.day,
-                        "hr": df[date_feature].dt.hour,
-                        "minute":   df[date_feature].dt.minute,
-                        "is_wkd":  df[date_feature].apply( lambda x : 1 if x  in [5,6] else 0 ),
-                        "yr": df[date_feature].dt.year,
-                        "qtr":  df[date_feature].dt.quarter,
-                        "mth": df[date_feature].dt.month
+        dict_dates = {  "dow":  df[date_col].dt.weekday_name,
+                        "doy":   df[date_col].dt.dayofyear,
+                        "dom": df[date_col].dt.day,
+                        "hr": df[date_col].dt.hour,
+                        "min":   df[date_col].dt.minute,
+                        "is_wkd":  df[date_col].apply( lambda x : 1 if x  in [5,6] else 0 ),
+                        "yr": df[date_col].dt.year,
+                        "qtr":  df[date_col].dt.quarter,
+                        "mth": df[date_col].dt.month
                     } 
-        date_fts = ['dow', 'doy', 'dom', 'hr', 'minute', 'is_wkd', 'yr', 'qtr', 'mth']
 
-        if date_cols_to_return is None:
+        if subset is None:
             #return all features
-            for dt_ft in date_fts:
-                df[date_feature + '_' + dt_ft] = dict_dates[dt_ft]
+            subset = ['dow', 'doy', 'dom', 'hr', 'min', 'is_wkd', 'yr', 'qtr', 'mth']
+            for date_ft in subset:
+                df[date_col + '_' + date_ft] = dict_dates[date_ft]
         else:
             #Return only sepcified date features
-            for dt_ft in date_cols_to_return:
-                df[date_feature + '_' + dt_ft] = dict_dates[dt_ft]
-    
-    if drop_date_feature:
-        df.drop(date_features, axis=1, inplace=True)
+            for date_ft in subset:
+                df[date_col + '_' + date_ft] = dict_dates[date_ft]
+    #Drops original time columns from the dataset
+    if drop:
+        df.drop(date_cols, axis=1, inplace=True)
 
     return df
 
 
 
-def describe_date(data, date_feature):
+def extract_time(data=None, time_cols=None, subset=None, drop=True):
+    '''
+    Returns time information in a pandas dataframe as a new set of columns 
+    added to the original data frame.
+    For extracting DateTime features, use datasist.timeseries.extract_dates function
+    
+    Parameters:
+    -----------
+    data: DataFrame or named Series
+        The data set to extract time information from.
+    time_cols: List, Array
+        Name of time columns/features in data set.
+    subset: List, Array
+        Time features to return default to [hours, minutes and seconds].
+    drop: bool, Default True
+        Drops the original time features from the data set.
+
+    Return:
+    -------
+        DataFrame or Series.
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    
+    if time_cols is None:
+        raise ValueError("time_cols: Expecting a list, series/ numpy1D array, got 'None'")
+    
+    df = data.copy()
+    
+    if subset is None:
+        subset = ['hours', 'minutes', 'seconds']
+    
+    for time_col in time_cols:  
+        #Convert time columns to pandas time delta
+        df[time_col] = pd.to_timedelta(df[time_col])
+        
+        for val in subset:
+            df[time_col + "_" + val] = df[time_col].dt.components[val]
+        
+    if drop:
+        #Drop original time columns
+        df.drop(time_cols, axis=1, inplace=True)
+        
+    return df
+
+
+
+
+def describe_date(data=None, date_col=None):
     '''
     Calculate statistics of the date feature
+
+    Parameter:
+    ---------
+    data: DataFrame or name series.
+        The data to describe.
+    data_col: str
+        Name of date column to describe
     '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    df = get_date_info(data, date_feature)
-    print(df.describe())
+    if date_col is None:
+        raise ValueError("date_col: Expecting a string, got 'None'")
+
+
+    df = extract_dates(data, date_col)
+    display(df.describe())
 
 
 
 
-def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marker='.', figsize=(15,10), y_label='Daily Totals',save_fig=False, alpha=0.5, linestyle='None'):
+def num_timeplot(data=None, num_cols=None, time_col=None, subplots=True, marker='.', 
+                    figsize=(15,10), y_label='Daily Totals',save_fig=False, alpha=0.5, linestyle='None'):
     '''
-    Plots all numeric features against the time. Interpreted as a time series plot
+    Plot all numeric features against the time column. Interpreted as a time series plot.
 
     Parameters:
-    #TODO UPDATE DOC
+    -----------
+    data: DataFrame, Series.
+        The data used in plotting.
+    num_cols: list, 1-D array.
+        Numerical columns in the data set. If not provided, we automatically infer them from the data set.
+    time_col: str.
+        The time column to plot numerical features against. We set this column as the index before plotting.
+    subplots: bool, Default True.
+        Uses matplotlib subplots to make plots.
+    marker: str
+        matplotlib supported marker to use in line decoration.
+    figsize: tuple of ints, Default (15,10)
+        The figure size of the plot.
+    y_label: str.
+        Name of the Y-axis.
+    save_fig: bool, Default True
+        Saves the figure to the current working directory.
+    
+    Returns:
+    --------
+    matplotlib figure
     
     '''
 
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    if num_features is None:
-        num_features = datastats.get_num_feats(data)
-        #remove the time_Col from num_features
-        num_features.remove(time_col)
+    if num_cols is None:
+        num_cols = get_num_feats(data)
+        #remove the time_Col from num_cols
+        num_cols.remove(time_col)
 
     if time_col is None:
-        raise ValueError("time_col: Expecting a Datetime Series, got 'None'")
+        raise ValueError("time_col: Expecting a string name of time column, got 'None'")
 
     #Make time_col the index
     data[time_col] = pd.to_datetime(data[time_col])
@@ -87,15 +197,15 @@ def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marke
     data = data.set_index(time_col)
     
     if subplots:
-        axes = data[num_features].plot(marker=marker,subplots=True, figsize=figsize, alpha=0.5, linestyle=linestyle) 
-        for feature, ax in zip(num_features, axes):
+        axes = data[num_cols].plot(marker=marker,subplots=True, figsize=figsize, alpha=0.5, linestyle=linestyle) 
+        for feature, ax in zip(num_cols, axes):
             ax.set_ylabel(y_label)
             ax.set_title("Timeseries Plot of '{}'".format(time_col))
             if save_fig:
                 plt.savefig('fig_timeseries_plot_against_{}'.format(feature))
             plt.show()
     else:
-        for feature in num_features:
+        for feature in num_cols:
             fig = plt.figure()
             ax = fig.gca()
             axes = data[feature].plot(marker=marker,subplots=False, figsize=figsize, alpha=0.5, linestyle=linestyle, ax=ax) 
@@ -107,7 +217,7 @@ def num_to_time(data=None, num_features=None,time_col=None, subplots=True, marke
 
 
 
-def box_time_plot(data=None, features=None, x=None, subplots=True, figsize=(12,10)):
+def time_boxplot(data=None, features=None, x=None, subplots=True, figsize=(12,10)):
     '''
     Makes a box plot of features against a specified column
     
@@ -136,9 +246,9 @@ def box_time_plot(data=None, features=None, x=None, subplots=True, figsize=(12,1
 
 
 
-def set_date_index(data, date_feature):
+def set_date_index(data, date_col):
     #Make time_col the index
-    data[date_feature] = pd.to_datetime(data[date_feature])
+    data[date_col] = pd.to_datetime(data[date_col])
     #Set as time_col as DataFrame index
-    return data.set_index(date_feature)
+    return data.set_index(date_col)
 
