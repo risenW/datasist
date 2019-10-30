@@ -278,7 +278,6 @@ def to_date(data):
     return data
 
 
-#Haversine distance
 def haversine_distance(lat1, long1, lat2, long2):
     '''
     Calculates the Haversine distance between two location with latitude and longitude.
@@ -294,8 +293,8 @@ def haversine_distance(lat1, long1, lat2, long2):
     long2: scalar,float 
         End point longitude of the location.
 
-    Returns:
-    The Harversine distance between (lat1, lat2), (long1, long2)
+    Returns: Array, list
+        The Harversine distance between (lat1, lat2), (long1, long2)
     
     '''
 
@@ -308,6 +307,73 @@ def haversine_distance(lat1, long1, lat2, long2):
     return harvesine_distance
 
 
+def manhattan_distance(lat1, long1, lat2, long2):
+    '''
+    Calculates the Manhattan distance between two points.
+    It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
+    Parameter:
+    lat1: scalar,float
+        Start point latitude of the location.
+    lat2: scalar,float 
+        End point latitude of the location.
+    long1: scalar,float
+        Start point longitude of the location.
+    long2: scalar,float 
+        End point longitude of the location.
+
+    Returns: Array, list
+        The Manhattan distance between (lat1, lat2) and (long1, long2)
     
+    '''
+    a = np.abs(lat2 -lat1)
+    b = np.abs(long1 - long2)
+    manhattan_distance = a + b
+    return manhattan_distance
+    
+
+def bearing_array(lat1, long1, lat2, long2):
+    '''
+    Calculates the Bearing  between two points.
+    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360.    Parameter:
+    lat1: scalar,float
+        Start point latitude of the location.
+    lat2: scalar,float 
+        End point latitude of the location.
+    long1: scalar,float
+        Start point longitude of the location.
+    long2: scalar,float 
+        End point longitude of the location.
+
+    Returns: Array, list
+        The Bearing between (lat1, lat2) and (long1, long2)
+    
+    '''
+    AVG_EARTH_RADIUS = 6371
+    long_delta = np.radians(long2 - long1)
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    y = np.sin(long_delta) * np.cos(lat2)
+    x = np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(long_delta)
+    bearing = np.degrees(np.arctan2(y, x))
+    return bearing
+    
+
+def get_location_center(point1, point2):
+    '''
+    Calculates the center between two points.
+
+    point1: list, series, scalar
+        End point latitude of the location.
+    long1: list, series, scalar
+        Start point longitude of the location.
+    long2: list, series, scalar
+        End point longitude of the location.
+
+    Returns: DataFrame
+        The center between point1 and point2
+    
+    '''
+    center = (point1 + point2) / 2
+    center_df = pd.DataFrame(center, columns=['center_point'])
+    return center_df
 
     
