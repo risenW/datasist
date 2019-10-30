@@ -11,7 +11,6 @@ setup(
       url='https://github.com/risenW/datasist/tree/master/datasist/datasist',
       keywords=['Data Analysis', 'Feature Engineering', 'Visualization'],
       download_url='https://github.com/risenW/datasist/archive/v_01.tar.gz', 
-      license='MIT',
       install_requires=[
         'pandas',
         'matplotlib',
