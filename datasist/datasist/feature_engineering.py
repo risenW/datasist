@@ -278,6 +278,36 @@ def to_date(data):
     return data
 
 
+#Haversine distance
+def haversine_distance(lat1, long1, lat2, long2):
+    '''
+    Calculates the Haversine distance between two location with latitude and longitude.
+    The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
+    
+    Parameter:
+    lat1: scalar,float
+        Start point latitude of the location.
+    lat2: scalar,float 
+        End point latitude of the location.
+    long1: scalar,float
+        Start point longitude of the location.
+    long2: scalar,float 
+        End point longitude of the location.
+
+    Returns:
+    The Harversine distance between (lat1, lat2), (long1, long2)
+    
+    '''
+
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    AVG_EARTH_RADIUS = 6371  # in km
+    lat = lat2 - lat1
+    lng = long2 - long1
+    distance = np.sin(lat * 0.5) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(lng * 0.5) ** 2
+    harvesine_distance = 2 * AVG_EARTH_RADIUS * np.arcsin(np.sqrt(distance))
+    return harvesine_distance
+
+
     
 
     
