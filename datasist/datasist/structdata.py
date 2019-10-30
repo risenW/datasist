@@ -12,8 +12,6 @@ from .visualizations import class_count, plot_missing
 from IPython.display import display
 from collections import Counter
 
-
-
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
     '''
     Calculates statistics and information about a data set. Information displayed are
