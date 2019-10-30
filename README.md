@@ -4,13 +4,41 @@
 
 # datasist: Python library for easy modelling, visualization and exploration
 
+<table>
+<tr>
+  <td>Latest Release</td>
+  <td>
+    <a href="https://pypi.org/project/datasist/">
+    <img src="https://img.shields.io/badge/pip-v0.9-blue.svg" alt="latest release" />
+    </a>
+  </td>
+</tr>
+<tr>
+  <td>Release Status</td>
+  <td>
+    <a>
+    <img src="https://img.shields.io/badge/status-beta-brightgreen.svg" alt="status" />
+    </a>
+  </td>
+</tr>
+<tr>
+  <td>License</td>
+  <td>
+    <a>
+    <img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="license" />
+         </a>
+</td>
+</tr>
+
+</table>
+
 ## What is it?
 
 **datasist** is a python package providing fast, quick, and an abstracted interface to 
 popular and frequently used functions or techniques relating to data analysis, visualization, data exploration,
 feature engineering, Computer, NLP, Deep Learning, modelling, model deployment etc.
 
-## Where to get it
+## Install
 ```sh
 pip install datasist
 ```
