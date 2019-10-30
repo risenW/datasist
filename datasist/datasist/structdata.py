@@ -65,7 +65,7 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
 
     date_cols = get_date_cols(data)
     if len(date_cols) is not 0:
-        print("Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to coonvert to Pandas Datetime format".format(date_cols))
+        print("Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to convert to Pandas Datetime format".format(date_cols))
         _space()
 
     print('Numerical Features in Data set')
@@ -74,6 +74,10 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
 
     print('Statistical Description of Columns')
     display(data.describe())
+    _space()
+    
+    print('Description of Categorical Features')
+    display(data.describe(include=[np.object, pd.Categorical]).T)
     _space()
 
     print('Categorical Features in Data set')
