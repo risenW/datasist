@@ -17,7 +17,7 @@
   <td>Release Status</td>
   <td>
     <a>
-    <img src="https://img.shields.io/badge/status-beta-brightgreen.svg" alt="status" />
+    <img src="https://img.shields.io/badge/status-alpha-brightgreen.svg" alt="status" />
     </a>
   </td>
 </tr>
