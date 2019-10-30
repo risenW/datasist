@@ -293,7 +293,7 @@ def haversine_distance(lat1, long1, lat2, long2):
     long2: scalar,float 
         End point longitude of the location.
 
-    Returns: Array, list
+    Returns: Series
         The Harversine distance between (lat1, lat2), (long1, long2)
     
     '''
@@ -304,7 +304,8 @@ def haversine_distance(lat1, long1, lat2, long2):
     lng = long2 - long1
     distance = np.sin(lat * 0.5) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(lng * 0.5) ** 2
     harvesine_distance = 2 * AVG_EARTH_RADIUS * np.arcsin(np.sqrt(distance))
-    return harvesine_distance
+    harvesine_distance_df = pd.Series(harvesine_distance)
+    return harvesine_distance_df
 
 
 def manhattan_distance(lat1, long1, lat2, long2):
@@ -321,17 +322,18 @@ def manhattan_distance(lat1, long1, lat2, long2):
     long2: scalar,float 
         End point longitude of the location.
 
-    Returns: Array, list
+    Returns: Series
         The Manhattan distance between (lat1, lat2) and (long1, long2)
     
     '''
     a = np.abs(lat2 -lat1)
     b = np.abs(long1 - long2)
     manhattan_distance = a + b
-    return manhattan_distance
+    manhattan_distance_df = pd.Series(manhattan_distance)
+    return manhattan_distance_df
     
 
-def bearing_array(lat1, long1, lat2, long2):
+def bearing(lat1, long1, lat2, long2):
     '''
     Calculates the Bearing  between two points.
     The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360.    Parameter:
@@ -344,7 +346,7 @@ def bearing_array(lat1, long1, lat2, long2):
     long2: scalar,float 
         End point longitude of the location.
 
-    Returns: Array, list
+    Returns: Series
         The Bearing between (lat1, lat2) and (long1, long2)
     
     '''
@@ -354,7 +356,8 @@ def bearing_array(lat1, long1, lat2, long2):
     y = np.sin(long_delta) * np.cos(lat2)
     x = np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(long_delta)
     bearing = np.degrees(np.arctan2(y, x))
-    return bearing
+    bearing_df = pd.Series(bearing)
+    return bearing_df
     
 
 def get_location_center(point1, point2):
@@ -368,12 +371,12 @@ def get_location_center(point1, point2):
     long2: list, series, scalar
         End point longitude of the location.
 
-    Returns: DataFrame
+    Returns: Series
         The center between point1 and point2
     
     '''
     center = (point1 + point2) / 2
-    center_df = pd.DataFrame(center, columns=['center_point'])
+    center_df = pd.Series(center)
     return center_df
 
     
