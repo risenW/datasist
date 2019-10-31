@@ -19,20 +19,30 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     dtypes of objects etc.
 
     Parameters:
-    data: Pandas DataFrame
-        The data to describe.
-    name: str, optional
-        The name of the data set passed to the function.
-    date_cols: list/series/array
-         Date column names in the data set.
-    show_categories: bool, default False
-        Displays the unique classes and counts in each of the categorical feature in the data set.
-    plot_missing: bool, default True
-        Plots missing values as a heatmap
+    --------------------
+        data: Pandas DataFrame
 
-    Returns
+            The data to describe.
+
+        name: str, optional
+
+            The name of the data set passed to the function.
+
+        date_cols: list/series/array
+
+            Date column names in the data set.
+
+        show_categories: bool, default False
+
+            Displays the unique classes and counts in each of the categorical feature in the data set.
+
+        plot_missing: bool, default True
+
+            Plots missing values as a heatmap
+
+    Returns:
     -------
-    None
+        None
     '''
     
     if data is None:
@@ -109,12 +119,12 @@ def get_cat_feats(data=None):
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the categorical features in a dataset.
+        List
+            A list of all the categorical features in a dataset.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -130,12 +140,12 @@ def get_num_feats(data=None):
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the numerical features in a dataset.
+        List:
+            A list of all the numerical features in a dataset.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -152,14 +162,18 @@ def get_date_cols(data=None):
 
     Parameters
     ----------
-    data: DataFrame or named Series
-        Data set to infer datetime columns from.
-    convert: bool, Default True
-        Converts the inferred date columns to pandas DateTime type
-    Returns
+        data: DataFrame or named Series
+
+            Data set to infer datetime columns from.
+
+        convert: bool, Default True
+
+            Converts the inferred date columns to pandas DateTime type
+    Returns:
     -------
-    List
-        Date column names in the data set
+        List
+
+         Date column names in the data set
     '''
 
     if data is None:
@@ -180,12 +194,13 @@ def get_unique_counts(data=None):
 
     Parameters
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
     Returns
     -------
-    DataFrame or Series
-        Unique value counts of the features in a dataset.
+        DataFrame or Series
+
+            Unique value counts of the features in a dataset.
     
     '''
 
@@ -210,31 +225,34 @@ def display_missing(data=None, plot=False):
 
     Parameters
     ----------
-    data: DataFrame or named Series
-    plot: bool, Default False
-        Plots missing values in dataset as a heatmap
+        data: DataFrame or named Series
+
+        plot: bool, Default False
+
+            Plots missing values in dataset as a heatmap
     
     Returns
     -------
-    Matplotlib Figure:
-        Heatmap plot of missing values
+        Matplotlib Figure:
+
+            Heatmap plot of missing values
     '''
 
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    df = data.isna().sum()
-    df = df.reset_index()
-    df.columns = ['features', 'missing_counts']
+    data = data.isna().sum()
+    data = data.reset_index()
+    data.columns = ['features', 'missing_counts']
 
-    missing_percent = round((df['missing_counts'] / data.shape[0]) * 100, 2)
-    df['missing_percent'] = missing_percent
+    missing_percent = round((data['missing_counts'] / data.shape[0]) * 100, 2)
+    data['missing_percent'] = missing_percent
 
     if plot:
         plot_missing(data)
-        return df
+        return data
     else:
-        return df
+        return data
 
 
 
@@ -243,24 +261,38 @@ def display_missing(data=None, plot=False):
 def quick_CSummarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=True):
     '''
     Helper function that gives a quick summary of a given column of categorical data
-    Arguments
-    =========
-    dataframe: pandas dataframe
-    x: str. horizontal axis to plot the labels of categorical data, y would be the count
-    y: str. vertical axis to plot the labels of categorical data, x would be the count
-    hue: str. if you want to compare it another variable (usually the target variable)
-    palette: array-like. Colour of the plot
-    Returns
-    =======
-    Quick Stats of the data and also the count plot
+
+    Parameters:
+    ---------------------------
+        dataframe: pandas dataframe
+
+        x: str.
+            horizontal axis to plot the labels of categorical data, y would be the count.
+
+        y: str. 
+            vertical axis to plot the labels of categorical data, x would be the count.
+
+        hue: str. i
+            if you want to compare it another variable (usually the target variable)
+
+        palette: array, list.
+
+            Colour of the plot
+
+    Returns:
+    ----------------------
+        Quick Stats of the data and also the count plot
     
-    E.g
-    c_palette = ['tab:blue', 'tab:orange']
-categorical_summarized(train, y = 'date_block_num', palette=c_palette)
+    Example:
+
+        c_palette = ['tab:blue', 'tab:orange']
+
+        categorical_summarized(train, y = 'date_block_num', palette=c_palette)
 
 
-# Feature Variable: Gender
-categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)
+        # Feature Variable: Gender
+
+        categorical_summarized(train_data, y = 'Sex', hue='Survived', palette=c_palette)
 
     '''
     if x == None:
@@ -285,14 +317,17 @@ def join_train_and_test(data_train=None, data_test=None):
 
     Parameter:
     ----------
-    data_train: DataFrame, named series.
-        First data usually called train date to join.
-    data_test: DataFrame, named series.
-        Second data set to join, usually called test.
+        data_train: DataFrame, named series.
+
+            First data usually called train date to join.
+
+        data_test: DataFrame, named series.
+
+            Second data set to join, usually called test.
     
     Returns:
     -------
-    Tuple: Merged data, size of train and size of test
+        Tuple: Merged data, size of train and size of test
     '''
 
     n_train = data_train.shape[0]
@@ -302,19 +337,21 @@ def join_train_and_test(data_train=None, data_test=None):
     return all_data, n_train, n_test
 
 
-def detect_outliers(df, n, features):
+def detect_outliers(data, n, features):
     '''
         Detect Rows with outliers.
 
         Parameters
         ----------
-        df: DataFrame or named Series
-        n: the bench mark for the number of allowable outliers in a column
-        features: Specific columns you want to check for outliers and it accepts only numerical values
+            data: DataFrame or named Series
+
+            n: the bench mark for the number of allowable outliers in a column.
+            
+            features: Specific columns you want to check for outliers and it accepts only numerical values.
 
         Returns
         -------
-        The rows where outliers are present
+            The rows where outliers are present.
         '''
 
     outlier_indices = []
@@ -322,9 +359,9 @@ def detect_outliers(df, n, features):
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(df[col], 25)
+        Q1 = numpy.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(df[col], 75)
+        Q3 = numpy.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 
@@ -332,7 +369,7 @@ def detect_outliers(df, n, features):
         outlier_step = 1.5 * IQR
 
         # Determine a list of indices of outliers for feature col
-        outlier_list_col = df[(df[col] < Q1 - outlier_step) | (df[col] > Q3 + outlier_step)].index
+        outlier_list_col = data[(data[col] < Q1 - outlier_step) | (data[col] > Q3 + outlier_step)].index
 
         # append the found outlier indices for col to the list of outlier indices
         outlier_indices.extend(outlier_list_col)

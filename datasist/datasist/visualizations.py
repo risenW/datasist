@@ -22,21 +22,30 @@ def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), sa
     Parameters
     ------------
 
-    data : DataFrame, array, or list of arrays.
-        The data to plot.
-    cat_features: str, scalar, array, or list. 
-        The categorical features in the dataset, if not provided, 
-        we try to infer the categorical columns from the dataframe.
-    separate_by: str, default None.
-        The feature used to seperate the plot. Called hue in seaborn.
-    fig_size: tuple, Default (5,5)
-        The size of the figure object.
-    save_fig: bool, Default False.
-        Saves the plot to the current working directory
+        data : DataFrame, array, or list of arrays.
+
+            The data to plot.
+
+        cat_features: str, scalar, array, or list. 
+
+            The categorical features in the dataset, if not provided, 
+            we try to infer the categorical columns from the dataframe.
+
+        separate_by: str, default None.
+
+            The feature used to seperate the plot. Called hue in seaborn.
+
+        fig_size: tuple, Default (5,5)
+
+            The size of the figure object.
+
+        save_fig: bool, Default False.
+
+            Saves the plot to the current working directory
 
     Returns
     -------
-    None
+        None
     '''
 
     if data is None:
@@ -70,8 +79,8 @@ def plot_missing(data=None):
 
     Parameters
     ----------
-    data: DataFrame, array, or list of arrays.
-        The data to plot.
+        data: DataFrame, array, or list of arrays.
+            The data to plot.
     '''
 
     if data is None:
@@ -96,21 +105,32 @@ def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_dat
     Parameters
     ------------
 
-    data : DataFrame, array, or list of arrays.
-        Dataset for plotting.
-    num_features: Scalar, array, or list. 
-        The numerical features in the dataset, if not None, 
-        we try to infer the numerical columns from the dataframe.
-    target: array, pandas series, list.
-        A categorical target column. Maximun number of categories is 10 and minimum is 1
-    fig_size: tuple, Default (8,8)
-        The size of the figure object.
-    large_data: bool, Default False.
-        If True, then sns boxenplot is used instead of normal boxplot. Boxenplot is 
-        better for large dataset.
-    save_fig: bool, Default False.
-        If True, saves the current plot to the current working directory
-    '''
+        data : DataFrame, array, or list of arrays.
+
+            Dataset for plotting.
+
+        num_features: Scalar, array, or list. 
+
+            The numerical features in the dataset, if not None, 
+            we try to infer the numerical columns from the dataframe.
+
+        target: array, pandas series, list.
+
+            A categorical target column. Maximun number of categories is 10 and minimum is 1
+
+        fig_size: tuple, Default (8,8)
+
+            The size of the figure object.
+
+        large_data: bool, Default False.
+
+            If True, then sns boxenplot is used instead of normal boxplot. Boxenplot is 
+            better for large dataset.
+
+        save_fig: bool, Default False.
+
+            If True, saves the current plot to the current working directory
+        '''
 
 
     if target is None:
@@ -171,17 +191,26 @@ def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_f
     Parameters
     ------------
 
-    data : DataFrame, array, or list of arrays.
-        Dataset for plotting.
-    num_features: Scalar, array, or list. 
-        The numerical features in the dataset, if not None, 
-        we try to infer the numerical columns from the dataframe.
-    target: array, pandas series, list.
-        A categorical target column. Maximun number of categories is 10 and minimum is 1
-    fig_size: tuple, Default (8,8)
-        The size of the figure object.
-    save_fig: bool, Default False.
-        If True, saves the current plot to the current working directory
+        data : DataFrame, array, or list of arrays.
+
+            Dataset for plotting.
+
+        num_features: Scalar, array, or list. 
+
+            The numerical features in the dataset, if not None, 
+            we try to infer the numerical columns from the dataframe.
+
+        target: array, pandas series, list.
+
+            A categorical target column. Maximun number of categories is 10 and minimum is 1.
+
+        fig_size: tuple, Default (8,8)
+
+            The size of the figure object.
+
+        save_fig: bool, Default False.
+
+            If True, saves the current plot to the current working directory
    '''
 
     if target is None:
@@ -222,19 +251,30 @@ def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig
     
     Parameters
     ------------
-    data : DataFrame, array, or list of arrays.
-        Dataset for plotting.
-    num_features: Scalar, array, or list. 
-        The numerical features in the dataset, if not None, 
-        we try to infer the numerical columns from the dataframe.
-    bins: int
-        The number of bins to use.
-    show_dist_type: bool, Default False
-        If True, Calculates the skewness of the data and display one of (Left skewed, right skewed or normal) 
-    fig_size: tuple, Default (8,8).
-        The size of the figure object.
-    save_fig: bool, Default False.
-        If True, saves the current plot to the current working directory
+        data : DataFrame, array, or list of arrays.
+
+            Dataset for plotting.
+
+        num_features: Scalar, array, or list. 
+
+            The numerical features in the dataset, if not None, 
+            we try to infer the numerical columns from the dataframe.
+
+        bins: int
+
+            The number of bins to use.
+
+        show_dist_type: bool, Default False
+
+            If True, Calculates the skewness of the data and display one of (Left skewed, right skewed or normal) 
+
+        fig_size: tuple, Default (8,8).
+
+            The size of the figure object.
+
+        save_fig: bool, Default False.
+
+            If True, saves the current plot to the current working directory
     
     '''
 
@@ -274,17 +314,26 @@ def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=
     Parameters
     ------------
 
-    data: DataFrame, array, or list of arrays.
-        Dataset for plotting.
-    cat_features: Scalar, array, or list. 
-        The categorical features in the dataset, if None, 
-        we try to infer the categorical columns from the dataframe.
-    target: Scalar, array or list.
-        Categorical target to plot against.
-    fig_size: tuple, Default (12,6)
-        The size of the figure object.
-    save_fig: bool, Default False.
-        If True, saves the plot to the current working directory.
+        data: DataFrame, array, or list of arrays.
+
+            Dataset for plotting.
+
+        cat_features: Scalar, array, or list. 
+
+            The categorical features in the dataset, if None, 
+            we try to infer the categorical columns from the dataframe.
+
+        target: Scalar, array or list.
+
+            Categorical target to plot against.
+
+        fig_size: tuple, Default (12,6)
+
+            The size of the figure object.
+
+        save_fig: bool, Default False.
+
+            If True, saves the plot to the current working directory.
     '''
 
     if data is None:
@@ -346,15 +395,22 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
 
     Parameters:
     
-    data: Pandas DataFrame or Series
-        Dataset for plotting.
-    cat_features: Scalar, array, or list. 
-        The categorical features in the dataset, if None, 
-        we try to infer the categorical columns from the dataframe.
-    plot: bool, Default False.
-        Plots the class counts as a barplot
-    save_fig: bool, Default False.
-        Saves the plot to the current working directory.
+        data: Pandas DataFrame or Series
+
+            Dataset for plotting.
+
+        cat_features: Scalar, array, or list. 
+
+            The categorical features in the dataset, if None, 
+            we try to infer the categorical columns from the dataframe.
+
+        plot: bool, Default False.
+
+            Plots the class counts as a barplot
+
+        save_fig: bool, Default False.
+
+            Saves the plot to the current working directory.
     '''
 
     if data is None:
@@ -381,22 +437,36 @@ def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig
     '''
     Makes a scatter plot of numerical features against a numerical target.
     Helps to show the relationship between features.
+
     Parameters
     ------------
     
-    data : DataFrame, array, or list of arrays.
-        The data to plot.
-    num_features: int/floats, scalar, array, or list. 
-        The numeric features in the dataset, if not provided, 
-        we try to infer the numeric columns from the dataframe.
-    target: int/float, scalar, array or list.
-        Numerical target feature to plot against.
-    separate_by: str, default None.
-        The feature used to seperate the plot. Called hue in seaborn.
-    fig_size: tuple, Default (10,10)
-        The size of the figure object.
-    save_fig: bool, Default False.
-        Saves the plot to the current working directory'''
+        data : DataFrame, array, or list of arrays.
+
+            The data to plot.
+
+        num_features: int/floats, scalar, array, or list. 
+
+            The numeric features in the dataset, if not provided, 
+            we try to infer the numeric columns from the dataframe.
+
+        target: int/float, scalar, array or list.
+
+            Numerical target feature to plot against.
+
+        separate_by: str, default None.
+
+            The feature used to seperate the plot. Called hue in seaborn.
+
+        fig_size: tuple, Default (10,10)
+
+            The size of the figure object.
+
+        save_fig: bool, Default False.
+
+            Saves the plot to the current working directory
+        
+    '''
 
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -432,7 +502,8 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
 
-    Parameters: The true value, the predicted value and the number of classes
+    Parameters: 
+
 
     """
     if not title:
@@ -486,10 +557,20 @@ def plot_confusion_matrix(y_true, y_pred, classes,
 def plot_auc(labels, predictions):
     '''
     Compute the false positive rate, true positive rate and threshold along with the AUC
+    Parameters:
+    --------------------
 
-    :param labels: This is the true value ( in the case of binary either 0 or 1)
-    :param probs: This is the probability that shows the likelihood of a value being 0 or 1
-    :return: plots the Receiver operating characteristics
+    labels: 
+        This is the true value ( in the case of binary either 0 or 1)
+
+    predictions: 
+
+        This is the probability that shows the likelihood of a value being 0 or 1
+
+    Return:
+
+        plots the Receiver operating characteristics.
+
     '''
 
     fpr, tpr, threshold = sklm.roc_curve(labels, predictions)
@@ -511,11 +592,22 @@ def plot_auc(labels, predictions):
 
 def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alpha = 0.2):
     '''
-    :param data: The data that is being imported using pandas
-    :param cols: The chosen number of columns in the DataFrame
-    :param shape_col: The categorical column you want it to show as legend
-    :param col_y: The y column of the plot
-    :return: Scatter Plot
+    Parameter:
+
+        data: Dataframe 
+            The data that is being imported using pandas.
+
+        cols: list 
+            The chosen number of columns in the DataFrame.
+
+        shape_col: 
+            The categorical column you want it to show as legend.
+
+        col_y: The y axis of the plot
+    
+    Return:
+
+        Matplotlib figure
     '''
     # pick distinctive shapes
     shapes = ['+', 'o', 's', 'x', '^']

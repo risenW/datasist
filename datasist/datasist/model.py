@@ -15,9 +15,10 @@ from .visualizations import plot_auc
 
 def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
     '''
-    train a classification model and returns all the popular performance
-    metric
+    train a classification model and returns all the popular performance metric.
+
     Parameters:
+    ----------------------------
     #TODO update Doc
     
 '''
@@ -59,15 +60,20 @@ def plot_feature_importance(estimator=None, col_names=None):
     '''
     Plots the feature importance from a trained scikit learn estimator
     as a bar chart.
+
     Parameters:
     -----------
-    estimator: scikit estimator.
-        Model that has been fit and contains the feature_importance_ attribute.
-    col_names: list
-        The names of the columns. Must map unto feature importance array.
+        estimator: scikit  learn estimator.
+
+            Model that has been fit and contains the feature_importance_ attribute.
+
+        col_names: list
+
+            The names of the columns. Must map unto feature importance array.
+
     Returns:
     --------
-    Matplotlib figure showing feature importances
+        Matplotlib figure showing feature importances
     '''
     if estimator is None:
         raise ValueError("estimator: Expecting an estimator that implements the fit api, got None")
@@ -128,13 +134,6 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
 
     if show_roc_plot:        
         plot_auc(target, pred)
-        # fpr, tpr, thresholds = roc_curve(target, pred)
-        # plt.plot([0, 1], [0, 1], linestyle='--')
-        # # plot the roc curve for the model
-        # plt.plot(fpr, tpr, marker='.')
-        # # show the plot
-        # plt.title("roc curve")
-        # plt.show()
 
         if save_plot:
             plt.savefig("roc_plot.png")

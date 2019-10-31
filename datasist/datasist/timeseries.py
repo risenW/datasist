@@ -19,23 +19,30 @@ def extract_dates(data=None, date_cols=None, subset=None, drop=True):
     
     Parameters:
     -----------
-    data: DataFrame or named Series
-        The data set to extract date information from.
-    date_cols: List, Array
-        Name of date columns/features in data set.
-    subset: List, Array
-        Date features to return. One of:
-        'dow' ==> day of the week
-        'doy' ==> day of the year
-        'dom' ==> day of the month
-        'hr' ==> hour
-        'min', ==> minute
-        'is_wkd' ==> is weekend?
-        'yr' ==> year
-        'qtr' ==> quarter
-        'mth' ==> month
-    drop: bool, Default True
-        Drops the original date columns from the data set.
+        data: DataFrame or named Series
+
+            The data set to extract date information from.
+
+        date_cols: List, Array
+
+            Name of date columns/features in data set.
+
+        subset: List, Array
+
+            Date features to return. One of:
+            ['dow' ==> day of the week
+            'doy' ==> day of the year
+            'dom' ==> day of the month
+            'hr' ==> hour
+            'min', ==> minute
+            'is_wkd' ==> is weekend?
+            'yr' ==> year
+            'qtr' ==> quarter
+            'mth' ==> month ]
+
+        drop: bool, Default True
+
+            Drops the original date columns from the data set.
 
     Return:
     -------
@@ -85,14 +92,21 @@ def extract_time(data=None, time_cols=None, subset=None, drop=True):
     
     Parameters:
     -----------
-    data: DataFrame or named Series
-        The data set to extract time information from.
-    time_cols: List, Array
-        Name of time columns/features in data set.
-    subset: List, Array
-        Time features to return default to [hours, minutes and seconds].
-    drop: bool, Default True
-        Drops the original time features from the data set.
+        data: DataFrame or named Series
+
+            The data set to extract time information from.
+
+        time_cols: List, Array
+
+            Name of time columns/features in data set.
+
+        subset: List, Array
+
+            Time features to return default to [hours, minutes and seconds].
+
+        drop: bool, Default True
+
+            Drops the original time features from the data set.
 
     Return:
     -------
@@ -132,10 +146,13 @@ def describe_date(data=None, date_col=None):
 
     Parameter:
     ---------
-    data: DataFrame or name series.
-        The data to describe.
-    data_col: str
-        Name of date column to describe
+        data: DataFrame or name series.
+
+            The data to describe.
+
+        data_col: str
+
+            Name of date column to describe
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
@@ -157,26 +174,41 @@ def num_timeplot(data=None, num_cols=None, time_col=None, subplots=True, marker=
 
     Parameters:
     -----------
-    data: DataFrame, Series.
-        The data used in plotting.
-    num_cols: list, 1-D array.
-        Numerical columns in the data set. If not provided, we automatically infer them from the data set.
-    time_col: str.
-        The time column to plot numerical features against. We set this column as the index before plotting.
-    subplots: bool, Default True.
-        Uses matplotlib subplots to make plots.
-    marker: str
-        matplotlib supported marker to use in line decoration.
-    figsize: tuple of ints, Default (15,10)
-        The figure size of the plot.
-    y_label: str.
-        Name of the Y-axis.
-    save_fig: bool, Default True
-        Saves the figure to the current working directory.
-    
+        data: DataFrame, Series.
+
+            The data used in plotting.
+
+        num_cols: list, 1-D array.
+
+            Numerical columns in the data set. If not provided, we automatically infer them from the data set.
+
+        time_col: str.
+
+            The time column to plot numerical features against. We set this column as the index before plotting.
+
+        subplots: bool, Default True.
+
+            Uses matplotlib subplots to make plots.
+
+        marker: str
+
+            matplotlib supported marker to use in line decoration.
+
+        figsize: tuple of ints, Default (15,10)
+
+            The figure size of the plot.
+
+        y_label: str.
+
+            Name of the Y-axis.
+
+        save_fig: bool, Default True
+
+            Saves the figure to the current working directory.
+        
     Returns:
     --------
-    matplotlib figure
+        matplotlib figure
     
     '''
 
