@@ -12,7 +12,8 @@ def drop_missing(data=None, percent=99):
     Drops missing columns with [percent] of missing data.
 
     Parameters:
-    data: Pandas DataFrame or Series.
+        data: Pandas DataFrame or Series.
+
     percent: float, Default 99
         Percentage of missing values to be in a column before it is eligible for removal.
 
@@ -39,7 +40,7 @@ def drop_redundant(data):
         data: DataFrame or named series
     
     Returns:
-        DataFrame or named series
+        DataFrame or named series.
     '''
 
     if data is None:
