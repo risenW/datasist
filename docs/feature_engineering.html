@@ -39,11 +39,15 @@ def drop_missing(data=None, percent=99):
     Drops missing columns with [percent] of missing data.
 
     Parameters:
-    data: Pandas DataFrame or Series.
-    percent: float, Default 99
-        Percentage of missing values to be in a column before it is eligible for removal.
+    -------------------------
+        data: Pandas DataFrame or Series.
+
+        percent: float, Default 99
+
+            Percentage of missing values to be in a column before it is eligible for removal.
 
     Returns:
+
         Pandas DataFrame or Series.
     &#39;&#39;&#39;
 
@@ -60,13 +64,15 @@ def drop_missing(data=None, percent=99):
 
 def drop_redundant(data):
     &#39;&#39;&#39;
-    Removes features with the same value in all cell. 
-    Drops feature If Nan is the second unique class as well.
+    Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.
+
     Parameters:
-        data: DataFrame or named series
+    -----------------------------
+        data: DataFrame or named series.
     
     Returns:
-        DataFrame or named series
+
+        DataFrame or named series.
     &#39;&#39;&#39;
 
     if data is None:
@@ -96,14 +102,20 @@ def _nan_in_class(data):
 def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     &#39;&#39;&#39;
     Fill missing values using the mode of the categorical features.
+
     Parameters:
-    ----------
-    data: DataFrame or name Series.
-        Data set to perform operation on.
-    cat_features: List, Series, Array.
-        categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
-    missing_encoding: List, Series, Array.
-            Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
+    ------------------------
+        data: DataFrame or name Series.
+
+            Data set to perform operation on.
+
+        cat_features: List, Series, Array.
+
+            categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+        missing_encoding: List, Series, Array.
+
+                Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
     &#39;&#39;&#39;
 
     if data is None:
@@ -129,14 +141,20 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
 def fill_missing_num(data=None, features=None, method=&#39;mean&#39;):
     &#39;&#39;&#39;
     fill missing values in numerical columns with specified [method] value
+
     Parameters:
-    ----------
-    data: DataFrame or name Series.
-        The data set to fill
-    features: list.
-        List of columns to fill
-    method: str, Default &#39;mean&#39;
-        method to use in calculating fill value.
+        ------------------------------
+        data: DataFrame or name Series.
+
+            The data set to fill
+
+        features: list.
+
+            List of columns to fill
+
+        method: str, Default &#39;mean&#39;.
+
+            method to use in calculating fill value.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
@@ -168,17 +186,27 @@ def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=No
     the result to the original dataframe.
 
     Parameter:
-    ----------
-    data: DataFrame
-        Data set to perform operation on.
-    cat_features: list, series, 1D-array
-        categorical features to groupby.
-    statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
-        aggregates to perform on grouped data.
-    col_to_merge: str
-        The column to merge on the dataset. Must be present in the data set.
+    -----------------------
+
+        data: DataFrame
+
+            Data set to perform operation on.
+
+        cat_features: list, series, 1D-array
+
+            categorical features to groupby.
+
+        statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
+
+            aggregates to perform on grouped data.
+
+        col_to_merge: str
+
+            The column to merge on the dataset. Must be present in the data set.
+
     Returns:
-        Merged dataframe.
+
+        Dataframe.
 
     &#39;&#39;&#39;
     if data is None:
@@ -211,24 +239,36 @@ def get_qcut(data=None, col=None, q=None, duplicates=&#39;drop&#39;, return_type
     &#39;&#39;&#39;
     Cuts a series into bins using the pandas qcut function
     and returns the resulting bins as a series for merging.
+
     Parameter:
-    ----------
-    data: DataFrame, named Series
-        Data set to perform operation on.
-    col: str
-        column to cut/binnarize.
-    q: integer or array of quantiles
-        Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
-        array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
-    duplicates: Default &#39;drop&#39;,
-        If bin edges are not unique drop non-uniques.
-    return_type: dtype, Default (float64)
-        Dtype of series to return. One of [float64, str, int64]
+    -------------
+
+        data: DataFrame, named Series
+
+            Data set to perform operation on.
+
+        col: str
+
+            column to cut/binnarize.
+
+        q: integer or array of quantiles
+
+            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+            array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+        duplicates: Default &#39;drop&#39;,
+
+            If bin edges are not unique drop non-uniques.
+
+        return_type: dtype, Default (float64)
+
+            Dtype of series to return. One of [float64, str, int64]
     
     Returns:
     --------
-    Series, 1D-Array
-        binned series
+
+        Series, 1D-Array
+
     &#39;&#39;&#39;
 
     temp_df = pd.qcut(data[col], q=q, duplicates=duplicates).to_frame().astype(&#39;str&#39;)
@@ -243,16 +283,26 @@ def create_balanced_data(data=None, target=None, categories=None, class_sizes=No
     Creates a balanced data set from an imbalanced one. Used in a classification task.
 
     Parameter:
-    data: DataFrame, name series.
-        The imbalanced dataset.
-    target: str
-        Name of the target column.
-    categories: list
-        Unique categories in the target column. If not set, we use infer the unique categories in the column.
-    class_sizes: list
-        Size of each specified class. Must be in order with categoriess parameter.
-    replacement: bool, Default True.
-        samples with or without replacement.
+    ----------------------------
+        data: DataFrame, name series.
+
+            The imbalanced dataset.
+
+        target: str
+
+            Name of the target column.
+
+        categories: list
+
+            Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+        class_sizes: list
+
+            Size of each specified class. Must be in order with categoriess parameter.
+
+        replacement: bool, Default True.
+
+            samples with or without replacement.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
@@ -311,17 +361,26 @@ def haversine_distance(lat1, long1, lat2, long2):
     The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
     
     Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    ---------------------------
+        lat1: scalar,float
 
-    Returns: Series
-        The Harversine distance between (lat1, lat2), (long1, long2)
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: 
+
+        Series: The Harversine distance between (lat1, lat2), (long1, long2)
     
     &#39;&#39;&#39;
 
@@ -339,17 +398,27 @@ def manhattan_distance(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Manhattan distance between two points.
     It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
+
     Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    -------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
 
     Returns: Series
+
         The Manhattan distance between (lat1, lat2) and (long1, long2)
     
     &#39;&#39;&#39;
@@ -363,17 +432,28 @@ def manhattan_distance(lat1, long1, lat2, long2):
 def bearing(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Bearing  between two points.
-    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360.    Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. 
+
+    Parameter:
+    -------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
 
     Returns: Series
+
         The Bearing between (lat1, lat2) and (long1, long2)
     
     &#39;&#39;&#39;
@@ -391,14 +471,22 @@ def get_location_center(point1, point2):
     &#39;&#39;&#39;
     Calculates the center between two points.
 
-    point1: list, series, scalar
-        End point latitude of the location.
-    long1: list, series, scalar
-        Start point longitude of the location.
-    long2: list, series, scalar
-        End point longitude of the location.
+    Parameter:
+    ---------------------------
+        point1: list, series, scalar
+
+            End point latitude of the location.
+
+        long1: list, series, scalar
+
+            Start point longitude of the location.
+
+        long2: list, series, scalar
+
+            End point longitude of the location.
 
     Returns: Series
+    
         The center between point1 and point2
     
     &#39;&#39;&#39;
@@ -422,18 +510,27 @@ def get_location_center(point1, point2):
 <dd>
 <section class="desc"><p>Calculates the Bearing
 between two points.
-The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360.
-Parameter:
-lat1: scalar,float
-Start point latitude of the location.
+The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. </p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
 lat2: scalar,float
-End point latitude of the location.
+
+    End point latitude of the location.
+
 long1: scalar,float
-Start point longitude of the location.
+
+    Start point longitude of the location.
+
 long2: scalar,float
-End point longitude of the location.</p>
-<p>Returns: Series
-The Bearing between (lat1, lat2) and (long1, long2)</p></section>
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The Bearing between (lat1, lat2) and (long1, long2)
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -441,17 +538,28 @@ The Bearing between (lat1, lat2) and (long1, long2)</p></section>
 <pre><code class="python">def bearing(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Bearing  between two points.
-    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360.    Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. 
+
+    Parameter:
+    -------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
 
     Returns: Series
+
         The Bearing between (lat1, lat2) and (long1, long2)
     
     &#39;&#39;&#39;
@@ -470,17 +578,27 @@ The Bearing between (lat1, lat2) and (long1, long2)</p></section>
 </code></dt>
 <dd>
 <section class="desc"><p>Creates a balanced data set from an imbalanced one. Used in a classification task.</p>
-<p>Parameter:
-data: DataFrame, name series.
-The imbalanced dataset.
+<h2 id="parameter">Parameter:</h2>
+<pre><code>data: DataFrame, name series.
+
+    The imbalanced dataset.
+
 target: str
-Name of the target column.
+
+    Name of the target column.
+
 categories: list
-Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+    Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
 class_sizes: list
-Size of each specified class. Must be in order with categoriess parameter.
+
+    Size of each specified class. Must be in order with categoriess parameter.
+
 replacement: bool, Default True.
-samples with or without replacement.</p></section>
+
+    samples with or without replacement.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -490,16 +608,26 @@ samples with or without replacement.</p></section>
     Creates a balanced data set from an imbalanced one. Used in a classification task.
 
     Parameter:
-    data: DataFrame, name series.
-        The imbalanced dataset.
-    target: str
-        Name of the target column.
-    categories: list
-        Unique categories in the target column. If not set, we use infer the unique categories in the column.
-    class_sizes: list
-        Size of each specified class. Must be in order with categoriess parameter.
-    replacement: bool, Default True.
-        samples with or without replacement.
+    ----------------------------
+        data: DataFrame, name series.
+
+            The imbalanced dataset.
+
+        target: str
+
+            Name of the target column.
+
+        categories: list
+
+            Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+        class_sizes: list
+
+            Size of each specified class. Must be in order with categoriess parameter.
+
+        replacement: bool, Default True.
+
+            samples with or without replacement.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
@@ -544,10 +672,13 @@ samples with or without replacement.</p></section>
 </code></dt>
 <dd>
 <section class="desc"><p>Drops missing columns with [percent] of missing data.</p>
-<p>Parameters:
-data: Pandas DataFrame or Series.
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: Pandas DataFrame or Series.
+
 percent: float, Default 99
-Percentage of missing values to be in a column before it is eligible for removal.</p>
+
+    Percentage of missing values to be in a column before it is eligible for removal.
+</code></pre>
 <h2 id="returns">Returns</h2>
 <p>Pandas DataFrame or Series.</p></section>
 <details class="source">
@@ -559,11 +690,15 @@ Percentage of missing values to be in a column before it is eligible for removal
     Drops missing columns with [percent] of missing data.
 
     Parameters:
-    data: Pandas DataFrame or Series.
-    percent: float, Default 99
-        Percentage of missing values to be in a column before it is eligible for removal.
+    -------------------------
+        data: Pandas DataFrame or Series.
+
+        percent: float, Default 99
+
+            Percentage of missing values to be in a column before it is eligible for removal.
 
     Returns:
+
         Pandas DataFrame or Series.
     &#39;&#39;&#39;
 
@@ -581,31 +716,27 @@ Percentage of missing values to be in a column before it is eligible for removal
 <span>def <span class="ident">drop_redundant</span></span>(<span>data)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Removes features with the same value in all cell.
-Drops feature If Nan is the second unique class as well.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>data</code></strong></dt>
-<dd>DataFrame or named series</dd>
-</dl>
+<section class="desc"><p>Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: DataFrame or named series.
+</code></pre>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code>DataFrame</code> or <code>named</code> <code>series</code></dt>
-<dd>&nbsp;</dd>
-</dl></section>
+<p>DataFrame or named series.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def drop_redundant(data):
     &#39;&#39;&#39;
-    Removes features with the same value in all cell. 
-    Drops feature If Nan is the second unique class as well.
+    Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.
+
     Parameters:
-        data: DataFrame or named series
+    -----------------------------
+        data: DataFrame or named series.
     
     Returns:
-        DataFrame or named series
+
+        DataFrame or named series.
     &#39;&#39;&#39;
 
     if data is None:
@@ -621,15 +752,20 @@ Drops feature If Nan is the second unique class as well.</p>
 <span>def <span class="ident">fill_missing_cats</span></span>(<span>data=None, cat_features=None, missing_encoding=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Fill missing values using the mode of the categorical features.
-Parameters:</p>
-<hr>
-<p>data: DataFrame or name Series.
-Data set to perform operation on.
+<section class="desc"><p>Fill missing values using the mode of the categorical features.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: DataFrame or name Series.
+
+    Data set to perform operation on.
+
 cat_features: List, Series, Array.
-categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+    categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
 missing_encoding: List, Series, Array.
-Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']</p></section>
+
+        Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -637,14 +773,20 @@ Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']</p
 <pre><code class="python">def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     &#39;&#39;&#39;
     Fill missing values using the mode of the categorical features.
+
     Parameters:
-    ----------
-    data: DataFrame or name Series.
-        Data set to perform operation on.
-    cat_features: List, Series, Array.
-        categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
-    missing_encoding: List, Series, Array.
-            Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
+    ------------------------
+        data: DataFrame or name Series.
+
+            Data set to perform operation on.
+
+        cat_features: List, Series, Array.
+
+            categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+        missing_encoding: List, Series, Array.
+
+                Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
     &#39;&#39;&#39;
 
     if data is None:
@@ -671,15 +813,26 @@ Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']</p
 <span>def <span class="ident">fill_missing_num</span></span>(<span>data=None, features=None, method='mean')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>fill missing values in numerical columns with specified [method] value
-Parameters:</p>
+<section class="desc"><p>fill missing values in numerical columns with specified [method] value</p>
+<h2 id="parameters">Parameters</h2>
 <hr>
-<p>data: DataFrame or name Series.
-The data set to fill
-features: list.
-List of columns to fill
-method: str, Default 'mean'
-method to use in calculating fill value.</p></section>
+<dl>
+<dt><strong><code>data</code></strong></dt>
+<dd>
+<p>DataFrame or name Series.</p>
+<p>The data set to fill</p>
+</dd>
+<dt><strong><code>features</code></strong></dt>
+<dd>
+<p>list.</p>
+<p>List of columns to fill</p>
+</dd>
+<dt><strong><code>method</code></strong></dt>
+<dd>
+<p>str, Default 'mean'.</p>
+<p>method to use in calculating fill value.</p>
+</dd>
+</dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -687,14 +840,20 @@ method to use in calculating fill value.</p></section>
 <pre><code class="python">def fill_missing_num(data=None, features=None, method=&#39;mean&#39;):
     &#39;&#39;&#39;
     fill missing values in numerical columns with specified [method] value
+
     Parameters:
-    ----------
-    data: DataFrame or name Series.
-        The data set to fill
-    features: list.
-        List of columns to fill
-    method: str, Default &#39;mean&#39;
-        method to use in calculating fill value.
+        ------------------------------
+        data: DataFrame or name Series.
+
+            The data set to fill
+
+        features: list.
+
+            List of columns to fill
+
+        method: str, Default &#39;mean&#39;.
+
+            method to use in calculating fill value.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
@@ -725,14 +884,22 @@ method to use in calculating fill value.</p></section>
 </code></dt>
 <dd>
 <section class="desc"><p>Calculates the center between two points.</p>
-<p>point1: list, series, scalar
-End point latitude of the location.
+<h2 id="parameter">Parameter:</h2>
+<pre><code>point1: list, series, scalar
+
+    End point latitude of the location.
+
 long1: list, series, scalar
-Start point longitude of the location.
+
+    Start point longitude of the location.
+
 long2: list, series, scalar
-End point longitude of the location.</p>
-<p>Returns: Series
-The center between point1 and point2</p></section>
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The center between point1 and point2
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -741,14 +908,22 @@ The center between point1 and point2</p></section>
     &#39;&#39;&#39;
     Calculates the center between two points.
 
-    point1: list, series, scalar
-        End point latitude of the location.
-    long1: list, series, scalar
-        Start point longitude of the location.
-    long2: list, series, scalar
-        End point longitude of the location.
+    Parameter:
+    ---------------------------
+        point1: list, series, scalar
+
+            End point latitude of the location.
+
+        long1: list, series, scalar
+
+            Start point longitude of the location.
+
+        long2: list, series, scalar
+
+            End point longitude of the location.
 
     Returns: Series
+    
         The center between point1 and point2
     
     &#39;&#39;&#39;
@@ -762,23 +937,32 @@ The center between point1 and point2</p></section>
 </code></dt>
 <dd>
 <section class="desc"><p>Cuts a series into bins using the pandas qcut function
-and returns the resulting bins as a series for merging.
-Parameter:</p>
-<hr>
-<p>data: DataFrame, named Series
-Data set to perform operation on.
+and returns the resulting bins as a series for merging.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>data: DataFrame, named Series
+
+    Data set to perform operation on.
+
 col: str
-column to cut/binnarize.
+
+    column to cut/binnarize.
+
 q: integer or array of quantiles
-Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
-array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+    Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+    array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
 duplicates: Default 'drop',
-If bin edges are not unique drop non-uniques.
+
+    If bin edges are not unique drop non-uniques.
+
 return_type: dtype, Default (float64)
-Dtype of series to return. One of [float64, str, int64]</p>
+
+    Dtype of series to return. One of [float64, str, int64]
+</code></pre>
 <h2 id="returns">Returns:</h2>
-<p>Series, 1D-Array
-binned series</p></section>
+<pre><code>Series, 1D-Array
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -787,24 +971,36 @@ binned series</p></section>
     &#39;&#39;&#39;
     Cuts a series into bins using the pandas qcut function
     and returns the resulting bins as a series for merging.
+
     Parameter:
-    ----------
-    data: DataFrame, named Series
-        Data set to perform operation on.
-    col: str
-        column to cut/binnarize.
-    q: integer or array of quantiles
-        Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
-        array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
-    duplicates: Default &#39;drop&#39;,
-        If bin edges are not unique drop non-uniques.
-    return_type: dtype, Default (float64)
-        Dtype of series to return. One of [float64, str, int64]
+    -------------
+
+        data: DataFrame, named Series
+
+            Data set to perform operation on.
+
+        col: str
+
+            column to cut/binnarize.
+
+        q: integer or array of quantiles
+
+            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+            array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+        duplicates: Default &#39;drop&#39;,
+
+            If bin edges are not unique drop non-uniques.
+
+        return_type: dtype, Default (float64)
+
+            Dtype of series to return. One of [float64, str, int64]
     
     Returns:
     --------
-    Series, 1D-Array
-        binned series
+
+        Series, 1D-Array
+
     &#39;&#39;&#39;
 
     temp_df = pd.qcut(data[col], q=q, duplicates=duplicates).to_frame().astype(&#39;str&#39;)
@@ -820,17 +1016,26 @@ binned series</p></section>
 <dd>
 <section class="desc"><p>Calculates the Haversine distance between two location with latitude and longitude.
 The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.</p>
-<p>Parameter:
-lat1: scalar,float
-Start point latitude of the location.
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
 lat2: scalar,float
-End point latitude of the location.
+
+    End point latitude of the location.
+
 long1: scalar,float
-Start point longitude of the location.
+
+    Start point longitude of the location.
+
 long2: scalar,float
-End point longitude of the location.</p>
-<p>Returns: Series
-The Harversine distance between (lat1, lat2), (long1, long2)</p></section>
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: </p>
+<pre><code>Series: The Harversine distance between (lat1, lat2), (long1, long2)
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -841,17 +1046,26 @@ The Harversine distance between (lat1, lat2), (long1, long2)</p></section>
     The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
     
     Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    ---------------------------
+        lat1: scalar,float
 
-    Returns: Series
-        The Harversine distance between (lat1, lat2), (long1, long2)
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: 
+
+        Series: The Harversine distance between (lat1, lat2), (long1, long2)
     
     &#39;&#39;&#39;
 
@@ -870,18 +1084,27 @@ The Harversine distance between (lat1, lat2), (long1, long2)</p></section>
 </code></dt>
 <dd>
 <section class="desc"><p>Calculates the Manhattan distance between two points.
-It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes.
-Parameter:
-lat1: scalar,float
-Start point latitude of the location.
+It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. </p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
 lat2: scalar,float
-End point latitude of the location.
+
+    End point latitude of the location.
+
 long1: scalar,float
-Start point longitude of the location.
+
+    Start point longitude of the location.
+
 long2: scalar,float
-End point longitude of the location.</p>
-<p>Returns: Series
-The Manhattan distance between (lat1, lat2) and (long1, long2)</p></section>
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The Manhattan distance between (lat1, lat2) and (long1, long2)
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -890,17 +1113,27 @@ The Manhattan distance between (lat1, lat2) and (long1, long2)</p></section>
     &#39;&#39;&#39;
     Calculates the Manhattan distance between two points.
     It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
+
     Parameter:
-    lat1: scalar,float
-        Start point latitude of the location.
-    lat2: scalar,float 
-        End point latitude of the location.
-    long1: scalar,float
-        Start point longitude of the location.
-    long2: scalar,float 
-        End point longitude of the location.
+    -------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
 
     Returns: Series
+
         The Manhattan distance between (lat1, lat2) and (long1, long2)
     
     &#39;&#39;&#39;
@@ -918,16 +1151,24 @@ The Manhattan distance between (lat1, lat2) and (long1, long2)</p></section>
 <section class="desc"><p>Performs a groupby on the specified categorical features and merges
 the result to the original dataframe.</p>
 <h2 id="parameter">Parameter:</h2>
-<p>data: DataFrame
-Data set to perform operation on.
+<pre><code>data: DataFrame
+
+    Data set to perform operation on.
+
 cat_features: list, series, 1D-array
-categorical features to groupby.
+
+    categorical features to groupby.
+
 statistics: list, series, 1D-array, Default ['mean', 'count]
-aggregates to perform on grouped data.
+
+    aggregates to perform on grouped data.
+
 col_to_merge: str
-The column to merge on the dataset. Must be present in the data set.</p>
+
+    The column to merge on the dataset. Must be present in the data set.
+</code></pre>
 <h2 id="returns">Returns</h2>
-<p>Merged dataframe.</p></section>
+<p>Dataframe.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -938,17 +1179,27 @@ The column to merge on the dataset. Must be present in the data set.</p>
     the result to the original dataframe.
 
     Parameter:
-    ----------
-    data: DataFrame
-        Data set to perform operation on.
-    cat_features: list, series, 1D-array
-        categorical features to groupby.
-    statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
-        aggregates to perform on grouped data.
-    col_to_merge: str
-        The column to merge on the dataset. Must be present in the data set.
+    -----------------------
+
+        data: DataFrame
+
+            Data set to perform operation on.
+
+        cat_features: list, series, 1D-array
+
+            categorical features to groupby.
+
+        statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
+
+            aggregates to perform on grouped data.
+
+        col_to_merge: str
+
+            The column to merge on the dataset. Must be present in the data set.
+
     Returns:
-        Merged dataframe.
+
+        Dataframe.
 
     &#39;&#39;&#39;
     if data is None:

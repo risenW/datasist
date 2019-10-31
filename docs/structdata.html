@@ -46,20 +46,30 @@ def describe(data=None, name=&#39;&#39;, date_cols=None, show_categories=False, 
     dtypes of objects etc.
 
     Parameters:
-    data: Pandas DataFrame
-        The data to describe.
-    name: str, optional
-        The name of the data set passed to the function.
-    date_cols: list/series/array
-         Date column names in the data set.
-    show_categories: bool, default False
-        Displays the unique classes and counts in each of the categorical feature in the data set.
-    plot_missing: bool, default True
-        Plots missing values as a heatmap
+    --------------------
+        data: Pandas DataFrame
 
-    Returns
+            The data to describe.
+
+        name: str, optional
+
+            The name of the data set passed to the function.
+
+        date_cols: list/series/array
+
+            Date column names in the data set.
+
+        show_categories: bool, default False
+
+            Displays the unique classes and counts in each of the categorical feature in the data set.
+
+        plot_missing: bool, default True
+
+            Plots missing values as a heatmap
+
+    Returns:
     -------
-    None
+        None
     &#39;&#39;&#39;
     
     if data is None:
@@ -92,7 +102,7 @@ def describe(data=None, name=&#39;&#39;, date_cols=None, show_categories=False, 
 
     date_cols = get_date_cols(data)
     if len(date_cols) is not 0:
-        print(&#34;Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to coonvert to Pandas Datetime format&#34;.format(date_cols))
+        print(&#34;Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to convert to Pandas Datetime format&#34;.format(date_cols))
         _space()
 
     print(&#39;Numerical Features in Data set&#39;)
@@ -101,6 +111,10 @@ def describe(data=None, name=&#39;&#39;, date_cols=None, show_categories=False, 
 
     print(&#39;Statistical Description of Columns&#39;)
     display(data.describe())
+    _space()
+    
+    print(&#39;Description of Categorical Features&#39;)
+    display(data.describe(include=[np.object, pd.Categorical]).T)
     _space()
 
     print(&#39;Categorical Features in Data set&#39;)
@@ -132,12 +146,12 @@ def get_cat_feats(data=None):
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the categorical features in a dataset.
+        List
+            A list of all the categorical features in a dataset.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
@@ -153,12 +167,12 @@ def get_num_feats(data=None):
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the numerical features in a dataset.
+        List:
+            A list of all the numerical features in a dataset.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
@@ -175,14 +189,18 @@ def get_date_cols(data=None):
 
     Parameters
     ----------
-    data: DataFrame or named Series
-        Data set to infer datetime columns from.
-    convert: bool, Default True
-        Converts the inferred date columns to pandas DateTime type
-    Returns
+        data: DataFrame or named Series
+
+            Data set to infer datetime columns from.
+
+        convert: bool, Default True
+
+            Converts the inferred date columns to pandas DateTime type
+    Returns:
     -------
-    List
-        Date column names in the data set
+        List
+
+         Date column names in the data set
     &#39;&#39;&#39;
 
     if data is None:
@@ -203,12 +221,13 @@ def get_unique_counts(data=None):
 
     Parameters
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
     Returns
     -------
-    DataFrame or Series
-        Unique value counts of the features in a dataset.
+        DataFrame or Series
+
+            Unique value counts of the features in a dataset.
     
     &#39;&#39;&#39;
 
@@ -233,31 +252,34 @@ def display_missing(data=None, plot=False):
 
     Parameters
     ----------
-    data: DataFrame or named Series
-    plot: bool, Default False
-        Plots missing values in dataset as a heatmap
+        data: DataFrame or named Series
+
+        plot: bool, Default False
+
+            Plots missing values in dataset as a heatmap
     
     Returns
     -------
-    Matplotlib Figure:
-        Heatmap plot of missing values
+        Matplotlib Figure:
+
+            Heatmap plot of missing values
     &#39;&#39;&#39;
 
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    df = data.isna().sum()
-    df = df.reset_index()
-    df.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
+    data = data.isna().sum()
+    data = data.reset_index()
+    data.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
 
-    missing_percent = round((df[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
-    df[&#39;missing_percent&#39;] = missing_percent
+    missing_percent = round((data[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
+    data[&#39;missing_percent&#39;] = missing_percent
 
     if plot:
         plot_missing(data)
-        return df
+        return data
     else:
-        return df
+        return data
 
 
 
@@ -266,24 +288,38 @@ def display_missing(data=None, plot=False):
 def quick_CSummarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
     &#39;&#39;&#39;
     Helper function that gives a quick summary of a given column of categorical data
-    Arguments
-    =========
-    dataframe: pandas dataframe
-    x: str. horizontal axis to plot the labels of categorical data, y would be the count
-    y: str. vertical axis to plot the labels of categorical data, x would be the count
-    hue: str. if you want to compare it another variable (usually the target variable)
-    palette: array-like. Colour of the plot
-    Returns
-    =======
-    Quick Stats of the data and also the count plot
+
+    Parameters:
+    ---------------------------
+        dataframe: pandas dataframe
+
+        x: str.
+            horizontal axis to plot the labels of categorical data, y would be the count.
+
+        y: str. 
+            vertical axis to plot the labels of categorical data, x would be the count.
+
+        hue: str. i
+            if you want to compare it another variable (usually the target variable)
+
+        palette: array, list.
+
+            Colour of the plot
+
+    Returns:
+    ----------------------
+        Quick Stats of the data and also the count plot
     
-    E.g
-    c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
-categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
+    Example:
+
+        c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
+
+        categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
 
 
-# Feature Variable: Gender
-categorical_summarized(train_df, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
+        # Feature Variable: Gender
+
+        categorical_summarized(train_data, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
 
     &#39;&#39;&#39;
     if x == None:
@@ -308,14 +344,17 @@ def join_train_and_test(data_train=None, data_test=None):
 
     Parameter:
     ----------
-    data_train: DataFrame, named series.
-        First data usually called train date to join.
-    data_test: DataFrame, named series.
-        Second data set to join, usually called test.
+        data_train: DataFrame, named series.
+
+            First data usually called train date to join.
+
+        data_test: DataFrame, named series.
+
+            Second data set to join, usually called test.
     
     Returns:
     -------
-    Tuple: Merged data, size of train and size of test
+        Tuple: Merged data, size of train and size of test
     &#39;&#39;&#39;
 
     n_train = data_train.shape[0]
@@ -325,19 +364,21 @@ def join_train_and_test(data_train=None, data_test=None):
     return all_data, n_train, n_test
 
 
-def detect_outliers(df, n, features):
+def detect_outliers(data, n, features):
     &#39;&#39;&#39;
         Detect Rows with outliers.
 
         Parameters
         ----------
-        df: DataFrame or named Series
-        n: the bench mark for the number of allowable outliers in a column
-        features: Specific columns you want to check for outliers and it accepts only numerical values
+            data: DataFrame or named Series
+
+            n: the bench mark for the number of allowable outliers in a column.
+            
+            features: Specific columns you want to check for outliers and it accepts only numerical values.
 
         Returns
         -------
-        The rows where outliers are present
+            The rows where outliers are present.
         &#39;&#39;&#39;
 
     outlier_indices = []
@@ -345,9 +386,9 @@ def detect_outliers(df, n, features):
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(df[col], 25)
+        Q1 = numpy.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(df[col], 75)
+        Q3 = numpy.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 
@@ -355,7 +396,7 @@ def detect_outliers(df, n, features):
         outlier_step = 1.5 * IQR
 
         # Determine a list of indices of outliers for feature col
-        outlier_list_col = df[(df[col] &lt; Q1 - outlier_step) | (df[col] &gt; Q3 + outlier_step)].index
+        outlier_list_col = data[(data[col] &lt; Q1 - outlier_step) | (data[col] &gt; Q3 + outlier_step)].index
 
         # append the found outlier indices for col to the list of outlier indices
         outlier_indices.extend(outlier_list_col)
@@ -395,22 +436,30 @@ def _match_date(data):
 <section class="desc"><p>Calculates statistics and information about a data set. Information displayed are
 shapes, size, number of categorical/numeric/date features, missing values,
 dtypes of objects etc.</p>
-<p>Parameters:
-data: Pandas DataFrame
-The data to describe.
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: Pandas DataFrame
+
+    The data to describe.
+
 name: str, optional
-The name of the data set passed to the function.
+
+    The name of the data set passed to the function.
+
 date_cols: list/series/array
-Date column names in the data set.
+
+    Date column names in the data set.
+
 show_categories: bool, default False
-Displays the unique classes and counts in each of the categorical feature in the data set.
+
+    Displays the unique classes and counts in each of the categorical feature in the data set.
+
 plot_missing: bool, default True
-Plots missing values as a heatmap</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>None</code></dt>
-<dd>&nbsp;</dd>
-</dl></section>
+
+    Plots missing values as a heatmap
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>None
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -422,20 +471,30 @@ Plots missing values as a heatmap</p>
     dtypes of objects etc.
 
     Parameters:
-    data: Pandas DataFrame
-        The data to describe.
-    name: str, optional
-        The name of the data set passed to the function.
-    date_cols: list/series/array
-         Date column names in the data set.
-    show_categories: bool, default False
-        Displays the unique classes and counts in each of the categorical feature in the data set.
-    plot_missing: bool, default True
-        Plots missing values as a heatmap
+    --------------------
+        data: Pandas DataFrame
 
-    Returns
+            The data to describe.
+
+        name: str, optional
+
+            The name of the data set passed to the function.
+
+        date_cols: list/series/array
+
+            Date column names in the data set.
+
+        show_categories: bool, default False
+
+            Displays the unique classes and counts in each of the categorical feature in the data set.
+
+        plot_missing: bool, default True
+
+            Plots missing values as a heatmap
+
+    Returns:
     -------
-    None
+        None
     &#39;&#39;&#39;
     
     if data is None:
@@ -468,7 +527,7 @@ Plots missing values as a heatmap</p>
 
     date_cols = get_date_cols(data)
     if len(date_cols) is not 0:
-        print(&#34;Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to coonvert to Pandas Datetime format&#34;.format(date_cols))
+        print(&#34;Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to convert to Pandas Datetime format&#34;.format(date_cols))
         _space()
 
     print(&#39;Numerical Features in Data set&#39;)
@@ -477,6 +536,10 @@ Plots missing values as a heatmap</p>
 
     print(&#39;Statistical Description of Columns&#39;)
     display(data.describe())
+    _space()
+    
+    print(&#39;Description of Categorical Features&#39;)
+    display(data.describe(include=[np.object, pd.Categorical]).T)
     _space()
 
     print(&#39;Categorical Features in Data set&#39;)
@@ -502,41 +565,39 @@ Plots missing values as a heatmap</p>
 </details>
 </dd>
 <dt id="datasist.structdata.detect_outliers"><code class="name flex">
-<span>def <span class="ident">detect_outliers</span></span>(<span>df, n, features)</span>
+<span>def <span class="ident">detect_outliers</span></span>(<span>data, n, features)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Detect Rows with outliers.</p>
 <h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>df</code></strong> :&ensp;<code>DataFrame</code> or <code>named</code> <code>Series</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>n</code></strong> :&ensp;<code>the</code> <code>bench</code> <code>mark</code> <code>for</code> <code>the</code> <code>number</code> of <code>allowable</code> <code>outliers</code> <code>in</code> <code>a</code> <code>column</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>features</code></strong> :&ensp;<code>Specific</code> <code>columns</code> <code>you</code> <code>want</code> <code>to</code> <code>check</code> <code>for</code> <code>outliers</code> <code>and</code> <code>it</code> <code>accepts</code> <code>only</code> <code>numerical</code> <code>values</code></dt>
-<dd>&nbsp;</dd>
-</dl>
+<pre><code>data: DataFrame or named Series
+
+n: the bench mark for the number of allowable outliers in a column.
+
+features: Specific columns you want to check for outliers and it accepts only numerical values.
+</code></pre>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code>The</code> <code>rows</code> <code>where</code> <code>outliers</code> <code>are</code> <code>present</code></dt>
-<dd>&nbsp;</dd>
-</dl></section>
+<pre><code>The rows where outliers are present.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def detect_outliers(df, n, features):
+<pre><code class="python">def detect_outliers(data, n, features):
     &#39;&#39;&#39;
         Detect Rows with outliers.
 
         Parameters
         ----------
-        df: DataFrame or named Series
-        n: the bench mark for the number of allowable outliers in a column
-        features: Specific columns you want to check for outliers and it accepts only numerical values
+            data: DataFrame or named Series
+
+            n: the bench mark for the number of allowable outliers in a column.
+            
+            features: Specific columns you want to check for outliers and it accepts only numerical values.
 
         Returns
         -------
-        The rows where outliers are present
+            The rows where outliers are present.
         &#39;&#39;&#39;
 
     outlier_indices = []
@@ -544,9 +605,9 @@ Plots missing values as a heatmap</p>
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(df[col], 25)
+        Q1 = numpy.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(df[col], 75)
+        Q3 = numpy.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 
@@ -554,7 +615,7 @@ Plots missing values as a heatmap</p>
         outlier_step = 1.5 * IQR
 
         # Determine a list of indices of outliers for feature col
-        outlier_list_col = df[(df[col] &lt; Q1 - outlier_step) | (df[col] &gt; Q3 + outlier_step)].index
+        outlier_list_col = data[(data[col] &lt; Q1 - outlier_step) | (data[col] &gt; Q3 + outlier_step)].index
 
         # append the found outlier indices for col to the list of outlier indices
         outlier_indices.extend(outlier_list_col)
@@ -572,17 +633,17 @@ Plots missing values as a heatmap</p>
 <dd>
 <section class="desc"><p>Display missing values as a pandas dataframe.</p>
 <h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>DataFrame</code> or <code>named</code> <code>Series</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>plot</code></strong> :&ensp;<code>bool</code>, <code>Default</code> <code>False</code></dt>
-<dd>Plots missing values in dataset as a heatmap</dd>
-</dl>
+<pre><code>data: DataFrame or named Series
+
+plot: bool, Default False
+
+    Plots missing values in dataset as a heatmap
+</code></pre>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code>Matplotlib</code> <code>Figure</code>:</dt>
-<dd>Heatmap plot of missing values</dd>
-</dl></section>
+<pre><code>Matplotlib Figure:
+
+    Heatmap plot of missing values
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -593,31 +654,34 @@ Plots missing values as a heatmap</p>
 
     Parameters
     ----------
-    data: DataFrame or named Series
-    plot: bool, Default False
-        Plots missing values in dataset as a heatmap
+        data: DataFrame or named Series
+
+        plot: bool, Default False
+
+            Plots missing values in dataset as a heatmap
     
     Returns
     -------
-    Matplotlib Figure:
-        Heatmap plot of missing values
+        Matplotlib Figure:
+
+            Heatmap plot of missing values
     &#39;&#39;&#39;
 
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    df = data.isna().sum()
-    df = df.reset_index()
-    df.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
+    data = data.isna().sum()
+    data = data.reset_index()
+    data.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
 
-    missing_percent = round((df[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
-    df[&#39;missing_percent&#39;] = missing_percent
+    missing_percent = round((data[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
+    data[&#39;missing_percent&#39;] = missing_percent
 
     if plot:
         plot_missing(data)
-        return df
+        return data
     else:
-        return df</code></pre>
+        return data</code></pre>
 </details>
 </dd>
 <dt id="datasist.structdata.get_cat_feats"><code class="name flex">
@@ -626,12 +690,12 @@ Plots missing values as a heatmap</p>
 <dd>
 <section class="desc"><p>Returns the categorical features in a data set</p>
 <h2 id="parameters">Parameters:</h2>
-<p>data: DataFrame or named Series </p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>List</code></dt>
-<dd>A list of all the categorical features in a dataset.</dd>
-</dl></section>
+<pre><code>data: DataFrame or named Series
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>List
+    A list of all the categorical features in a dataset.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -642,12 +706,12 @@ Plots missing values as a heatmap</p>
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the categorical features in a dataset.
+        List
+            A list of all the categorical features in a dataset.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
@@ -663,17 +727,19 @@ Plots missing values as a heatmap</p>
 <dd>
 <section class="desc"><p>Returns the Datetime columns in a data set.</p>
 <h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>DataFrame</code> or <code>named</code> <code>Series</code></dt>
-<dd>Data set to infer datetime columns from.</dd>
-<dt><strong><code>convert</code></strong> :&ensp;<code>bool</code>, <code>Default</code> <code>True</code></dt>
-<dd>Converts the inferred date columns to pandas DateTime type</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>List</code></dt>
-<dd>Date column names in the data set</dd>
-</dl></section>
+<pre><code>data: DataFrame or named Series
+
+    Data set to infer datetime columns from.
+
+convert: bool, Default True
+
+    Converts the inferred date columns to pandas DateTime type
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>List
+
+ Date column names in the data set
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -684,14 +750,18 @@ Plots missing values as a heatmap</p>
 
     Parameters
     ----------
-    data: DataFrame or named Series
-        Data set to infer datetime columns from.
-    convert: bool, Default True
-        Converts the inferred date columns to pandas DateTime type
-    Returns
+        data: DataFrame or named Series
+
+            Data set to infer datetime columns from.
+
+        convert: bool, Default True
+
+            Converts the inferred date columns to pandas DateTime type
+    Returns:
     -------
-    List
-        Date column names in the data set
+        List
+
+         Date column names in the data set
     &#39;&#39;&#39;
 
     if data is None:
@@ -711,12 +781,12 @@ Plots missing values as a heatmap</p>
 <dd>
 <section class="desc"><p>Returns the numerical features in a data set</p>
 <h2 id="parameters">Parameters:</h2>
-<p>data: DataFrame or named Series </p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>List</code></dt>
-<dd>A list of all the numerical features in a dataset.</dd>
-</dl></section>
+<pre><code>data: DataFrame or named Series
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>List:
+    A list of all the numerical features in a dataset.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -727,12 +797,12 @@ Plots missing values as a heatmap</p>
 
     Parameters:
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
-    Returns
+    Returns:
     -------
-    List
-        A list of all the numerical features in a dataset.
+        List:
+            A list of all the numerical features in a dataset.
     &#39;&#39;&#39;
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
@@ -748,15 +818,13 @@ Plots missing values as a heatmap</p>
 <dd>
 <section class="desc"><p>Gets the unique count of categorical features in a data set.</p>
 <h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>DataFrame</code> or <code>named</code> <code>Series</code></dt>
-<dd>&nbsp;</dd>
-</dl>
+<pre><code>data: DataFrame or named Series
+</code></pre>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code>DataFrame</code> or <code>Series</code></dt>
-<dd>Unique value counts of the features in a dataset.</dd>
-</dl></section>
+<pre><code>DataFrame or Series
+
+    Unique value counts of the features in a dataset.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -767,12 +835,13 @@ Plots missing values as a heatmap</p>
 
     Parameters
     -----------
-    data: DataFrame or named Series 
+        data: DataFrame or named Series 
 
     Returns
     -------
-    DataFrame or Series
-        Unique value counts of the features in a dataset.
+        DataFrame or Series
+
+            Unique value counts of the features in a dataset.
     
     &#39;&#39;&#39;
 
@@ -798,12 +867,17 @@ Plots missing values as a heatmap</p>
 <section class="desc"><p>Joins two data sets and returns a dictionary containing their sizes and the concatenated data.
 Used mostly before feature engineering to combine train and test set together.</p>
 <h2 id="parameter">Parameter:</h2>
-<p>data_train: DataFrame, named series.
-First data usually called train date to join.
+<pre><code>data_train: DataFrame, named series.
+
+    First data usually called train date to join.
+
 data_test: DataFrame, named series.
-Second data set to join, usually called test.</p>
+
+    Second data set to join, usually called test.
+</code></pre>
 <h2 id="returns">Returns:</h2>
-<p>Tuple: Merged data, size of train and size of test</p></section>
+<pre><code>Tuple: Merged data, size of train and size of test
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -815,14 +889,17 @@ Second data set to join, usually called test.</p>
 
     Parameter:
     ----------
-    data_train: DataFrame, named series.
-        First data usually called train date to join.
-    data_test: DataFrame, named series.
-        Second data set to join, usually called test.
+        data_train: DataFrame, named series.
+
+            First data usually called train date to join.
+
+        data_test: DataFrame, named series.
+
+            Second data set to join, usually called test.
     
     Returns:
     -------
-    Tuple: Merged data, size of train and size of test
+        Tuple: Merged data, size of train and size of test
     &#39;&#39;&#39;
 
     n_train = data_train.shape[0]
@@ -836,23 +913,31 @@ Second data set to join, usually called test.</p>
 <span>def <span class="ident">quick_CSummarizer</span></span>(<span>data, x=None, y=None, hue=None, palette='Set1', verbose=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Helper function that gives a quick summary of a given column of categorical data
-Arguments
-=========
-dataframe: pandas dataframe
-x: str. horizontal axis to plot the labels of categorical data, y would be the count
-y: str. vertical axis to plot the labels of categorical data, x would be the count
-hue: str. if you want to compare it another variable (usually the target variable)
-palette: array-like. Colour of the plot
-Returns
-=======
-Quick Stats of the data and also the count plot</p>
-<pre><code>E.g
-c_palette = ['tab:blue', 'tab:orange']
+<section class="desc"><p>Helper function that gives a quick summary of a given column of categorical data</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>dataframe: pandas dataframe
+
+x: str.
+    horizontal axis to plot the labels of categorical data, y would be the count.
+
+y: str. 
+    vertical axis to plot the labels of categorical data, x would be the count.
+
+hue: str. i
+    if you want to compare it another variable (usually the target variable)
+
+palette: array, list.
+
+    Colour of the plot
 </code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>Quick Stats of the data and also the count plot
+</code></pre>
+<h2 id="example">Example</h2>
+<p>c_palette = ['tab:blue', 'tab:orange']</p>
 <p>categorical_summarized(train, y = 'date_block_num', palette=c_palette)</p>
 <h1 id="feature-variable-gender">Feature Variable: Gender</h1>
-<p>categorical_summarized(train_df, y = 'Sex', hue='Survived', palette=c_palette)</p></section>
+<p>categorical_summarized(train_data, y = 'Sex', hue='Survived', palette=c_palette)</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -860,24 +945,38 @@ c_palette = ['tab:blue', 'tab:orange']
 <pre><code class="python">def quick_CSummarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
     &#39;&#39;&#39;
     Helper function that gives a quick summary of a given column of categorical data
-    Arguments
-    =========
-    dataframe: pandas dataframe
-    x: str. horizontal axis to plot the labels of categorical data, y would be the count
-    y: str. vertical axis to plot the labels of categorical data, x would be the count
-    hue: str. if you want to compare it another variable (usually the target variable)
-    palette: array-like. Colour of the plot
-    Returns
-    =======
-    Quick Stats of the data and also the count plot
+
+    Parameters:
+    ---------------------------
+        dataframe: pandas dataframe
+
+        x: str.
+            horizontal axis to plot the labels of categorical data, y would be the count.
+
+        y: str. 
+            vertical axis to plot the labels of categorical data, x would be the count.
+
+        hue: str. i
+            if you want to compare it another variable (usually the target variable)
+
+        palette: array, list.
+
+            Colour of the plot
+
+    Returns:
+    ----------------------
+        Quick Stats of the data and also the count plot
     
-    E.g
-    c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
-categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
+    Example:
+
+        c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
+
+        categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
 
 
-# Feature Variable: Gender
-categorical_summarized(train_df, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
+        # Feature Variable: Gender
+
+        categorical_summarized(train_data, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
 
     &#39;&#39;&#39;
     if x == None:
