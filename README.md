@@ -73,7 +73,7 @@ pip install -e .
 ```
 
 ## Documentation
-No official documentation yet
+API documentation can be found [HERE](https://risenw.github.io/datasist/index.html)
 
 ### Usage
 #### Jupyter Notebook
