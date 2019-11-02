@@ -66,20 +66,23 @@ def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estim
 
     if cross_validate:
         dict_scorers  = {'acc' : accuracy_score,
-                    'f1' : f1_score,
-                    'precision': precision_score, 
-                    'recall' : recall_score}
+                        'f1' : f1_score,
+                        'precision': precision_score, 
+                        'recall' : recall_score
+                        }
+
 
         metric_names = ['Accuracy', 'F1_score', 'Precision', 'Recall']
 
         for metric_name, scorer in zip(metric_names, dict_scorers):
             cv_score = np.mean(cross_val_score(estimator, X_train, y_train, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
             print("{} is {}".format(metric_name,  round(cv_score * 100, 4)))
+
         #TODO Add cross validation function for confusion matrix
   
     else:
         if X_val is None:
-            raise ValueError("X_val: Expecting a DataFrame/ numpy2d array, got 'None'")
+            raise ValueError("X_val: Expecting a DataFrame/ numpy array, got 'None'")
         
         if y_val is None:
             raise ValueError("y_val: Expecting a Series/ numpy1D array, got 'None'")
@@ -124,26 +127,53 @@ def plot_feature_importance(estimator=None, col_names=None):
     plt.show()
 
 
-def train_predict(estimator=None, X_train=None, y_train=None, test_data=None, make_submission_file=False,
-                  sample_submision_file=None, submission_col_name=None, 
-                  submision_file_name=None):
+def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=None,
+                  sample_submision_file=None, sub_col_name=None, name="final_submission"):
     '''
     Train a estimator and makes prediction with it on the final test set. Also
     returns a sample submission file for data science competitions
     
     Parameters:
+    -----------------------
+    estimator: Sklearn estimator.
 
+        An sklearn estimator that implements the fit and predict functions.
+
+    X_train: Array, DataFrame, Series.
+
+        The feature set (x) to use in training an estimator to predict the outcome (y).
+
+    y_train: Series, 1-d array, list
+
+        The ground truth value for the train dataset
+
+    test_data: Array, DataFrame. Series.
+
+        The final test set (x) to predict on.
+    
+    sample_submision_file: DataFrame, Series.
+
+        A sample csv file provided by data science competition hosts to use in creating your final submission.
+
+    sub_col_name: String.
+
+        Name of the prediction column in the sample submission file.
+
+    name: String.
+
+        Name of the created submission file.
+
+    Return:
+    
+        Csv file saved in current working directory
     '''
     estimator.fit(X_train, y_train)
     pred = estimator.predict(test_data)
 
-    if make_submission_file:
-        sub = sample_submision_file
-        sub[submission_col_name] = pred
-        sub.to_csv(submision_file_name + '.csv', index=False)
-        print("File has been saved to current working directory")
-    else:
-        return pred
+    sub = sample_submision_file
+    sub[sub_col_name] = pred
+    sub.to_csv(name + '.csv', index=False)
+    print("File has been saved to current working directory")
 
 
 
