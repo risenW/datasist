@@ -4,7 +4,7 @@ This module contains all functions relating to the cleaning and exploration of s
 '''
 
 
-import numpy as numpy
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
