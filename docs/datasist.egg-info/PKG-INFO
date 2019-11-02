@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: datasist
+Version: 0.1
+Summary: A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers
+Home-page: https://github.com/risenW/datasist/tree/master/datasist/datasist
+Author: Rising Odegua
+Author-email: risingodegua@gmail.com
+License: MIT
+Download-URL: https://github.com/risenW/datasist/archive/v_01.tar.gz
+Description: UNKNOWN
+Keywords: Data Analysis,Feature Engineering,Visualization
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.7
