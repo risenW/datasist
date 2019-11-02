@@ -77,4 +77,7 @@ API documentation can be found [HERE](https://risenw.github.io/datasist/index.ht
 
 ### Usage
 #### Jupyter Notebook
- Check out this jupyter notebook for a basic example in using datasist [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
+
+[Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
+
+[Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb)
