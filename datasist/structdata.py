@@ -58,6 +58,10 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     display(data.head())
     _space()
 
+    print('Random five data points')
+    display(data.sample(5))
+    _space()
+
     print('Last five data points')
     display(data.tail())
     _space()
