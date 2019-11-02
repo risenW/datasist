@@ -79,4 +79,4 @@ API documentation can be found [here](https://risenw.github.io/datasist/index.ht
 
 [Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
 
-[Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb)
+[Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/examples/Example_irisdata.ipynb)
