@@ -73,10 +73,9 @@ pip install -e .
 ```
 
 ## Documentation
-API documentation can be found [HERE](https://risenw.github.io/datasist/index.html)
+API documentation can be found [here](https://risenw.github.io/datasist/index.html)
 
-### Usage
-#### Jupyter Notebook
+### Example Usage
 
 [Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
 
