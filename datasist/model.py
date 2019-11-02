@@ -41,7 +41,7 @@ def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estim
 
         cross_validate: Bool, default False
 
-            Whether to use a cross validation strategy or not.
+            Use a cross validation strategy or not.
         
         cv: Int, default 5
 
@@ -49,10 +49,10 @@ def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estim
         
         show_roc_curve: Bool, default True.
 
-            Whether to plot a ROC plot showing estimator performance.
+            Plot a ROC plot showing estimator performance.
         
         save_plot: Bool, default False.
-            Whether to save the plot as a png file.
+            Save the plot as a png file.
     
 '''
     if X_train is None:
@@ -164,7 +164,7 @@ def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=No
         Name of the created submission file.
 
     Return:
-    
+
         Csv file saved in current working directory
     '''
     estimator.fit(X_train, y_train)
@@ -177,7 +177,29 @@ def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=No
 
 
 
-def get_classification_report(y_train=None, pred=None, show_roc_plot=True, save_plot=False):
+def get_classification_report(y_true=None, y_pred=None, show_roc_plot=True, save_plot=False):
+    '''
+    Generates performance report for a classification problem.
+
+    Parameters:
+    ------------------
+    y_true: Array, series, list.
+
+        The truth/ground value from the train data set.
+    
+    y_pred: Array, series, list.
+
+        The predicted value by a trained model.
+
+    show_roc_plot: Bool, default True.
+
+        Show the model ROC curve.
+
+    save_plot: Bool, default True.
+
+        Save the plot to the current working directory.
+
+    '''
     acc = accuracy_score(y_train, pred)
     f1 = f1_score(y_train, pred)
     precision = precision_score(y_train, pred)
