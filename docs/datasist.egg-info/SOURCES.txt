@@ -1,0 +1,14 @@
+README.md
+setup.cfg
+setup.py
+datasist/__init__.py
+datasist/feature_engineering.py
+datasist/model.py
+datasist/structdata.py
+datasist/timeseries.py
+datasist/visualizations.py
+datasist.egg-info/PKG-INFO
+datasist.egg-info/SOURCES.txt
+datasist.egg-info/dependency_links.txt
+datasist.egg-info/requires.txt
+datasist.egg-info/top_level.txt

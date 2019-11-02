@@ -4,7 +4,7 @@ This module contains all functions relating to the cleaning and exploration of s
 '''
 
 
-import numpy as np
+import numpy as numpy
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -56,10 +56,6 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
 
     print('First five data points')
     display(data.head())
-    _space()
-
-    print('Random five data points')
-    display(data.sample(5))
     _space()
 
     print('Last five data points')
