@@ -13,20 +13,53 @@ import matplotlib.pyplot as plt
 from .visualizations import plot_auc
 
 
-def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
+def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
     '''
-    train a classification model and returns all the popular performance metric.
+    Train a classification estimator and calculate numerous performance metric.
 
     Parameters:
     ----------------------------
-    #TODO update Doc
+        X_train: Array, DataFrame, Series.
+
+            The feature set (x) to use in training an estimator in other predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        X_val: Array, DataFrame. Series.
+
+            The feature set (x) to use in validating a trained estimator.
+
+        y_val: Series, 1-d array, list
+
+            The ground truth value for the validation dataset.
+
+        estimator: sklearn estimator.
+
+            Sklearn estimator that implements the fit and predict functions.
+
+        cross_validate: Bool, default False
+
+            Whether to use a cross validation strategy or not.
+        
+        cv: Int, default 5
+
+            Number of folds to use in cross validation.
+        
+        show_roc_curve: Bool, default True.
+
+            Whether to plot a ROC plot showing estimator performance.
+        
+        save_plot: Bool, default False.
+            Whether to save the plot as a png file.
     
 '''
-    if train_data is None:
-        raise ValueError("train_data: Expecting a DataFrame/ numpy2d array, got 'None'")
+    if X_train is None:
+        raise ValueError("X_train: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    if target is None:
-        raise ValueError("target: Expecting a Series/ numpy1D array, got 'None'")
+    if y_train is None:
+        raise ValueError("y_train: Expecting a Series/ numpy1D array, got 'None'")
 
     #initialize variables to hold calculations
     pred, acc, f1, precision, recall, confusion_mat = 0, 0, 0, 0, 0, None
@@ -40,20 +73,20 @@ def train_classifier(train_data = None, target=None, val_data=None, val_data_tar
         metric_names = ['Accuracy', 'F1_score', 'Precision', 'Recall']
 
         for metric_name, scorer in zip(metric_names, dict_scorers):
-            cv_score = np.mean(cross_val_score(model, train_data, target, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
+            cv_score = np.mean(cross_val_score(estimator, X_train, y_train, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
             print("{} is {}".format(metric_name,  round(cv_score * 100, 4)))
         #TODO Add cross validation function for confusion matrix
   
     else:
-        if val_data is None:
-            raise ValueError("val_data: Expecting a DataFrame/ numpy2d array, got 'None'")
+        if X_val is None:
+            raise ValueError("X_val: Expecting a DataFrame/ numpy2d array, got 'None'")
         
-        if val_data_target is None:
-            raise ValueError("val_data_target: Expecting a Series/ numpy1D array, got 'None'")
+        if y_val is None:
+            raise ValueError("y_val: Expecting a Series/ numpy1D array, got 'None'")
 
-        model.fit(train_data, target)
-        pred = model.predict(val_data)
-        get_classification_report(val_data_target, pred, show_roc_plot, save_plot)
+        estimator.fit(X_train, y_train)
+        pred = estimator.predict(X_val)
+        get_classification_report(y_val, pred, show_roc_plot, save_plot)
 
 
 def plot_feature_importance(estimator=None, col_names=None):
@@ -91,18 +124,18 @@ def plot_feature_importance(estimator=None, col_names=None):
     plt.show()
 
 
-def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
+def train_predict(estimator=None, X_train=None, y_train=None, test_data=None, make_submission_file=False,
                   sample_submision_file=None, submission_col_name=None, 
                   submision_file_name=None):
     '''
-    Train a model and makes prediction with it on the final test set. Also
+    Train a estimator and makes prediction with it on the final test set. Also
     returns a sample submission file for data science competitions
     
     Parameters:
 
     '''
-    model.fit(train_data, target)
-    pred = model.predict(test_data)
+    estimator.fit(X_train, y_train)
+    pred = estimator.predict(test_data)
 
     if make_submission_file:
         sub = sample_submision_file
@@ -114,12 +147,12 @@ def train_predict(model=None, train_data=None, target=None, test_data=None, make
 
 
 
-def get_classification_report(target=None, pred=None, show_roc_plot=True, save_plot=False):
-    acc = accuracy_score(target, pred)
-    f1 = f1_score(target, pred)
-    precision = precision_score(target, pred)
-    recall = recall_score(target, pred)
-    confusion_mat = confusion_matrix(target, pred)
+def get_classification_report(y_train=None, pred=None, show_roc_plot=True, save_plot=False):
+    acc = accuracy_score(y_train, pred)
+    f1 = f1_score(y_train, pred)
+    precision = precision_score(y_train, pred)
+    recall = recall_score(y_train, pred)
+    confusion_mat = confusion_matrix(y_train, pred)
 
     print("Accuracy is ", round(acc * 100))
     print("F1 score is ", round(f1 * 100))
@@ -133,7 +166,7 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
     print('')
 
     if show_roc_plot:        
-        plot_auc(target, pred)
+        plot_auc(y_train, pred)
 
         if save_plot:
             plt.savefig("roc_plot.png")
