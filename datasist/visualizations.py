@@ -14,6 +14,31 @@ from sklearn.utils.multiclass import unique_labels
 import sklearn.metrics as sklm
 
 
+def pairplot(data = None, hue = ''):
+	'''
+	A Pair plot shows the distribution of single variables and relationships between two variables
+	
+	Parameters
+	------------
+		
+		data : DataFrame, array or list of arrays.
+		
+			Data to plot.
+			
+		hue : Categorical Variable.
+		
+			Makes the pair plots more valuable by coloring the figure based on a categorical variable.
+			
+	'''
+	
+	
+	if data is None:
+		raise ValueError('Expecting a DataFrame or Series, got None')
+	
+	if pairplot == True:
+		sns.pairplot(data, hue = hue, diag_kind = 'kde', plot_kws = {'alpha': 0.6, 's': 80, 'edgecolor': 'k'}, size = 4)
+
+
 
 def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):
     '''
@@ -628,3 +653,8 @@ def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alp
         plt.ylabel(col_y)
         plt.legend()
         plt.show()
+		
+		
+		
+		
+	def pairwise_plot(data = None, )
