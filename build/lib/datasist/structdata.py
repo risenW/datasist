@@ -4,7 +4,7 @@ This module contains all functions relating to the cleaning and exploration of s
 '''
 
 
-import numpy as np
+import numpy as numpy
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -56,10 +56,6 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
 
     print('First five data points')
     display(data.head())
-    _space()
-
-    print('Random five data points')
-    display(data.sample(5))
     _space()
 
     print('Last five data points')
@@ -385,16 +381,6 @@ def detect_outliers(data, n, features):
     return multiple_outliers
 
 
-def check_train_test_set(train_data, test_data):
-    '''
-    Checks the distribution of train and test for uniqueness in order to determine
-    the best feature engineering strategy.
-    
-    Parameters:
-    -------------------
-    
-    '''
-
 
 def _space():
     print('\n')
@@ -403,7 +389,7 @@ def _space():
 
 def _match_date(data):
     '''
-        Return a list of columns that matches the DateTime expression
+    Return a list of columns that matches the DateTime expression
     '''
     mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)

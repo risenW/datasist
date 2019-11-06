@@ -36,7 +36,7 @@
 
 **datasist** is a python package providing fast, quick, and an abstracted interface to 
 popular and frequently used functions or techniques relating to data analysis, visualization, data exploration,
-feature engineering, Computer, NLP, Deep Learning, modelling, model deployment etc.
+feature engineering, Computer, NLP, Deep Learning, modeling, model deployment etc.
 
 ## Install
 ```sh
@@ -73,8 +73,10 @@ pip install -e .
 ```
 
 ## Documentation
-API documentation can be found [HERE](https://risenw.github.io/datasist/index.html)
+API documentation can be found [here](https://risenw.github.io/datasist/index.html)
 
-### Usage
-#### Jupyter Notebook
- Check out this jupyter notebook for a basic example in using datasist [https://github.com/risenW/datasist/blob/master/datasist/datasist/examples/Example_irisdata.ipynb]
+### Example Usage
+
+[Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
+
+[Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/examples/Example_irisdata.ipynb)
