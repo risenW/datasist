@@ -3,4 +3,5 @@
 /dist/
 *.pypirc
 /*.pypirc
+/build/
 
