@@ -92,6 +92,7 @@ def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estim
         get_classification_report(y_val, pred, show_roc_plot, save_plot)
 
 
+
 def plot_feature_importance(estimator=None, col_names=None):
     '''
     Plots the feature importance from a trained scikit learn estimator

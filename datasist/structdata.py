@@ -381,6 +381,16 @@ def detect_outliers(data, n, features):
     return multiple_outliers
 
 
+def check_train_test_set(train_data, test_data):
+    '''
+    Checks the distribution of train and test for uniqueness in order to determine
+    the best feature engineering strategy.
+    
+    Parameters:
+    -------------------
+    
+    '''
+
 
 def _space():
     print('\n')
@@ -389,7 +399,7 @@ def _space():
 
 def _match_date(data):
     '''
-    Return a list of columns that matches the DateTime expression
+        Return a list of columns that matches the DateTime expression
     '''
     mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)
