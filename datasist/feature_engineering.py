@@ -5,6 +5,8 @@ This module contains all functions relating to feature engineering
 import pandas as pd
 import numpy as np
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
+from dateutil.parser import parse
+import datetime as dt
 
 
 def drop_missing(data=None, percent=99):
@@ -466,5 +468,54 @@ def get_location_center(point1, point2):
     center = (point1 + point2) / 2
     center_df = pd.Series(center)
     return center_df
+
+def convert_dtype(df):
+    '''
+    Convert datatype of a feature to its original datatype.
+    E.g If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
+    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
+    For the function to work:
+    1. There must be no missing values in the features
+    2. The feature must contain only one default datatype in the feature. Must not contain two datatype 
+    '''
+    if df.isnull().any().any() == True:
+        raise ValueError("DataFrame contain missing values")
+    else:
+        i = 0
+        changed_dtype = []
+        #Function to handle datetime dtype
+        def is_date(string, fuzzy=False):
+            try:
+                parse(string, fuzzy=fuzzy)
+                return True
+            except ValueError:
+                return False
+            
+        while i <= (df.shape[1])-1:
+            val = df.iloc[:,i]
+            try:
+                if str(val.dtypes) =='object':
+                    if val.min().isdigit() == True: #Check if the string is an integer dtype
+                        int_v = val.astype(int)
+                        changed_dtype.append(int_v)
+                    elif val.min().replace('.', '', 1).isdigit() == True: #Check if the string is a float type
+                        float_v = val.astype(float)
+                        changed_dtype.append(float_v)
+                    elif is_date(val.min(),fuzzy=False) == True: #Check if the string is a datetime dtype
+                        dtime = pd.to_datetime(val)
+                        changed_dtype.append(dtime)
+                    else:
+                        changed_dtype.append(val) #This indicate the dtype is a string
+                else:
+                    changed_dtype.append(val) #This could count for symbols in a feature
+            except ValueError:
+                raise ValueError("DataFrame columns contain one or more DataType")
+            except:
+                raise Exception()
+            i = i+1
+        data_f = pd.concat(changed_dtype,1)
+        return data_f
+            
+
 
     
