@@ -472,11 +472,21 @@ def get_location_center(point1, point2):
 def convert_dtype(df):
     '''
     Convert datatype of a feature to its original datatype.
-    E.g If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
-    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
+    E.g If the datatype of a feature is being represented as a string when in fact it should be integer or a float 
+    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a dataframe and convert the features to their appropriate datatype.
+
     For the function to work:
     1. There must be no missing values in the features
     2. The feature must contain only one default datatype in the feature. Must not contain two datatype 
+
+    Parameters:
+    --------------------
+        df: DataFrame, Series
+            Dataset to convert data types
+
+    Returns:
+    -----------------
+        DataFrame or Series
     '''
     if df.isnull().any().any() == True:
         raise ValueError("DataFrame contain missing values")
@@ -508,12 +518,16 @@ def convert_dtype(df):
                         changed_dtype.append(val) #This indicate the dtype is a string
                 else:
                     changed_dtype.append(val) #This could count for symbols in a feature
+            
             except ValueError:
                 raise ValueError("DataFrame columns contain one or more DataType")
             except:
                 raise Exception()
+
             i = i+1
+
         data_f = pd.concat(changed_dtype,1)
+
         return data_f
             
 
