@@ -476,7 +476,7 @@ def convert_dtype(df):
     or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
     For the function to work:
     1. There must be no missing values in the features
-    2. The feature must contain only one default datatype in the feature. Must not contain 
+    2. The feature must contain only one default datatype in the feature. Must not contain two datatype 
     '''
     if df.isnull().any().any() == True:
         raise ValueError("DataFrame contain missing values")
