@@ -492,7 +492,7 @@ def convert_dtype(df):
                 return False
             
         while i <= (df.shape[1])-1:
-            val = df.iloc[:,i]
+            val = df.iloc[:,i].apply(lambda x:x.strip())
             try:
                 if str(val.dtypes) =='object':
                     if val.min().isdigit() == True: #Check if the string is an integer dtype
