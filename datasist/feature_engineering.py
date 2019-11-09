@@ -4,6 +4,9 @@ This module contains all functions relating to feature engineering
 
 import pandas as pd
 import numpy as np
+
+import seaborn as sns
+import matplotlib.pyplot as plt
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
 from dateutil.parser import parse
 import datetime as dt
@@ -469,6 +472,33 @@ def get_location_center(point1, point2):
     center = (point1 + point2) / 2
     center_df = pd.Series(center)
     return center_df
+
+
+def log_transform(columns, data):
+    '''
+    Nomralizes the dataset to be as close to the gaussian distribution.
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, name series.
+    columns: Columns to be transformed to normality using log transformation
+    :return:
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+
+    if columns is None:
+        raise ValueError("columns: Expecting at least a column in the list of columns but got 'None'")
+
+    for col in columns:
+        data[col] = data[col].map(lambda i: np.log(i) if i > 0 else 0)
+
+    for col in columns:
+        sns.distplot(data[col], color="m", label="Skewness : %.2f" % (data[col].skew()))
+        plt.title('Distribution of ' + col)
+        plt.legend(loc='best')
+        plt.show()
 
 def convert_dtype(df):
     '''
