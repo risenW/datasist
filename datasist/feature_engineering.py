@@ -7,6 +7,7 @@ import numpy as np
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
 from dateutil.parser import parse
 import datetime as dt
+import re
 
 
 def drop_missing(data=None, percent=99):
@@ -492,7 +493,10 @@ def convert_dtype(df):
                 return False
             
         while i <= (df.shape[1])-1:
-            val = df.iloc[:,i].apply(lambda x:x.strip())
+            val = df.iloc[:,i]
+            if str(val.dtypes) =='object':
+                val = val.apply(lambda x: re.sub("^\s+|\s+$", "",x, flags=re.UNICODE))
+        
             try:
                 if str(val.dtypes) =='object':
                     if val.min().isdigit() == True: #Check if the string is an integer dtype
