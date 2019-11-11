@@ -48,9 +48,10 @@ pip install datasist
 - pandas
 - seaborn
 - matplotlib
+- scikit-learn
 
 
-## Installation from source (<b>For contributors</b>)
+## Installation from source.
 To install datasist from source you need python 3.6> in addition to the normal
 dependencies above. 
 
