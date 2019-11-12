@@ -316,7 +316,7 @@ def quick_CSummarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=Tr
 
 def join_train_and_test(data_train=None, data_test=None):
     '''
-    Joins two data sets and returns a dictionary containing their sizes and the concatenated data. 
+    Joins two data sets and returns a dictionary containing their sizes and the concatenated data.
     Used mostly before feature engineering to combine train and test set together.
 
     Parameter:
@@ -349,7 +349,7 @@ def detect_outliers(data, n, features):
         ----------
             data: DataFrame or named Series
 
-            n: the bench mark for the number of allowable outliers in a column.
+            n: the bench mark for the number of allowable outliers in the columns.
             
             features: Specific columns you want to check for outliers and it accepts only numerical values.
 
@@ -358,14 +358,23 @@ def detect_outliers(data, n, features):
             The rows where outliers are present.
         '''
 
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+
+    if features is None:
+        raise ValueError("columns: Expecting features i.e columns of the dataset but got 'None'")
+
+    if n is None:
+        n = 2
+
     outlier_indices = []
 
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(data[col], 25)
+        Q1 = np.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(data[col], 75)
+        Q3 = np.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 

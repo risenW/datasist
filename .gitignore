@@ -4,4 +4,5 @@
 *.pypirc
 /*.pypirc
 /build/
+/.idea/
 
