@@ -498,7 +498,7 @@ def log_transform(columns, data):
         plt.title('Distribution of ' + col)
         plt.legend(loc='best')
         plt.show()
-=======
+
 def convert_dtype(df):
     '''
     Convert datatype of a feature to its original datatype.
