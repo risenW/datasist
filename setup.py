@@ -15,7 +15,7 @@ setup(
         'pandas',
         'matplotlib',
         'seaborn',
-        'numpy'
+        'numpy',
          ],
       classifiers=[
         'Development Status :: 3 - Alpha',   

@@ -628,3 +628,32 @@ def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alp
         plt.ylabel(col_y)
         plt.legend()
         plt.show()
+
+
+
+def autoviz(data):
+    '''
+    Parameter:
+    --------------------
+        data: Dataframe 
+            The data to plot
+            
+    Return:
+        Matplotlib figure
+    '''
+    #First check if autoviz is installed, if not installed, prompt the user to install it.
+    import importlib.util
+    import logging
+    logging.basicConfig()
+
+    package_name = 'autoviz'
+    err_msg = "is not installed, to use this function, you must install " + package_name + ". \n To install, use 'pip install autoviz'"
+    package_stat = importlib.util.find_spec(package_name)
+
+    if package_stat is None:
+        logging.error(package_name + " " + err_msg)
+    else:
+        from autoviz.AutoViz_Class import AutoViz_Class
+
+        av = AutoViz_Class()
+        av.AutoViz(filename='', dfte=data, max_cols_analyzed=50)
