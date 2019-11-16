@@ -4,13 +4,13 @@ This module contains all functions relating to feature engineering
 
 import pandas as pd
 import numpy as np
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
 from dateutil.parser import parse
 import datetime as dt
 import re
+
 
 
 def drop_missing(data=None, percent=99):
@@ -34,10 +34,11 @@ def drop_missing(data=None, percent=99):
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
     missing_percent = (data.isna().sum() / data.shape[0]) * 100
-    cols_2_drop = missing_percent[missing_percent.values > percent].index
+    cols_2_drop = missing_percent[missing_percent.values >= percent].index
     print("Dropped {}".format(list(cols_2_drop)))
     #Drop missing values
-    data.drop(cols_2_drop, axis=1, inplace=True)
+    df = data.drop(cols_2_drop, axis=1)
+    return df
 
 
 
@@ -60,7 +61,8 @@ def drop_redundant(data):
     #get columns
     cols_2_drop = _nan_in_class(data)
     print("Dropped {}".format(cols_2_drop))
-    data.drop(cols_2_drop, axis=1, inplace=True)
+    df = data.drop(cols_2_drop, axis=1)
+    return df
     
     
 
@@ -103,18 +105,18 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     if cat_features is None:
         cat_features = get_cat_feats(data)
 
-    temp_data = data.copy()
+    df = data.copy()
     #change all possible missing values to NaN
     if missing_encoding is None:
         missing_encoding = ['', ' ', -99, -999]
 
-    temp_data.replace(missing_encoding, np.NaN, inplace=True)
+    df.replace(missing_encoding, np.NaN, inplace=True)
     
     for col in cat_features:
-        most_freq = temp_data[col].mode()[0]
-        temp_data[col] = temp_data[col].replace(np.NaN, most_freq)
+        most_freq = df[col].mode()[0]
+        df[col] = df[col].replace(np.NaN, most_freq)
     
-    return temp_data
+    return df
 
 
 def fill_missing_num(data=None, features=None, method='mean'):
@@ -141,22 +143,25 @@ def fill_missing_num(data=None, features=None, method='mean'):
     if features is None:
         #get numerical features with missing values
         num_feats = get_num_feats(data)
-        temp_data = data[num_feats].isna().sum()
-        features = list(temp_data[num_feats][temp_data[num_feats] > 0].index)
-        print("Found {} with missing values.".format(features))
-
+        temp_df = data[num_feats].isna().sum()
+        features = list(temp_df[num_feats][temp_df[num_feats] > 0].index)
+        
+    df = data.copy()
     for feat in features:
         if method is 'mean':
-            mean = data[feat].mean()
-            data[feat].fillna(mean, inplace=True)
+            mean = df[feat].mean()
+            df[feat].fillna(mean, inplace=True)
+            return df
         elif method is 'median':
-            median = data[feat].median()
-            data[feat].fillna(median, inplace=True)
+            median = df[feat].median()
+            df[feat].fillna(median, inplace=True)
+            return df
         elif method is 'mode':
-            mode = data[feat].mode()[0]
-            data[feat].fillna(mode, inplace=True)
+            mode = df[feat].mode()[0]
+            df[feat].fillna(mode, inplace=True)
+            return df
+
    
-    return "Filled all missing values successfully"
 
 
 def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
@@ -298,24 +303,24 @@ def create_balanced_data(data=None, target=None, categories=None, class_sizes=No
         class_sizes = [temp_val for _ in list(data[target].unique())]
 
     
-    temp_data = data.copy()
+    df = data.copy()
     data_category = []
     data_class_indx = []
     
     #get data corrresponding to each of the categories
     for cat in categories: 
-        data_category.append(temp_data[temp_data[target] == cat])
+        data_category.append(df[df[target] == cat])
     
     #sample and get the index corresponding to each category
     for class_size, cat in zip(class_sizes, data_category):
         data_class_indx.append(cat.sample(class_size, replace=True).index)
         
     #concat data together
-    new_data = pd.concat([temp_data.loc[indx] for indx in data_class_indx], ignore_index=True).sample(sum(class_sizes)).reset_index(drop=True)
+    new_data = pd.concat([df.loc[indx] for indx in data_class_indx], ignore_index=True).sample(sum(class_sizes)).reset_index(drop=True)
     
     if not replacement:
         for indx in data_class_indx:
-            temp_data.drop(indx, inplace=True)
+            df.drop(indx, inplace=True)
             
         
     return new_data
@@ -473,15 +478,20 @@ def get_location_center(point1, point2):
     center_df = pd.Series(center)
     return center_df
 
-def log_transform(columns, data):
+def log_transform(data, columns):
     '''
     Nomralizes the dataset to be as close to the gaussian distribution.
 
     Parameter:
     -----------------------------------------
-    data: DataFrame, name series.
-    columns: Columns to be transformed to normality using log transformation
-    :return:
+    data: DataFrame, Series.
+        Data to Log transform.
+
+    columns: List, Series
+        Columns to be transformed to normality using log transformation
+    
+    Returns:
+        Log-transformed dataframe
     '''
 
     if data is None:
@@ -489,15 +499,19 @@ def log_transform(columns, data):
 
     if columns is None:
         raise ValueError("columns: Expecting at least a column in the list of columns but got 'None'")
+    
+    df = data.copy()
+    for col in columns:
+        df[col] = np.log1p(df[col])
 
     for col in columns:
-        data[col] = data[col].map(lambda i: np.log(i) if i > 0 else 0)
-
-    for col in columns:
-        sns.distplot(data[col], color="m", label="Skewness : %.2f" % (data[col].skew()))
+        sns.distplot(df[col], color="m", label="Skewness : %.2f" % (df[col].skew()))
         plt.title('Distribution of ' + col)
         plt.legend(loc='best')
-        plt.show()
+        # plt.show()
+
+    return df
+
 
 def convert_dtype(df):
     '''
@@ -563,6 +577,7 @@ def convert_dtype(df):
 
         return data_f
             
+
 
 
     
