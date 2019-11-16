@@ -80,9 +80,9 @@ API documentation can be found [here](https://risenw.github.io/datasist/index.ht
 
 All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome.
 
-A detailed overview on how to contribute can be found in the **[contributing guide(https://risenw.github.io/datasist/contributing.html)**.
+A detailed overview on how to contribute can be found in the **[contributing guide](https://risenw.github.io/datasist/contributing.html)**.
 
-If you are simply looking to start working with the datasist codebase, navigate to the [GitHub "issues" tab(https://github.com/risenW/datasist/issues) and start looking through interesting issues. There are a number of issues listed under good first issue where you could start out.
+If you are simply looking to start working with the datasist codebase, navigate to the [GitHub "issues"tab](https://github.com/risenW/datasist/issues) and start looking through interesting issues. There are a number of issues listed under good first issue where you could start out.
 
 
 ### Example Usage
