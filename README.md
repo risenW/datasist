@@ -29,6 +29,16 @@
          </a>
 </td>
 </tr>
+  
+<tr>
+  <td>Build Status</td>
+  <td>
+    <a>
+    <img src="https://travis-ci.org/risenW/datasist.svg?branch=master" alt="build status" />
+         </a>
+</td>
+  
+</tr>
 
 </table>
 
