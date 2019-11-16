@@ -5,4 +5,3 @@ matplotlib
 seaborn
 scikit-learn
 numpy
-autoviz
