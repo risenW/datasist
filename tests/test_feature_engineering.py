@@ -1,5 +1,5 @@
 import pytest
-from datasist import feature_engineering
+import datasist.feature_engineering as feature_engineering
 import pandas as pd
 import numpy as np
 

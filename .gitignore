@@ -6,5 +6,5 @@
 /build/
 /idea/
 /vscode/
-/pytest_cache
+/pytest_cache/
 
