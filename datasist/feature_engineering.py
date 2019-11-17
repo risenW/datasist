@@ -484,7 +484,7 @@ def convert_dtype(df):
     
     Returns:
     -----------------
-        DataFrame or Series
+        DataFrame or Series.
 
     Example: 
     data = {'Name':['Tom', 'nick', 'jack'], 
