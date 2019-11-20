@@ -12,7 +12,6 @@ import datetime as dt
 import re
 
 
-
 def drop_missing(data=None, percent=99):
     '''
     Drops missing columns with [percent] of missing data.
@@ -516,6 +515,7 @@ def log_transform(data, columns):
 def convert_dtype(df):
     '''
     Convert datatype of a feature to its original datatype.
+<<<<<<< HEAD
     E.g If the datatype of a feature is being represented as a string when in fact it should be integer or a float 
     or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a dataframe and convert the features to their appropriate datatype.
 
@@ -531,6 +531,52 @@ def convert_dtype(df):
     Returns:
     -----------------
         DataFrame or Series
+=======
+    If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
+    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
+    
+    Parameter:
+    ---------------------------
+    df: DataFrame, Series
+        Dataset to convert data type
+
+    
+    Returns:
+    -----------------
+        DataFrame or Series.
+
+    Example: 
+    data = {'Name':['Tom', 'nick', 'jack'], 
+            'Age':['20', '21', '19'],
+            'Date of Birth': ['1999-11-17','20 Sept 1998','Wed Sep 19 14:55:02 2000']} 
+     
+    df = pd.DataFrame(data)
+
+    df.info()
+    >>> 
+    <class 'pandas.core.frame.DataFrame'>
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null object
+        Date of Birth    3 non-null object
+        dtypes: object(3)
+        memory usage: 76.0+ bytes
+    
+    conv = convert_dtype(df)
+    conv.info()
+    >>> 
+    <class 'pandas.core.frame.DataFrame'>
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null int32
+        Date of Birth    3 non-null datetime64[ns]
+        dtypes: datetime64[ns](1), int32(1), object(1)
+        memory usage: 88.0+ bytes
+
+
+>>>>>>> fbfe3203e5dcc5cf40278b9eb872b8acf37f43c3
     '''
     if df.isnull().any().any() == True:
         raise ValueError("DataFrame contain missing values")
