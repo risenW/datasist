@@ -5,7 +5,7 @@ This module contains all functions relating to modeling in using sklearn library
 import platform
 
 from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer
-from sklearn.model_selection import KFold, cross_val_score, cross_validate
+from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
 
@@ -232,10 +232,9 @@ def get_classification_report(y_train=None, prediction=None, show_roc_plot=True,
             plt.savefig("roc_plot.png")
 
 
-def compare_model(models_list=None, x_train=None, y_train=None,
-                         calculate_accuracy=False, scoring_metrics=None, scoring_cv=3, silenced=False):
+def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True):
     """
-    Trains multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.
+    Train multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.
 
     Parameters
     ----------------
@@ -251,15 +250,9 @@ def compare_model(models_list=None, x_train=None, y_train=None,
 
             The ground truth value for the train dataset
 
-        calculate_accuracy: Boolean
+        scoring_metric: str
 
-            Specify if validation should be carried out on model. Default is False
-
-        scoring_metrics: list
-
-            Mertics to use in scoring the model
-
-            scoring_metrics = ['f1_micro','f1_macro','f1_weighted','accuracy']
+            Metric to use in scoring the model
 
         scoring_cv: int
 
@@ -284,24 +277,21 @@ def compare_model(models_list=None, x_train=None, y_train=None,
 
     fitted_model = []
     model_scores = []
+    model_names = []
 
-    for model in models_list:
+    for i, model in enumerate(models_list):
         if silenced is not True:
-            print(f"Fitting {type(model).__name__} ...")
+            print(f"Fitting {type(model).__name__} ... \n")
         model.fit(x_train, y_train)
         # append fitted model into list
         fitted_model.append(model)
-
-        if calculate_accuracy:
-            if scoring_metrics is not None and len(scoring_metrics) > 0:
-                model_score = cross_validate(model, x_train, y_train, scoring=scoring_metrics, cv=scoring_cv)
-                model_scores.append(model_score)
-            else:
-                print(
-                    """
-                    'calculate_accuracy' is set to True but scroring metrics is None or empty. 
-                    Model evaluation will not be done 
-                    """
-                )
+        model_score = np.mean(cross_val_score(model, x_train, y_train, scoring=scoring_metric, cv=scoring_cv))
+        model_scores.append(model_score)
+        model_names.append(type(fitted_model[i]).__name__)
+            
+    sns.pointplot(y=model_scores, x=model_names)
+    plt.xticks(rotation=90)
+    plt.title("Model comparison plot")
+    plt.show()
 
     return fitted_model, model_scores
