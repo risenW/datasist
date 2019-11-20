@@ -17,7 +17,7 @@ else:
 
 import seaborn as sns
 
-# from .visualizations import plot_auc
+from .visualizations import plot_auc
 
 
 def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
