@@ -231,7 +231,7 @@ def get_classification_report(y_train=None, prediction=None, show_roc_plot=True,
         if save_plot:
             plt.savefig("roc_plot.png")
 
-def multi_model_processing(models_list=None, x_train=None, y_train=None, calculate_accuracy=False, scoring_metrics=None, scoring_cv=3, silenced=False):
+def compare_model(models_list=None, x_train=None, y_train=None, calculate_accuracy=False, scoring_metrics=None, scoring_cv=3, silenced=False):
     """
     Trains multiple user-defined model and pass out report
 
