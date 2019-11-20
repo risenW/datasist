@@ -2,15 +2,22 @@
 This module contains all functions relating to modeling in using sklearn library.
 
 '''
+import platform
 
-from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy_score, recall_score,f1_score, make_scorer
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer
+from sklearn.model_selection import KFold, cross_val_score, cross_validate
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
-from .visualizations import plot_auc
+if platform.system() == "Darwin":
+    import matplotlib as plt
+    plt.use('TkAgg')
+else:
+    import matplotlib.pyplot as plt
+
+import seaborn as sns
+
+# from .visualizations import plot_auc
 
 
 def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
@@ -223,3 +230,76 @@ def get_classification_report(y_true=None, y_pred=None, show_roc_plot=True, save
 
         if save_plot:
             plt.savefig("roc_plot.png")
+
+def multi_model_processing(models_list=None, x_train=None, y_train=None, calculate_accuracy=False, scoring_metrics=None, scoring_cv=3, silenced=False):
+    """
+    Trains multiple user-defined model and pass out report
+
+    Parameters
+    ----------------
+        models_list: list
+
+            a list of models to be trained
+
+        x_train: Array, DataFrame, Series
+
+            The feature set (x) to use in training an estimator to predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        calculate_accuracy: Boolean
+
+            Specify if validation should be carried out on model. Default is False
+
+        scoring_metrics: list
+
+            Mertics to use in scoring the model
+
+            scoring_metrics = ['f1_micro','f1_macro','f1_weighted','accuracy']
+
+        scoring_cv: int
+
+            default value is 3
+
+    Returns
+    ---------------
+    a tuple of fitted_model and the model evaluation scores
+    """
+
+    if models_list is None or len(models_list) < 1:
+        raise ValueError("model_list: model_list can't be 'None' or empty")
+
+    if x_train is None:
+        raise ValueError("x_train: features can't be 'None' or empty")
+
+    if y_train is None:
+        raise ValueError("y_train: features can't be 'None' or empty")
+
+    if type(scoring_cv) is not int:
+        raise ValueError("scoring_cv: integer required")
+
+    fitted_model = []
+    model_scores = []
+
+    for model in models_list:
+        if silenced is not True:
+            print(f"Fitting {type(model).__name__} ...")
+        model.fit(x_train, y_train)
+        # append fitted model into list
+        fitted_model.append(model)
+
+        if calculate_accuracy:
+            if scoring_metrics is not None and len(scoring_metrics) > 0:
+                model_score = cross_validate(model, x_train, y_train, scoring=scoring_metrics, cv=scoring_cv)
+                model_scores.append(model_score)
+            else:
+                print(
+                    """
+                    'calculate_accuracy' is set to True but scroring metrics is None or empty. 
+                    Model evaluation will not be done 
+                    """
+                )
+
+    return fitted_model, model_scores
