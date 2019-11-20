@@ -231,7 +231,7 @@ def get_classification_report(y_train=None, prediction=None, show_roc_plot=True,
         if save_plot:
             plt.savefig("roc_plot.png")
 
-def compare_model(models_list=None, x_train=None, y_train=None, calculate_accuracy=False, scoring_metrics=None, scoring_cv=3, silenced=False):
+def compare_model(models_list=None, x_train=None, y_train=None, scoring_metrics=['accuracy', 'f1'], scoring_cv=3, silenced=False):
     """
     Trains multiple user-defined model and pass out report
 
@@ -249,15 +249,11 @@ def compare_model(models_list=None, x_train=None, y_train=None, calculate_accura
 
             The ground truth value for the train dataset
 
-        calculate_accuracy: Boolean
-
-            Specify if validation should be carried out on model. Default is False
-
         scoring_metrics: list
 
             Mertics to use in scoring the model
 
-            scoring_metrics = ['f1_micro','f1_macro','f1_weighted','accuracy']
+            scoring_metrics = ['f1','accuracy']
 
         scoring_cv: int
 
