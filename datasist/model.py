@@ -185,17 +185,17 @@ def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=No
 
 
 
-def get_classification_report(y_true=None, y_pred=None, show_roc_plot=True, save_plot=False):
+def get_classification_report(y_train=None, prediction=None, show_roc_plot=True, save_plot=False):
     '''
     Generates performance report for a classification problem.
 
     Parameters:
     ------------------
-    y_true: Array, series, list.
+    y_train: Array, series, list.
 
         The truth/ground value from the train data set.
     
-    y_pred: Array, series, list.
+    prediction: Array, series, list.
 
         The predicted value by a trained model.
 
@@ -208,11 +208,11 @@ def get_classification_report(y_true=None, y_pred=None, show_roc_plot=True, save
         Save the plot to the current working directory.
 
     '''
-    acc = accuracy_score(y_train, pred)
-    f1 = f1_score(y_train, pred)
-    precision = precision_score(y_train, pred)
-    recall = recall_score(y_train, pred)
-    confusion_mat = confusion_matrix(y_train, pred)
+    acc = accuracy_score(y_train, prediction)
+    f1 = f1_score(y_train, prediction)
+    precision = precision_score(y_train, prediction)
+    recall = recall_score(y_train, prediction)
+    confusion_mat = confusion_matrix(y_train, prediction)
 
     print("Accuracy is ", round(acc * 100))
     print("F1 score is ", round(f1 * 100))
@@ -226,7 +226,7 @@ def get_classification_report(y_true=None, y_pred=None, show_roc_plot=True, save
     print('')
 
     if show_roc_plot:        
-        plot_auc(y_train, pred)
+        plot_auc(y_train, prediction)
 
         if save_plot:
             plt.savefig("roc_plot.png")

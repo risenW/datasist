@@ -20,3 +20,5 @@ def test_multi_model_processing():
     ]
     scoring_metrics = ['accuracy']
     fitted_model, model_scores = multi_model_processing(model_list, x_train, y_train, True, scoring_metrics)
+    assert type(fitted_model) is list
+    assert type(model_scores) is list
