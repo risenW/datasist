@@ -262,6 +262,9 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     ---------------
     a tuple of fitted_model and the model evaluation scores
     """
+    # if not same_model :
+    #     raise ValueError("model_list: features can't be 'None' or empty"g)
+
 
     if models_list is None or len(models_list) < 1:
         raise ValueError("model_list: model_list can't be 'None' or empty")
@@ -272,8 +275,7 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     if y_train is None:
         raise ValueError("y_train: features can't be 'None' or empty")
 
-    if type(scoring_cv) is not int:
-        raise ValueError("scoring_cv: integer required")
+
 
     fitted_model = []
     model_scores = []
