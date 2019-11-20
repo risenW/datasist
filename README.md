@@ -2,8 +2,7 @@
   <img src='datasist.png' alt="datasist" style="width: 500px; height: 350px; margin-left: 200px;">
 </div>
 
-# datasist: Python library for easy modelling, visualization and exploration
-
+# datasist: Python library for easy data modeling, visualization, exploration and analysis.
 <table>
 <tr>
   <td>Latest Release</td>
@@ -28,6 +27,16 @@
     <img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="license" />
          </a>
 </td>
+</tr>
+  
+<tr>
+  <td>Build Status</td>
+  <td>
+    <a>
+    <img src="https://travis-ci.org/risenW/datasist.svg?branch=master" alt="build status" />
+         </a>
+</td>
+  
 </tr>
 
 </table>
