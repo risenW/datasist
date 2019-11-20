@@ -13148,7 +13148,7 @@ div#notebook {
 </ul>
 <hr>
 <h3 id="Where-to-start?">Where to start?<a class="anchor-link" href="#Where-to-start?">&#182;</a></h3><p>All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.</p>
-<p>For first time contributors, you can find pending issues on the GitHub “issues”. There are a number of issues listed and good first issue where you could start out. Once you’ve found an interesting issue, and have an improvement in minde, nect thing is to set up your development environment setup.</p>
+<p>For first time contributors, you can find pending issues on the GitHub “issues”. There are a number of issues listed and "good first issues" where you could start out. Once you’ve found an interesting issue, and have an improvement in mind, next thing is to set up your development environment.</p>
 <h3 id="Working-with-the-code">Working with the code<a class="anchor-link" href="#Working-with-the-code">&#182;</a></h3><p>Now that you have an issue you want to fix, enhancement to add, or documentation to improve, you need to learn how to work with GitHub and the datasist code base.</p>
 <h4 id="Version-control,-Git,-and-GitHub">Version control, Git, and GitHub<a class="anchor-link" href="#Version-control,-Git,-and-GitHub">&#182;</a></h4><p>The datasist code is hosted on GitHub. To contribute you will need to sign up for a free GitHub account. We use Git for version control to allow many people to work together on this project.</p>
 <p>Some great resources for learning Git:</p>
@@ -13229,8 +13229,8 @@ div#notebook {
 </pre></div>
 <h4 id="Writing-tests">Writing tests<a class="anchor-link" href="#Writing-tests">&#182;</a></h4><p>We strongly encourages contributors to write test for their code contributions
 Like many packages, datasist uses pytest.</p>
-<p>All tests should go into the tests subdirectory and placed in the corresponding module the package. This folder contains some current examples of tests, and we suggest looking to these for inspiration.</p>
-<p>To compare dataframe or series objects, use the pandas.util.testing module. The easiest way to verify that your code is correct is to explicitly construct the result you expect (expected), then compare it to the actual result (output).</p>
+<p>All tests should go into the tests subdirectory and placed in the corresponding module. This folder contains some current examples of tests, and we suggest looking to these for inspiration.</p>
+<p>To compare dataframe or series objects, you can use the pandas.util.testing module. The easiest way to verify that your code is correct is to explicitly construct the result you expect (expected), then compare it to the actual result (output).</p>
 <h4 id="Using-pytest">Using pytest<a class="anchor-link" href="#Using-pytest">&#182;</a></h4><p>Here we show an example of a test case we wrote for the <strong>drop_redundant</strong> function in the feature_engineering module. This test is placed in the <strong>test_feature_engineering.py</strong> file inside the <strong>tests</strong> folder.</p>
 <hr>
 <div class="highlight"><pre><span></span><span class="o">...</span>
@@ -13276,7 +13276,7 @@ Like many packages, datasist uses pytest.</p>
     <span class="k">assert</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">output</span>
 </pre></div>
 <hr>
-<h4 id="Running-the-test-case">Running the test case<a class="anchor-link" href="#Running-the-test-case">&#182;</a></h4><p>To run the test case, navigate open a command prompt in the datasist dirctory and run the following command.</p>
+<h4 id="Running-the-test-case">Running the test case<a class="anchor-link" href="#Running-the-test-case">&#182;</a></h4><p>To run the test case, navigate the correct test subfolder and open a command prompt. Run the following command.</p>
 
 <pre><code>pytest tests</code></pre>
 <p>Learn more about pytest <a href="http://docs.pytest.org/en/latest/">here</a></p>
@@ -13292,7 +13292,7 @@ Like many packages, datasist uses pytest.</p>
 <h4 id="Pushing-your-changes">Pushing your changes<a class="anchor-link" href="#Pushing-your-changes">&#182;</a></h4><p>When you want your changes to appear publicly on your GitHub page, you can push to your forked repo with:</p>
 
 <pre><code>git push</code></pre>
-<h3 id="Review-your-code-and-finally,-make-the-pull-request">Review your code and finally, make the pull request<a class="anchor-link" href="#Review-your-code-and-finally,-make-the-pull-request">&#182;</a></h3><p>If everything looks good, you are ready to make a pull request. A pull request is how code from a local repository becomes available to the GitHub community and can be reviewd and then eventually merged into the master version. To submit a pull request:</p>
+<h3 id="Review-your-code-and-finally,-make-the-pull-request">Review your code and finally, make the pull request<a class="anchor-link" href="#Review-your-code-and-finally,-make-the-pull-request">&#182;</a></h3><p>If everything looks good, you are ready to make a pull request. A pull request is how code from a local repository becomes available to the GitHub community and can be reviewed and eventually merged into the master version. To submit a pull request:</p>
 <ol>
 <li><p>Navigate to your repository on GitHub</p>
 </li>
