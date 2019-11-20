@@ -1,15 +1,23 @@
 '''
 This module contains all functions relating to feature engineering
 '''
+import datetime as dt
+import re
+import platform
 
 import pandas as pd
 import numpy as np
+
+if platform.system() == "Darwin":
+    import matplotlib as plt
+    plt.use('TkAgg')
+else:
+    import matplotlib.pyplot as plt
+
 import seaborn as sns
-import matplotlib.pyplot as plt
+
 from .structdata import get_cat_feats, get_num_feats, get_date_cols
 from dateutil.parser import parse
-import datetime as dt
-import re
 
 
 def drop_missing(data=None, percent=99):
