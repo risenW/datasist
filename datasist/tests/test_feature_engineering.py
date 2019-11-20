@@ -15,6 +15,11 @@ df_dist = pd.DataFrame({'lat1': [10, 11, 12, 14],
                     'long1': [1,2,3,4],
                     'long2': [2,4,6,8]})
 
+#dataset to testing age bin
+table = pd.DataFrame(np.random.randint(16, 70,size=(50,2)),  columns=('Age','just_number'))
+table['Salary'] = np.random.randint(5000, 10000, size=(50,))
+table['Time'] = np.round(np.random.uniform(0.30, 60, size=(50,1)), 2)
+
 
 def test_drop_missing():
     expected = ['country']
@@ -61,3 +66,11 @@ def test_get_location_center():
     output = list(feature_engineering.get_location_center(df_dist['lat1'], df_dist['lat2']).astype('int64'))
     assert expected == output
 
+def test_bin_age():
+    data_bin = [10, 20, 30, 40, 60, 70]
+    data_label = ['1st level', '2nd level', '3rd level', '5th level', '6th level']
+    expected = 5
+    temp_df = feature_engineering.bin_age(data = table, feature = ['Age'], bins = data_bin, fill_missing = 'mean',
+                                            labels = data_label, drop_original= True)
+    output = temp_df['Age_binned'].nunique()
+    assert expected == output

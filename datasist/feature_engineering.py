@@ -523,23 +523,6 @@ def log_transform(data, columns):
 def convert_dtype(df):
     '''
     Convert datatype of a feature to its original datatype.
-<<<<<<< HEAD
-    E.g If the datatype of a feature is being represented as a string when in fact it should be integer or a float 
-    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a dataframe and convert the features to their appropriate datatype.
-
-    For the function to work:
-    1. There must be no missing values in the features
-    2. The feature must contain only one default datatype in the feature. Must not contain two datatype 
-
-    Parameters:
-    --------------------
-        df: DataFrame, Series
-            Dataset to convert data types
-
-    Returns:
-    -----------------
-        DataFrame or Series
-=======
     If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
     or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
     
@@ -584,7 +567,6 @@ def convert_dtype(df):
         memory usage: 88.0+ bytes
 
 
->>>>>>> fbfe3203e5dcc5cf40278b9eb872b8acf37f43c3
     '''
     if df.isnull().any().any() == True:
         raise ValueError("DataFrame contain missing values")
@@ -633,5 +615,69 @@ def convert_dtype(df):
             
 
 
+def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = False):
 
+    '''
+    Categorize age data into separate bins
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, Series.
+        Data for which feature to be binned exist.
+
+    feature: List, Series
+        Columns to be binned
+
+    
+    Bins: List, numpy.ndarray
+        Specifies the different categories
+        Bins must be one greater labels
+    
+    
+    labels: List, Series
+        Name identified to the various categories
+
+    fill_missing(default = None): int
+        mean : feature average
+        mode : most occuring data in the feature
+        median : middle point in the feature
+
+    drop_original: bool
+        Drops original feature after beaning
+    
+
+    Returns:
+        Returns a binned dataframe
+    '''
+
+    
+    df = data.copy()
+    for col in feature:
+        if fill_missing == None:
+        
+            if df[col].isnull().any():
+                raise ValueError("data: Mising Value found in table")
+            
+            else:
+                df[col + '_binned'] = pd.cut(x=df[col], bins= bins, labels=labels)
+            
+    
+        elif fill_missing == 'mean':
+            df[col].fillna(int(df[col].mean()), inplace  = True)
+            df[col + '_binned'] = pd.cut(x=df[col], bins=bins, labels=labels)
+
+        elif fill_missing == 'mode':
+            df[col].fillna(int(df[col].mode()), inplace  = True)
+            df[col + '_binned'] = pd.cut(x=df[col], bins=bins, labels=labels)
+    
+        elif fill_missing == 'median':
+            df[col].fillna(int(df[col].median()), inplace  = True)
+            df[col + '_binned'] = pd.cut(x=df[col], bins=bins, labels=labels)
+            
+        
+        if drop_original == True:
+           
+            df.drop(columns = col, inplace = True)
+
+    return df
     
