@@ -71,6 +71,8 @@ def drop_redundant(data):
     df = data.drop(cols_2_drop, axis=1)
     return df
     
+
+
     
 
 def _nan_in_class(data):

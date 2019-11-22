@@ -91,7 +91,7 @@ def plot_missing(data=None):
 
 
 
-def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_data=False, save_fig=False):
+def boxplot(data=None, num_features=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
     '''
     Makes a box plot of all numerical features against a specified categorical target column.
 
@@ -178,7 +178,7 @@ def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_dat
 
 
 
-def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_fig=False):
+def violinplot(data=None, num_features=None, target=None, fig_size=(5,5), save_fig=False):
     '''
     Makes a violin plot of all numerical features against a specified categorical target column.
 
@@ -244,7 +244,7 @@ def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_f
 
 
 
-def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(8,8), save_fig=False):
+def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(5,5), save_fig=False):
     '''
     Makes an histogram plot of all numerical features.
     Helps to show univariate distribution of the features.
@@ -307,7 +307,7 @@ def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig
 
 
 
-def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
+def catbox(data=None, cat_features=None, target=None, fig_size=(10,5), save_fig=False):
     '''
     Makes a side by side bar plot of all categorical features against a categorical target feature.
 
@@ -433,7 +433,7 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
 
 
 
-def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(10,10), save_fig=False):
+def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(5,5), save_fig=False):
     '''
     Makes a scatter plot of numerical features against a numerical target.
     Helps to show the relationship between features.
