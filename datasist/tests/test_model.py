@@ -20,7 +20,7 @@ def test_compare_model():
         BaggingClassifier(),
         GradientBoostingClassifier()
     ]
-    scoring_metrics = ['accuracy']
-    fitted_model, model_scores = model.compare_model(model_list, x_train, y_train, True, scoring_metrics)
+    fitted_model, model_scores = model.compare_model(model_list, x_train, y_train, 'accuracy')
     assert type(fitted_model) is list
     assert type(model_scores) is list
+    assert hasattr(fitted_model[0], "predict_prob")

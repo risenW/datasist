@@ -262,8 +262,8 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     ---------------
     a tuple of fitted_model and the model evaluation scores
     """
-    # if not same_model :
-    #     raise ValueError("model_list: features can't be 'None' or empty"g)
+    # if not _same_model:
+    #     raise ValueError("model_list: models must be of the same class. Cannot use a classifier and a regressor.")
 
 
     if models_list is None or len(models_list) < 1:
