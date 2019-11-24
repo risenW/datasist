@@ -5,3 +5,5 @@ matplotlib
 seaborn
 scikit-learn
 numpy
+spacy
+en-core-web-sm==2.2.5
