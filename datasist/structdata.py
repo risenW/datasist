@@ -245,18 +245,18 @@ def display_missing(data=None, plot=False):
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    data = data.isna().sum()
-    data = data.reset_index()
-    data.columns = ['features', 'missing_counts']
+    df = data.isna().sum()
+    df = df.reset_index()
+    df.columns = ['features', 'missing_counts']
 
-    missing_percent = round((data['missing_counts'] / data.shape[0]) * 100, 2)
-    data['missing_percent'] = missing_percent
+    missing_percent = round((df['missing_counts'] / data.shape[0]) * 100, 1)
+    df['missing_percent'] = missing_percent
 
     if plot:
         plot_missing(data)
-        return data
+        return df
     else:
-        return data
+        return df
 
 
 
