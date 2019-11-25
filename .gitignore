@@ -5,6 +5,6 @@
 /*.pypirc
 /build/
 /idea/
-/vscode/
+/.vscode/
 /pytest_cache/
-
+/venv/

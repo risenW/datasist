@@ -11,7 +11,7 @@ setup(
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
       long_description=long_description,
-      long_description_content_type="text/markdown"
+      long_description_content_type="text/markdown",
       author='Rising Odegua',
       author_email='risingodegua@gmail.com',
       url='https://github.com/risenW/datasist/tree/master/datasist/datasist',
