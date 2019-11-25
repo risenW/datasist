@@ -89,8 +89,7 @@ def _nan_in_class(data):
     return cols
 
 
-
-def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
+def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
     '''
     Fill missing values using the mode of the categorical features.
 
@@ -106,7 +105,10 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
 
         missing_encoding: List, Series, Array.
 
-                Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
+            Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
+
+        missin_col: bool, Default True
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
     '''
 
     if data is None:
@@ -122,14 +124,16 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
 
     df.replace(missing_encoding, np.NaN, inplace=True)
     
-    for col in cat_features:
-        most_freq = df[col].mode()[0]
-        df[col] = df[col].replace(np.NaN, most_freq)
+    for feat in cat_features:
+        if missing_col:
+            df[feat + '_missing_value'] = (df[feat].isna()).astype('int64')
+        most_freq = df[feat].mode()[0]
+        df[feat] = df[feat].replace(np.NaN, most_freq)
     
     return df
 
 
-def fill_missing_num(data=None, num_features=None, method='mean'):
+def fill_missing_num(data=None, num_features=None, method='mean', missing_col=False):
     '''
     fill missing values in numerical columns with specified [method] value
 
@@ -146,18 +150,24 @@ def fill_missing_num(data=None, num_features=None, method='mean'):
         method: str, Default 'mean'.
 
             method to use in calculating fill value.
+
+        missing_col: bool, Default True
+
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
     '''
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
     if num_features is None:
-        #get numerical features with missing values
         num_features = get_num_feats(data)
-        # temp_df = data[num_features].isna().sum()
-        # features = list(temp_df[num_feats][temp_df[num_feats] > 0].index)
+        #get numerical features with missing values
+        temp_df = data[num_features].isna().sum()
+        features = list(temp_df[num_features][temp_df[num_features] > 0].index)
         
     df = data.copy()
-    for feat in num_features:
+    for feat in features:
+        if missing_col:
+            df[feat + '_missing_value'] = (df[feat].isna()).astype('int64')
         if method is 'mean':
             mean = df[feat].mean()
             df[feat].fillna(mean, inplace=True)
