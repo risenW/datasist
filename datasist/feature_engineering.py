@@ -129,7 +129,7 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None):
     return df
 
 
-def fill_missing_num(data=None, features=None, method='mean'):
+def fill_missing_num(data=None, num_features=None, method='mean'):
     '''
     fill missing values in numerical columns with specified [method] value
 
@@ -150,26 +150,28 @@ def fill_missing_num(data=None, features=None, method='mean'):
     if data is None:
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
     
-    if features is None:
+    if num_features is None:
         #get numerical features with missing values
-        num_feats = get_num_feats(data)
-        temp_df = data[num_feats].isna().sum()
-        features = list(temp_df[num_feats][temp_df[num_feats] > 0].index)
+        num_features = get_num_feats(data)
+        # temp_df = data[num_features].isna().sum()
+        # features = list(temp_df[num_feats][temp_df[num_feats] > 0].index)
         
     df = data.copy()
-    for feat in features:
+    for feat in num_features:
         if method is 'mean':
             mean = df[feat].mean()
             df[feat].fillna(mean, inplace=True)
-            return df
         elif method is 'median':
             median = df[feat].median()
             df[feat].fillna(median, inplace=True)
-            return df
         elif method is 'mode':
             mode = df[feat].mode()[0]
             df[feat].fillna(mode, inplace=True)
-            return df
+        else:
+            raise ValueError("method: must specify a fill method, one of [mean, mode or median]'")
+
+    return df
+
 
    
 

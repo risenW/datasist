@@ -217,10 +217,10 @@ def get_unique_counts(data=None):
     for feature in features:
         temp_len.append(len(data[feature].unique()))
         
-    dic = list(zip(features, temp_len))
-    dic = pd.DataFrame(dic, columns=['Feature', 'Unique Count'])
-    dic = dic.style.bar(subset=['Unique Count'], align='mid')
-    return dic
+    df = list(zip(features, temp_len))
+    df = pd.DataFrame(df, columns=['Feature', 'Unique Count'])
+    df = df.style.bar(subset=['Unique Count'], align='mid')
+    return df
 
 
 def display_missing(data=None, plot=False):
