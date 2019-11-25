@@ -15,7 +15,7 @@ import sklearn.metrics as sklm
 
 
 
-def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):
+def countplot(data=None, features=None, separate_by=None, fig_size=(5,5), save_fig=False):
     '''
     Makes a bar plot of all categorical features to show their counts.
     
@@ -26,7 +26,7 @@ def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), sa
 
             The data to plot.
 
-        cat_features: str, scalar, array, or list. 
+        features: str, scalar, array, or list. 
 
             The categorical features in the dataset, if not provided, 
             we try to infer the categorical columns from the dataframe.
@@ -51,10 +51,10 @@ def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), sa
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
         
-    for feature in cat_features:
+    for feature in features:
         #Check the size of categories in the feature: Anything greater than 20 is not plotted
         if len(data[feature].unique()) > 30:
             print("Unique Values in {} is too large to plot".format(feature))
@@ -354,10 +354,10 @@ def catbox(data=None, cat_features=None, target=None, fig_size=(10,5), save_fig=
 
     #Create a dummy column to hold count of values
     data['dummy_count'] = np.ones(shape = data.shape[0])
-    #Loop over each categorical featureure and plot the acceptance rate for each category.
+    #Loop over each categorical feature and plot the rate for each category.
     for feature in cat_features:
-        #Plots are made for only categories with less than 10 unique values because of speed
-        if len(data[feature].unique()) > 10 :
+        #Plots are made for only categories with less than 15 unique values because of speed
+        if len(data[feature].unique()) > 15 :
             print("{} feature has too many categories and will not be ploted".format(feature))
             
         else:     
@@ -389,7 +389,7 @@ def catbox(data=None, cat_features=None, target=None, fig_size=(10,5), save_fig=
     data.drop(['dummy_count'], axis=1, inplace = True)
 
 
-def class_count(data=None, cat_features=None, plot=False, save_fig=False):
+def class_count(data=None, features=None, plot=False, save_fig=False):
     '''
     Displays the number of classes in a categorical feature.
 
@@ -399,7 +399,7 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
 
             Dataset for plotting.
 
-        cat_features: Scalar, array, or list. 
+        features: Scalar, array, or list. 
 
             The categorical features in the dataset, if None, 
             we try to infer the categorical columns from the dataframe.
@@ -416,12 +416,12 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
 
                         
 
-    for feature in cat_features:
+    for feature in features:
         if data[feature].nunique() > 15:
             print("Unique classes in {} too large".format(feature))
         else:
@@ -429,7 +429,7 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
             display(pd.DataFrame(data[feature].value_counts()))
 
     if plot:
-        countplot(data, cat_features, save_fig=save_fig)
+        countplot(data, features, save_fig=save_fig)
 
 
 

@@ -500,7 +500,7 @@ def get_location_center(point1, point2):
     center_df = pd.Series(center)
     return center_df
 
-def log_transform(data, columns):
+def log_transform(data, columns, plot=True, figsize=(12,6)):
     '''
     Nomralizes the dataset to be as close to the gaussian distribution.
 
@@ -511,6 +511,9 @@ def log_transform(data, columns):
 
     columns: List, Series
         Columns to be transformed to normality using log transformation
+    
+    plot: bool, default True
+        Plots a before and after log transformation plot
     
     Returns:
         Log-transformed dataframe
@@ -526,11 +529,20 @@ def log_transform(data, columns):
     for col in columns:
         df[col] = np.log1p(df[col])
 
-    for col in columns:
-        sns.distplot(df[col], color="m", label="Skewness : %.2f" % (df[col].skew()))
-        plt.title('Distribution of ' + col)
-        plt.legend(loc='best')
-        # plt.show()
+    if plot:
+        for col in columns: 
+            _ = plt.figure(figsize = figsize)
+            plt.subplot(1, 2, 1)
+            sns.distplot(data[col], color="m", label="Skewness : %.2f" % (df[col].skew()))    
+            plt.title('Distribution of ' + col + " before Log transformation")
+            plt.legend(loc='best')
+            
+            plt.subplot(1, 2, 2)
+            sns.distplot(df[col], color="m", label="Skewness : %.2f" % (df[col].skew()))    
+            plt.title('Distribution of ' + col + " after Log transformation")
+            plt.legend(loc='best')
+            plt.tight_layout(2)
+            plt.show()
 
     return df
 
