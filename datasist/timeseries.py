@@ -167,7 +167,7 @@ def describe_date(data=None, date_col=None):
 
 
 
-def num_timeplot(data=None, num_cols=None, time_col=None, subplots=True, marker='.', 
+def timeplot(data=None, num_cols=None, time_col=None, subplots=True, marker='.', 
                     figsize=(15,10), y_label='Daily Totals',save_fig=False, alpha=0.5, linestyle='None'):
     '''
     Plot all numeric features against the time column. Interpreted as a time series plot.

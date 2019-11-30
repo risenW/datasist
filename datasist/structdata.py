@@ -262,7 +262,7 @@ def display_missing(data=None, plot=False):
 
 
 
-def quick_CSummarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=True):
+def cat_summarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=True):
     '''
     Helper function that gives a quick summary of a given column of categorical data
 
