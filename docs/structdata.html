@@ -31,7 +31,7 @@ This module contains all functions relating to the cleaning and exploration of s
 &#39;&#39;&#39;
 
 
-import numpy as numpy
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -83,6 +83,10 @@ def describe(data=None, name=&#39;&#39;, date_cols=None, show_categories=False, 
 
     print(&#39;First five data points&#39;)
     display(data.head())
+    _space()
+
+    print(&#39;Random five data points&#39;)
+    display(data.sample(5))
     _space()
 
     print(&#39;Last five data points&#39;)
@@ -240,10 +244,10 @@ def get_unique_counts(data=None):
     for feature in features:
         temp_len.append(len(data[feature].unique()))
         
-    dic = list(zip(features, temp_len))
-    dic = pd.DataFrame(dic, columns=[&#39;Feature&#39;, &#39;Unique Count&#39;])
-    dic = dic.style.bar(subset=[&#39;Unique Count&#39;], align=&#39;mid&#39;)
-    return dic
+    df = list(zip(features, temp_len))
+    df = pd.DataFrame(df, columns=[&#39;Feature&#39;, &#39;Unique Count&#39;])
+    df = df.style.bar(subset=[&#39;Unique Count&#39;], align=&#39;mid&#39;)
+    return df
 
 
 def display_missing(data=None, plot=False):
@@ -268,24 +272,24 @@ def display_missing(data=None, plot=False):
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    data = data.isna().sum()
-    data = data.reset_index()
-    data.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
+    df = data.isna().sum()
+    df = df.reset_index()
+    df.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
 
-    missing_percent = round((data[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
-    data[&#39;missing_percent&#39;] = missing_percent
+    missing_percent = round((df[&#39;missing_counts&#39;] / data.shape[0]) * 100, 1)
+    df[&#39;missing_percent&#39;] = missing_percent
 
     if plot:
         plot_missing(data)
-        return data
+        return df
     else:
-        return data
+        return df
 
 
 
 
 
-def quick_CSummarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
+def cat_summarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
     &#39;&#39;&#39;
     Helper function that gives a quick summary of a given column of categorical data
 
@@ -339,7 +343,7 @@ def quick_CSummarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, ve
 
 def join_train_and_test(data_train=None, data_test=None):
     &#39;&#39;&#39;
-    Joins two data sets and returns a dictionary containing their sizes and the concatenated data. 
+    Joins two data sets and returns a dictionary containing their sizes and the concatenated data.
     Used mostly before feature engineering to combine train and test set together.
 
     Parameter:
@@ -372,7 +376,7 @@ def detect_outliers(data, n, features):
         ----------
             data: DataFrame or named Series
 
-            n: the bench mark for the number of allowable outliers in a column.
+            n: the bench mark for the number of allowable outliers in the columns.
             
             features: Specific columns you want to check for outliers and it accepts only numerical values.
 
@@ -381,14 +385,23 @@ def detect_outliers(data, n, features):
             The rows where outliers are present.
         &#39;&#39;&#39;
 
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if features is None:
+        raise ValueError(&#34;columns: Expecting features i.e columns of the dataset but got &#39;None&#39;&#34;)
+
+    if n is None:
+        n = 2
+
     outlier_indices = []
 
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(data[col], 25)
+        Q1 = np.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(data[col], 75)
+        Q3 = np.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 
@@ -408,7 +421,38 @@ def detect_outliers(data, n, features):
     return multiple_outliers
 
 
+def check_train_test_set(train_data, test_data, index=None, col=None):
+    &#39;&#39;&#39;
+    Checks the distribution of train and test for uniqueness in order to determine
+    the best feature engineering strategy.
+    
+    Parameters:
+    -------------------
+    
+    &#39;&#39;&#39;
+    print(&#39;There are {} training rows and {} test rows.&#39;.format(train_data.shape[0], test_data.shape[0]))
+    print(&#39;There are {} training columns and {} test columns.&#39;.format(train_data.shape[1], test_data.shape[1]))
+    
+    if index:
+        if train_data[index].nunique() == train_data.shape[0]:
+            print(&#39;Id field is unique.&#39;)
+        else:
+            print(&#39;Id field is not unique&#39;)
 
+        if len(np.intersect1d(train_data[index].values, test_data[index].values))== 0:
+            print(&#39;Train and test sets have distinct Ids.&#39;) 
+        else:
+            print(&#39;Train and test sets IDs are the same.&#39;)
+            _space()
+
+        plt.plot(train_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;train&#39;)
+        plt.plot(test_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;test&#39;)
+        plt.title(&#39;Train and test instances overlap.&#39;)
+        plt.legend(loc=0)
+        plt.ylabel(&#39;number of records&#39;)
+        plt.show()
+        
+    
 def _space():
     print(&#39;\n&#39;)
 
@@ -416,7 +460,7 @@ def _space():
 
 def _match_date(data):
     &#39;&#39;&#39;
-    Return a list of columns that matches the DateTime expression
+        Return a list of columns that matches the DateTime expression
     &#39;&#39;&#39;
     mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r&#39;(\d{2,4}-\d{2}-\d{2,4})+&#39;).all())
     return set(data.loc[:, mask].columns)</code></pre>
@@ -429,6 +473,134 @@ def _match_date(data):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="datasist.structdata.cat_summarizer"><code class="name flex">
+<span>def <span class="ident">cat_summarizer</span></span>(<span>data, x=None, y=None, hue=None, palette='Set1', verbose=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper function that gives a quick summary of a given column of categorical data</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>dataframe: pandas dataframe
+
+x: str.
+    horizontal axis to plot the labels of categorical data, y would be the count.
+
+y: str. 
+    vertical axis to plot the labels of categorical data, x would be the count.
+
+hue: str. i
+    if you want to compare it another variable (usually the target variable)
+
+palette: array, list.
+
+    Colour of the plot
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>Quick Stats of the data and also the count plot
+</code></pre>
+<h2 id="example">Example</h2>
+<p>c_palette = ['tab:blue', 'tab:orange']</p>
+<p>categorical_summarized(train, y = 'date_block_num', palette=c_palette)</p>
+<h1 id="feature-variable-gender">Feature Variable: Gender</h1>
+<p>categorical_summarized(train_data, y = 'Sex', hue='Survived', palette=c_palette)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cat_summarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
+    &#39;&#39;&#39;
+    Helper function that gives a quick summary of a given column of categorical data
+
+    Parameters:
+    ---------------------------
+        dataframe: pandas dataframe
+
+        x: str.
+            horizontal axis to plot the labels of categorical data, y would be the count.
+
+        y: str. 
+            vertical axis to plot the labels of categorical data, x would be the count.
+
+        hue: str. i
+            if you want to compare it another variable (usually the target variable)
+
+        palette: array, list.
+
+            Colour of the plot
+
+    Returns:
+    ----------------------
+        Quick Stats of the data and also the count plot
+    
+    Example:
+
+        c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
+
+        categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
+
+
+        # Feature Variable: Gender
+
+        categorical_summarized(train_data, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
+
+    &#39;&#39;&#39;
+    if x == None:
+        column_interested = y
+    else:
+        column_interested = x
+    series = data[column_interested]
+    print(series.describe())
+    print(&#39;mode: &#39;, series.mode())
+    if verbose:
+        print(&#39;=&#39;*80)
+        print(series.value_counts())
+
+    sns.countplot(x=x, y=y, hue=hue, data=data, palette=palette)
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="datasist.structdata.check_train_test_set"><code class="name flex">
+<span>def <span class="ident">check_train_test_set</span></span>(<span>train_data, test_data, index=None, col=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Checks the distribution of train and test for uniqueness in order to determine
+the best feature engineering strategy.</p>
+<h2 id="parameters">Parameters:</h2></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_train_test_set(train_data, test_data, index=None, col=None):
+    &#39;&#39;&#39;
+    Checks the distribution of train and test for uniqueness in order to determine
+    the best feature engineering strategy.
+    
+    Parameters:
+    -------------------
+    
+    &#39;&#39;&#39;
+    print(&#39;There are {} training rows and {} test rows.&#39;.format(train_data.shape[0], test_data.shape[0]))
+    print(&#39;There are {} training columns and {} test columns.&#39;.format(train_data.shape[1], test_data.shape[1]))
+    
+    if index:
+        if train_data[index].nunique() == train_data.shape[0]:
+            print(&#39;Id field is unique.&#39;)
+        else:
+            print(&#39;Id field is not unique&#39;)
+
+        if len(np.intersect1d(train_data[index].values, test_data[index].values))== 0:
+            print(&#39;Train and test sets have distinct Ids.&#39;) 
+        else:
+            print(&#39;Train and test sets IDs are the same.&#39;)
+            _space()
+
+        plt.plot(train_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;train&#39;)
+        plt.plot(test_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;test&#39;)
+        plt.title(&#39;Train and test instances overlap.&#39;)
+        plt.legend(loc=0)
+        plt.ylabel(&#39;number of records&#39;)
+        plt.show()</code></pre>
+</details>
+</dd>
 <dt id="datasist.structdata.describe"><code class="name flex">
 <span>def <span class="ident">describe</span></span>(<span>data=None, name='', date_cols=None, show_categories=False, plot_missing=False)</span>
 </code></dt>
@@ -510,6 +682,10 @@ plot_missing: bool, default True
     display(data.head())
     _space()
 
+    print(&#39;Random five data points&#39;)
+    display(data.sample(5))
+    _space()
+
     print(&#39;Last five data points&#39;)
     display(data.tail())
     _space()
@@ -572,7 +748,7 @@ plot_missing: bool, default True
 <h2 id="parameters">Parameters</h2>
 <pre><code>data: DataFrame or named Series
 
-n: the bench mark for the number of allowable outliers in a column.
+n: the bench mark for the number of allowable outliers in the columns.
 
 features: Specific columns you want to check for outliers and it accepts only numerical values.
 </code></pre>
@@ -591,7 +767,7 @@ features: Specific columns you want to check for outliers and it accepts only nu
         ----------
             data: DataFrame or named Series
 
-            n: the bench mark for the number of allowable outliers in a column.
+            n: the bench mark for the number of allowable outliers in the columns.
             
             features: Specific columns you want to check for outliers and it accepts only numerical values.
 
@@ -600,14 +776,23 @@ features: Specific columns you want to check for outliers and it accepts only nu
             The rows where outliers are present.
         &#39;&#39;&#39;
 
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if features is None:
+        raise ValueError(&#34;columns: Expecting features i.e columns of the dataset but got &#39;None&#39;&#34;)
+
+    if n is None:
+        n = 2
+
     outlier_indices = []
 
     # iterate over features(columns)
     for col in features:
         # 1st quartile (25%)
-        Q1 = numpy.percentile(data[col], 25)
+        Q1 = np.percentile(data[col], 25)
         # 3rd quartile (75%)
-        Q3 = numpy.percentile(data[col], 75)
+        Q3 = np.percentile(data[col], 75)
         # Interquartile range (IQR)
         IQR = Q3 - Q1
 
@@ -670,18 +855,18 @@ plot: bool, Default False
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    data = data.isna().sum()
-    data = data.reset_index()
-    data.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
+    df = data.isna().sum()
+    df = df.reset_index()
+    df.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
 
-    missing_percent = round((data[&#39;missing_counts&#39;] / data.shape[0]) * 100, 2)
-    data[&#39;missing_percent&#39;] = missing_percent
+    missing_percent = round((df[&#39;missing_counts&#39;] / data.shape[0]) * 100, 1)
+    df[&#39;missing_percent&#39;] = missing_percent
 
     if plot:
         plot_missing(data)
-        return data
+        return df
     else:
-        return data</code></pre>
+        return df</code></pre>
 </details>
 </dd>
 <dt id="datasist.structdata.get_cat_feats"><code class="name flex">
@@ -854,10 +1039,10 @@ convert: bool, Default True
     for feature in features:
         temp_len.append(len(data[feature].unique()))
         
-    dic = list(zip(features, temp_len))
-    dic = pd.DataFrame(dic, columns=[&#39;Feature&#39;, &#39;Unique Count&#39;])
-    dic = dic.style.bar(subset=[&#39;Unique Count&#39;], align=&#39;mid&#39;)
-    return dic</code></pre>
+    df = list(zip(features, temp_len))
+    df = pd.DataFrame(df, columns=[&#39;Feature&#39;, &#39;Unique Count&#39;])
+    df = df.style.bar(subset=[&#39;Unique Count&#39;], align=&#39;mid&#39;)
+    return df</code></pre>
 </details>
 </dd>
 <dt id="datasist.structdata.join_train_and_test"><code class="name flex">
@@ -884,7 +1069,7 @@ data_test: DataFrame, named series.
 </summary>
 <pre><code class="python">def join_train_and_test(data_train=None, data_test=None):
     &#39;&#39;&#39;
-    Joins two data sets and returns a dictionary containing their sizes and the concatenated data. 
+    Joins two data sets and returns a dictionary containing their sizes and the concatenated data.
     Used mostly before feature engineering to combine train and test set together.
 
     Parameter:
@@ -909,91 +1094,6 @@ data_test: DataFrame, named series.
     return all_data, n_train, n_test</code></pre>
 </details>
 </dd>
-<dt id="datasist.structdata.quick_CSummarizer"><code class="name flex">
-<span>def <span class="ident">quick_CSummarizer</span></span>(<span>data, x=None, y=None, hue=None, palette='Set1', verbose=True)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Helper function that gives a quick summary of a given column of categorical data</p>
-<h2 id="parameters">Parameters:</h2>
-<pre><code>dataframe: pandas dataframe
-
-x: str.
-    horizontal axis to plot the labels of categorical data, y would be the count.
-
-y: str. 
-    vertical axis to plot the labels of categorical data, x would be the count.
-
-hue: str. i
-    if you want to compare it another variable (usually the target variable)
-
-palette: array, list.
-
-    Colour of the plot
-</code></pre>
-<h2 id="returns">Returns:</h2>
-<pre><code>Quick Stats of the data and also the count plot
-</code></pre>
-<h2 id="example">Example</h2>
-<p>c_palette = ['tab:blue', 'tab:orange']</p>
-<p>categorical_summarized(train, y = 'date_block_num', palette=c_palette)</p>
-<h1 id="feature-variable-gender">Feature Variable: Gender</h1>
-<p>categorical_summarized(train_data, y = 'Sex', hue='Survived', palette=c_palette)</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def quick_CSummarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
-    &#39;&#39;&#39;
-    Helper function that gives a quick summary of a given column of categorical data
-
-    Parameters:
-    ---------------------------
-        dataframe: pandas dataframe
-
-        x: str.
-            horizontal axis to plot the labels of categorical data, y would be the count.
-
-        y: str. 
-            vertical axis to plot the labels of categorical data, x would be the count.
-
-        hue: str. i
-            if you want to compare it another variable (usually the target variable)
-
-        palette: array, list.
-
-            Colour of the plot
-
-    Returns:
-    ----------------------
-        Quick Stats of the data and also the count plot
-    
-    Example:
-
-        c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
-
-        categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
-
-
-        # Feature Variable: Gender
-
-        categorical_summarized(train_data, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
-
-    &#39;&#39;&#39;
-    if x == None:
-        column_interested = y
-    else:
-        column_interested = x
-    series = data[column_interested]
-    print(series.describe())
-    print(&#39;mode: &#39;, series.mode())
-    if verbose:
-        print(&#39;=&#39;*80)
-        print(series.value_counts())
-
-    sns.countplot(x=x, y=y, hue=hue, data=data, palette=palette)
-    plt.show()</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -1011,7 +1111,9 @@ palette: array, list.
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="two-column">
+<ul class="">
+<li><code><a title="datasist.structdata.cat_summarizer" href="#datasist.structdata.cat_summarizer">cat_summarizer</a></code></li>
+<li><code><a title="datasist.structdata.check_train_test_set" href="#datasist.structdata.check_train_test_set">check_train_test_set</a></code></li>
 <li><code><a title="datasist.structdata.describe" href="#datasist.structdata.describe">describe</a></code></li>
 <li><code><a title="datasist.structdata.detect_outliers" href="#datasist.structdata.detect_outliers">detect_outliers</a></code></li>
 <li><code><a title="datasist.structdata.display_missing" href="#datasist.structdata.display_missing">display_missing</a></code></li>
@@ -1020,7 +1122,6 @@ palette: array, list.
 <li><code><a title="datasist.structdata.get_num_feats" href="#datasist.structdata.get_num_feats">get_num_feats</a></code></li>
 <li><code><a title="datasist.structdata.get_unique_counts" href="#datasist.structdata.get_unique_counts">get_unique_counts</a></code></li>
 <li><code><a title="datasist.structdata.join_train_and_test" href="#datasist.structdata.join_train_and_test">join_train_and_test</a></code></li>
-<li><code><a title="datasist.structdata.quick_CSummarizer" href="#datasist.structdata.quick_CSummarizer">quick_CSummarizer</a></code></li>
 </ul>
 </li>
 </ul>

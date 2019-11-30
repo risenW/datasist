@@ -42,7 +42,7 @@ import sklearn.metrics as sklm
 
 
 
-def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):
+def countplot(data=None, features=None, separate_by=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a bar plot of all categorical features to show their counts.
     
@@ -53,7 +53,7 @@ def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), sa
 
             The data to plot.
 
-        cat_features: str, scalar, array, or list. 
+        features: str, scalar, array, or list. 
 
             The categorical features in the dataset, if not provided, 
             we try to infer the categorical columns from the dataframe.
@@ -78,10 +78,10 @@ def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), sa
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
         
-    for feature in cat_features:
+    for feature in features:
         #Check the size of categories in the feature: Anything greater than 20 is not plotted
         if len(data[feature].unique()) &gt; 30:
             print(&#34;Unique Values in {} is too large to plot&#34;.format(feature))
@@ -118,7 +118,7 @@ def plot_missing(data=None):
 
 
 
-def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_data=False, save_fig=False):
+def boxplot(data=None, num_features=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
     &#39;&#39;&#39;
     Makes a box plot of all numerical features against a specified categorical target column.
 
@@ -205,7 +205,7 @@ def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_dat
 
 
 
-def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_fig=False):
+def violinplot(data=None, num_features=None, target=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a violin plot of all numerical features against a specified categorical target column.
 
@@ -271,7 +271,7 @@ def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_f
 
 
 
-def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(8,8), save_fig=False):
+def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes an histogram plot of all numerical features.
     Helps to show univariate distribution of the features.
@@ -334,7 +334,7 @@ def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig
 
 
 
-def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
+def catbox(data=None, cat_features=None, target=None, fig_size=(10,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a side by side bar plot of all categorical features against a categorical target feature.
 
@@ -381,10 +381,10 @@ def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=
 
     #Create a dummy column to hold count of values
     data[&#39;dummy_count&#39;] = np.ones(shape = data.shape[0])
-    #Loop over each categorical featureure and plot the acceptance rate for each category.
+    #Loop over each categorical feature and plot the rate for each category.
     for feature in cat_features:
-        #Plots are made for only categories with less than 10 unique values because of speed
-        if len(data[feature].unique()) &gt; 10 :
+        #Plots are made for only categories with less than 15 unique values because of speed
+        if len(data[feature].unique()) &gt; 15 :
             print(&#34;{} feature has too many categories and will not be ploted&#34;.format(feature))
             
         else:     
@@ -416,7 +416,7 @@ def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=
     data.drop([&#39;dummy_count&#39;], axis=1, inplace = True)
 
 
-def class_count(data=None, cat_features=None, plot=False, save_fig=False):
+def class_count(data=None, features=None, plot=False, save_fig=False):
     &#39;&#39;&#39;
     Displays the number of classes in a categorical feature.
 
@@ -426,7 +426,7 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
 
             Dataset for plotting.
 
-        cat_features: Scalar, array, or list. 
+        features: Scalar, array, or list. 
 
             The categorical features in the dataset, if None, 
             we try to infer the categorical columns from the dataframe.
@@ -443,12 +443,12 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
 
                         
 
-    for feature in cat_features:
+    for feature in features:
         if data[feature].nunique() &gt; 15:
             print(&#34;Unique classes in {} too large&#34;.format(feature))
         else:
@@ -456,11 +456,11 @@ def class_count(data=None, cat_features=None, plot=False, save_fig=False):
             display(pd.DataFrame(data[feature].value_counts()))
 
     if plot:
-        countplot(data, cat_features, save_fig=save_fig)
+        countplot(data, features, save_fig=save_fig)
 
 
 
-def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(10,10), save_fig=False):
+def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a scatter plot of numerical features against a numerical target.
     Helps to show the relationship between features.
@@ -654,7 +654,36 @@ def plot_scatter_shape(data = None, cols = None, shape_col = &#39;&#39;, col_y =
         # Set text for y axis
         plt.ylabel(col_y)
         plt.legend()
-        plt.show()</code></pre>
+        plt.show()
+
+
+
+def autoviz(data):
+    &#39;&#39;&#39;
+    Parameter:
+    --------------------
+        data: Dataframe 
+            The data to plot
+            
+    Return:
+        Matplotlib figure
+    &#39;&#39;&#39;
+    #First check if autoviz is installed, if not installed, prompt the user to install it.
+    import importlib.util
+    import logging
+    logging.basicConfig()
+
+    package_name = &#39;autoviz&#39;
+    err_msg = &#34;is not installed, to use this function, you must install &#34; + package_name + &#34;. \n To install, use &#39;pip install autoviz&#39;&#34;
+    package_stat = importlib.util.find_spec(package_name)
+
+    if package_stat is None:
+        logging.error(package_name + &#34; &#34; + err_msg)
+    else:
+        from autoviz.AutoViz_Class import AutoViz_Class
+
+        av = AutoViz_Class()
+        av.AutoViz(filename=&#39;&#39;, dfte=data, max_cols_analyzed=50)</code></pre>
 </details>
 </section>
 <section>
@@ -664,8 +693,50 @@ def plot_scatter_shape(data = None, cols = None, shape_col = &#39;&#39;, col_y =
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="datasist.visualizations.autoviz"><code class="name flex">
+<span>def <span class="ident">autoviz</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameter">Parameter:</h2>
+<pre><code>data: Dataframe 
+    The data to plot
+</code></pre>
+<h2 id="return">Return</h2>
+<p>Matplotlib figure</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def autoviz(data):
+    &#39;&#39;&#39;
+    Parameter:
+    --------------------
+        data: Dataframe 
+            The data to plot
+            
+    Return:
+        Matplotlib figure
+    &#39;&#39;&#39;
+    #First check if autoviz is installed, if not installed, prompt the user to install it.
+    import importlib.util
+    import logging
+    logging.basicConfig()
+
+    package_name = &#39;autoviz&#39;
+    err_msg = &#34;is not installed, to use this function, you must install &#34; + package_name + &#34;. \n To install, use &#39;pip install autoviz&#39;&#34;
+    package_stat = importlib.util.find_spec(package_name)
+
+    if package_stat is None:
+        logging.error(package_name + &#34; &#34; + err_msg)
+    else:
+        from autoviz.AutoViz_Class import AutoViz_Class
+
+        av = AutoViz_Class()
+        av.AutoViz(filename=&#39;&#39;, dfte=data, max_cols_analyzed=50)</code></pre>
+</details>
+</dd>
 <dt id="datasist.visualizations.boxplot"><code class="name flex">
-<span>def <span class="ident">boxplot</span></span>(<span>data=None, num_features=None, target=None, fig_size=(8, 8), large_data=False, save_fig=False)</span>
+<span>def <span class="ident">boxplot</span></span>(<span>data=None, num_features=None, target=None, fig_size=(5, 5), large_data=False, save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes a box plot of all numerical features against a specified categorical target column.</p>
@@ -706,7 +777,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def boxplot(data=None, num_features=None, target=None, fig_size=(8,8), large_data=False, save_fig=False):
+<pre><code class="python">def boxplot(data=None, num_features=None, target=None, fig_size=(5,5), large_data=False, save_fig=False):
     &#39;&#39;&#39;
     Makes a box plot of all numerical features against a specified categorical target column.
 
@@ -792,7 +863,7 @@ save_fig: bool, Default False.
 </details>
 </dd>
 <dt id="datasist.visualizations.catbox"><code class="name flex">
-<span>def <span class="ident">catbox</span></span>(<span>data=None, cat_features=None, target=None, fig_size=(12, 6), save_fig=False)</span>
+<span>def <span class="ident">catbox</span></span>(<span>data=None, cat_features=None, target=None, fig_size=(10, 5), save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes a side by side bar plot of all categorical features against a categorical target feature.</p>
@@ -822,7 +893,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def catbox(data=None, cat_features=None, target=None, fig_size=(12,6), save_fig=False):
+<pre><code class="python">def catbox(data=None, cat_features=None, target=None, fig_size=(10,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a side by side bar plot of all categorical features against a categorical target feature.
 
@@ -869,10 +940,10 @@ save_fig: bool, Default False.
 
     #Create a dummy column to hold count of values
     data[&#39;dummy_count&#39;] = np.ones(shape = data.shape[0])
-    #Loop over each categorical featureure and plot the acceptance rate for each category.
+    #Loop over each categorical feature and plot the rate for each category.
     for feature in cat_features:
-        #Plots are made for only categories with less than 10 unique values because of speed
-        if len(data[feature].unique()) &gt; 10 :
+        #Plots are made for only categories with less than 15 unique values because of speed
+        if len(data[feature].unique()) &gt; 15 :
             print(&#34;{} feature has too many categories and will not be ploted&#34;.format(feature))
             
         else:     
@@ -905,7 +976,7 @@ save_fig: bool, Default False.
 </details>
 </dd>
 <dt id="datasist.visualizations.class_count"><code class="name flex">
-<span>def <span class="ident">class_count</span></span>(<span>data=None, cat_features=None, plot=False, save_fig=False)</span>
+<span>def <span class="ident">class_count</span></span>(<span>data=None, features=None, plot=False, save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Displays the number of classes in a categorical feature.</p>
@@ -916,7 +987,7 @@ save_fig: bool, Default False.
 <p>Pandas DataFrame or Series</p>
 <p>Dataset for plotting.</p>
 </dd>
-<dt><strong><code>cat_features</code></strong></dt>
+<dt><strong><code>features</code></strong></dt>
 <dd>
 <p>Scalar, array, or list. </p>
 <p>The categorical features in the dataset, if None,
@@ -937,7 +1008,7 @@ we try to infer the categorical columns from the dataframe.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def class_count(data=None, cat_features=None, plot=False, save_fig=False):
+<pre><code class="python">def class_count(data=None, features=None, plot=False, save_fig=False):
     &#39;&#39;&#39;
     Displays the number of classes in a categorical feature.
 
@@ -947,7 +1018,7 @@ we try to infer the categorical columns from the dataframe.</p>
 
             Dataset for plotting.
 
-        cat_features: Scalar, array, or list. 
+        features: Scalar, array, or list. 
 
             The categorical features in the dataset, if None, 
             we try to infer the categorical columns from the dataframe.
@@ -964,12 +1035,12 @@ we try to infer the categorical columns from the dataframe.</p>
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
 
                         
 
-    for feature in cat_features:
+    for feature in features:
         if data[feature].nunique() &gt; 15:
             print(&#34;Unique classes in {} too large&#34;.format(feature))
         else:
@@ -977,11 +1048,11 @@ we try to infer the categorical columns from the dataframe.</p>
             display(pd.DataFrame(data[feature].value_counts()))
 
     if plot:
-        countplot(data, cat_features, save_fig=save_fig)</code></pre>
+        countplot(data, features, save_fig=save_fig)</code></pre>
 </details>
 </dd>
 <dt id="datasist.visualizations.countplot"><code class="name flex">
-<span>def <span class="ident">countplot</span></span>(<span>data=None, cat_features=None, separate_by=None, fig_size=(5, 5), save_fig=False)</span>
+<span>def <span class="ident">countplot</span></span>(<span>data=None, features=None, separate_by=None, fig_size=(5, 5), save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes a bar plot of all categorical features to show their counts.</p>
@@ -990,7 +1061,7 @@ we try to infer the categorical columns from the dataframe.</p>
 
     The data to plot.
 
-cat_features: str, scalar, array, or list.
+features: str, scalar, array, or list.
 
     The categorical features in the dataset, if not provided, 
     we try to infer the categorical columns from the dataframe.
@@ -1014,7 +1085,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def countplot(data=None, cat_features=None, separate_by=None, fig_size=(5,5), save_fig=False):
+<pre><code class="python">def countplot(data=None, features=None, separate_by=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a bar plot of all categorical features to show their counts.
     
@@ -1025,7 +1096,7 @@ save_fig: bool, Default False.
 
             The data to plot.
 
-        cat_features: str, scalar, array, or list. 
+        features: str, scalar, array, or list. 
 
             The categorical features in the dataset, if not provided, 
             we try to infer the categorical columns from the dataframe.
@@ -1050,10 +1121,10 @@ save_fig: bool, Default False.
     if data is None:
         raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
 
-    if cat_features is None:
-        cat_features = structdata.get_cat_feats(data)
+    if features is None:
+        features = structdata.get_cat_feats(data)
         
-    for feature in cat_features:
+    for feature in features:
         #Check the size of categories in the feature: Anything greater than 20 is not plotted
         if len(data[feature].unique()) &gt; 30:
             print(&#34;Unique Values in {} is too large to plot&#34;.format(feature))
@@ -1071,7 +1142,7 @@ save_fig: bool, Default False.
 </details>
 </dd>
 <dt id="datasist.visualizations.histogram"><code class="name flex">
-<span>def <span class="ident">histogram</span></span>(<span>data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(8, 8), save_fig=False)</span>
+<span>def <span class="ident">histogram</span></span>(<span>data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(5, 5), save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes an histogram plot of all numerical features.
@@ -1106,7 +1177,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(8,8), save_fig=False):
+<pre><code class="python">def histogram(data=None, num_features=None, bins=None, show_dist_type=False, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes an histogram plot of all numerical features.
     Helps to show univariate distribution of the features.
@@ -1383,7 +1454,7 @@ The chosen number of columns in the DataFrame.</dd>
 </details>
 </dd>
 <dt id="datasist.visualizations.scatterplot"><code class="name flex">
-<span>def <span class="ident">scatterplot</span></span>(<span>data=None, num_features=None, target=None, separate_by=None, fig_size=(10, 10), save_fig=False)</span>
+<span>def <span class="ident">scatterplot</span></span>(<span>data=None, num_features=None, target=None, separate_by=None, fig_size=(5, 5), save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes a scatter plot of numerical features against a numerical target.
@@ -1418,7 +1489,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(10,10), save_fig=False):
+<pre><code class="python">def scatterplot(data=None, num_features=None, target=None, separate_by=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a scatter plot of numerical features against a numerical target.
     Helps to show the relationship between features.
@@ -1478,7 +1549,7 @@ save_fig: bool, Default False.
 </details>
 </dd>
 <dt id="datasist.visualizations.violinplot"><code class="name flex">
-<span>def <span class="ident">violinplot</span></span>(<span>data=None, num_features=None, target=None, fig_size=(8, 8), save_fig=False)</span>
+<span>def <span class="ident">violinplot</span></span>(<span>data=None, num_features=None, target=None, fig_size=(5, 5), save_fig=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Makes a violin plot of all numerical features against a specified categorical target column.</p>
@@ -1515,7 +1586,7 @@ save_fig: bool, Default False.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def violinplot(data=None, num_features=None, target=None, fig_size=(8,8), save_fig=False):
+<pre><code class="python">def violinplot(data=None, num_features=None, target=None, fig_size=(5,5), save_fig=False):
     &#39;&#39;&#39;
     Makes a violin plot of all numerical features against a specified categorical target column.
 
@@ -1597,6 +1668,7 @@ save_fig: bool, Default False.
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="datasist.visualizations.autoviz" href="#datasist.visualizations.autoviz">autoviz</a></code></li>
 <li><code><a title="datasist.visualizations.boxplot" href="#datasist.visualizations.boxplot">boxplot</a></code></li>
 <li><code><a title="datasist.visualizations.catbox" href="#datasist.visualizations.catbox">catbox</a></code></li>
 <li><code><a title="datasist.visualizations.class_count" href="#datasist.visualizations.class_count">class_count</a></code></li>

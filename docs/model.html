@@ -29,58 +29,102 @@
 This module contains all functions relating to modeling in using sklearn library.
 
 &#39;&#39;&#39;
+import platform
 
-from sklearn.metrics import roc_curve,confusion_matrix, precision_score,accuracy_score, recall_score,f1_score, make_scorer
+from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
+
+if platform.system() == &#34;Darwin&#34;:
+    import matplotlib as plt
+    plt.use(&#39;TkAgg&#39;)
+else:
+    import matplotlib.pyplot as plt
+
 import seaborn as sns
-import matplotlib.pyplot as plt
 
 from .visualizations import plot_auc
 
 
-def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
+def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
     &#39;&#39;&#39;
-    train a classification model and returns all the popular performance metric.
+    Train a classification estimator and calculate numerous performance metric.
 
     Parameters:
     ----------------------------
-    #TODO update Doc
+        X_train: Array, DataFrame, Series.
+
+            The feature set (x) to use in training an estimator in other predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        X_val: Array, DataFrame. Series.
+
+            The feature set (x) to use in validating a trained estimator.
+
+        y_val: Series, 1-d array, list
+
+            The ground truth value for the validation dataset.
+
+        estimator: sklearn estimator.
+
+            Sklearn estimator that implements the fit and predict functions.
+
+        cross_validate: Bool, default False
+
+            Use a cross validation strategy or not.
+        
+        cv: Int, default 5
+
+            Number of folds to use in cross validation.
+        
+        show_roc_curve: Bool, default True.
+
+            Plot a ROC plot showing estimator performance.
+        
+        save_plot: Bool, default False.
+            Save the plot as a png file.
     
 &#39;&#39;&#39;
-    if train_data is None:
-        raise ValueError(&#34;train_data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    if X_train is None:
+        raise ValueError(&#34;X_train: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
     
-    if target is None:
-        raise ValueError(&#34;target: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
+    if y_train is None:
+        raise ValueError(&#34;y_train: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
 
     #initialize variables to hold calculations
     pred, acc, f1, precision, recall, confusion_mat = 0, 0, 0, 0, 0, None
 
     if cross_validate:
         dict_scorers  = {&#39;acc&#39; : accuracy_score,
-                    &#39;f1&#39; : f1_score,
-                    &#39;precision&#39;: precision_score, 
-                    &#39;recall&#39; : recall_score}
+                        &#39;f1&#39; : f1_score,
+                        &#39;precision&#39;: precision_score, 
+                        &#39;recall&#39; : recall_score
+                        }
+
 
         metric_names = [&#39;Accuracy&#39;, &#39;F1_score&#39;, &#39;Precision&#39;, &#39;Recall&#39;]
 
         for metric_name, scorer in zip(metric_names, dict_scorers):
-            cv_score = np.mean(cross_val_score(model, train_data, target, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
+            cv_score = np.mean(cross_val_score(estimator, X_train, y_train, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
             print(&#34;{} is {}&#34;.format(metric_name,  round(cv_score * 100, 4)))
+
         #TODO Add cross validation function for confusion matrix
   
     else:
-        if val_data is None:
-            raise ValueError(&#34;val_data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+        if X_val is None:
+            raise ValueError(&#34;X_val: Expecting a DataFrame/ numpy array, got &#39;None&#39;&#34;)
         
-        if val_data_target is None:
-            raise ValueError(&#34;val_data_target: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
+        if y_val is None:
+            raise ValueError(&#34;y_val: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
 
-        model.fit(train_data, target)
-        pred = model.predict(val_data)
-        get_classification_report(val_data_target, pred, show_roc_plot, save_plot)
+        estimator.fit(X_train, y_train)
+        pred = estimator.predict(X_val)
+        get_classification_report(y_val, pred, show_roc_plot, save_plot)
+
 
 
 def plot_feature_importance(estimator=None, col_names=None):
@@ -118,35 +162,84 @@ def plot_feature_importance(estimator=None, col_names=None):
     plt.show()
 
 
-def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
-                  sample_submision_file=None, submission_col_name=None, 
-                  submision_file_name=None):
+def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=None,
+                  sample_submision_file=None, sub_col_name=None, name=&#34;final_submission&#34;):
     &#39;&#39;&#39;
-    Train a model and makes prediction with it on the final test set. Also
+    Train a estimator and makes prediction with it on the final test set. Also
     returns a sample submission file for data science competitions
     
     Parameters:
+    -----------------------
+    estimator: Sklearn estimator.
+
+        An sklearn estimator that implements the fit and predict functions.
+
+    X_train: Array, DataFrame, Series.
+
+        The feature set (x) to use in training an estimator to predict the outcome (y).
+
+    y_train: Series, 1-d array, list
+
+        The ground truth value for the train dataset
+
+    test_data: Array, DataFrame. Series.
+
+        The final test set (x) to predict on.
+    
+    sample_submision_file: DataFrame, Series.
+
+        A sample csv file provided by data science competition hosts to use in creating your final submission.
+
+    sub_col_name: String.
+
+        Name of the prediction column in the sample submission file.
+
+    name: String.
+
+        Name of the created submission file.
+
+    Return:
+
+        Csv file saved in current working directory
+    &#39;&#39;&#39;
+    estimator.fit(X_train, y_train)
+    pred = estimator.predict(test_data)
+
+    sub = sample_submision_file
+    sub[sub_col_name] = pred
+    sub.to_csv(name + &#39;.csv&#39;, index=False)
+    print(&#34;File has been saved to current working directory&#34;)
+
+
+
+def get_classification_report(y_train=None, prediction=None, show_roc_plot=True, save_plot=False):
+    &#39;&#39;&#39;
+    Generates performance report for a classification problem.
+
+    Parameters:
+    ------------------
+    y_train: Array, series, list.
+
+        The truth/ground value from the train data set.
+    
+    prediction: Array, series, list.
+
+        The predicted value by a trained model.
+
+    show_roc_plot: Bool, default True.
+
+        Show the model ROC curve.
+
+    save_plot: Bool, default True.
+
+        Save the plot to the current working directory.
 
     &#39;&#39;&#39;
-    model.fit(train_data, target)
-    pred = model.predict(test_data)
-
-    if make_submission_file:
-        sub = sample_submision_file
-        sub[submission_col_name] = pred
-        sub.to_csv(submision_file_name + &#39;.csv&#39;, index=False)
-        print(&#34;File has been saved to current working directory&#34;)
-    else:
-        return pred
-
-
-
-def get_classification_report(target=None, pred=None, show_roc_plot=True, save_plot=False):
-    acc = accuracy_score(target, pred)
-    f1 = f1_score(target, pred)
-    precision = precision_score(target, pred)
-    recall = recall_score(target, pred)
-    confusion_mat = confusion_matrix(target, pred)
+    acc = accuracy_score(y_train, prediction)
+    f1 = f1_score(y_train, prediction)
+    precision = precision_score(y_train, prediction)
+    recall = recall_score(y_train, prediction)
+    confusion_mat = confusion_matrix(y_train, prediction)
 
     print(&#34;Accuracy is &#34;, round(acc * 100))
     print(&#34;F1 score is &#34;, round(f1 * 100))
@@ -160,10 +253,78 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
     print(&#39;&#39;)
 
     if show_roc_plot:        
-        plot_auc(target, pred)
+        plot_auc(y_train, prediction)
 
         if save_plot:
-            plt.savefig(&#34;roc_plot.png&#34;)</code></pre>
+            plt.savefig(&#34;roc_plot.png&#34;)
+
+
+def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True, plot=True):
+    &#34;&#34;&#34;
+    Train multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.
+
+    Parameters
+    ----------------
+        models_list: list
+
+            a list of models to be trained
+
+        x_train: Array, DataFrame, Series
+
+            The feature set (x) to use in training an estimator to predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        scoring_metric: str
+
+            Metric to use in scoring the model
+
+        scoring_cv: int
+
+            default value is 3
+
+    Returns
+    ---------------
+    a tuple of fitted_model and the model evaluation scores
+    &#34;&#34;&#34;
+    # if not _same_model:
+    #     raise ValueError(&#34;model_list: models must be of the same class. Cannot use a classifier and a regressor.&#34;)
+
+
+    if models_list is None or len(models_list) &lt; 1:
+        raise ValueError(&#34;model_list: model_list can&#39;t be &#39;None&#39; or empty&#34;)
+
+    if x_train is None:
+        raise ValueError(&#34;x_train: features can&#39;t be &#39;None&#39; or empty&#34;)
+
+    if y_train is None:
+        raise ValueError(&#34;y_train: features can&#39;t be &#39;None&#39; or empty&#34;)
+
+
+
+    fitted_model = []
+    model_scores = []
+    model_names = []
+
+    for i, model in enumerate(models_list):
+        if silenced is not True:
+            print(f&#34;Fitting {type(model).__name__} ... \n&#34;)
+        model.fit(x_train, y_train)
+        # append fitted model into list
+        fitted_model.append(model)
+        model_score = np.mean(cross_val_score(model, x_train, y_train, scoring=scoring_metric, cv=scoring_cv))
+        model_scores.append(model_score)
+        model_names.append(type(fitted_model[i]).__name__)
+            
+    if plot:
+        sns.pointplot(y=model_scores, x=model_names)
+        plt.xticks(rotation=90)
+        plt.title(&#34;Model comparison plot&#34;)
+        plt.show()
+
+    return fitted_model, model_scores</code></pre>
 </details>
 </section>
 <section>
@@ -173,21 +334,159 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="datasist.model.get_classification_report"><code class="name flex">
-<span>def <span class="ident">get_classification_report</span></span>(<span>target=None, pred=None, show_roc_plot=True, save_plot=False)</span>
+<dt id="datasist.model.compare_model"><code class="name flex">
+<span>def <span class="ident">compare_model</span></span>(<span>models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True, plot=True)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Train multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>models_list: list
+
+    a list of models to be trained
+
+x_train: Array, DataFrame, Series
+
+    The feature set (x) to use in training an estimator to predict the outcome (y).
+
+y_train: Series, 1-d array, list
+
+    The ground truth value for the train dataset
+
+scoring_metric: str
+
+    Metric to use in scoring the model
+
+scoring_cv: int
+
+    default value is 3
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>a</code> <code>tuple</code> of <code>fitted_model</code> <code>and</code> <code>the</code> <code>model</code> <code>evaluation</code> <code>scores</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_classification_report(target=None, pred=None, show_roc_plot=True, save_plot=False):
-    acc = accuracy_score(target, pred)
-    f1 = f1_score(target, pred)
-    precision = precision_score(target, pred)
-    recall = recall_score(target, pred)
-    confusion_mat = confusion_matrix(target, pred)
+<pre><code class="python">def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True, plot=True):
+    &#34;&#34;&#34;
+    Train multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.
+
+    Parameters
+    ----------------
+        models_list: list
+
+            a list of models to be trained
+
+        x_train: Array, DataFrame, Series
+
+            The feature set (x) to use in training an estimator to predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        scoring_metric: str
+
+            Metric to use in scoring the model
+
+        scoring_cv: int
+
+            default value is 3
+
+    Returns
+    ---------------
+    a tuple of fitted_model and the model evaluation scores
+    &#34;&#34;&#34;
+    # if not _same_model:
+    #     raise ValueError(&#34;model_list: models must be of the same class. Cannot use a classifier and a regressor.&#34;)
+
+
+    if models_list is None or len(models_list) &lt; 1:
+        raise ValueError(&#34;model_list: model_list can&#39;t be &#39;None&#39; or empty&#34;)
+
+    if x_train is None:
+        raise ValueError(&#34;x_train: features can&#39;t be &#39;None&#39; or empty&#34;)
+
+    if y_train is None:
+        raise ValueError(&#34;y_train: features can&#39;t be &#39;None&#39; or empty&#34;)
+
+
+
+    fitted_model = []
+    model_scores = []
+    model_names = []
+
+    for i, model in enumerate(models_list):
+        if silenced is not True:
+            print(f&#34;Fitting {type(model).__name__} ... \n&#34;)
+        model.fit(x_train, y_train)
+        # append fitted model into list
+        fitted_model.append(model)
+        model_score = np.mean(cross_val_score(model, x_train, y_train, scoring=scoring_metric, cv=scoring_cv))
+        model_scores.append(model_score)
+        model_names.append(type(fitted_model[i]).__name__)
+            
+    if plot:
+        sns.pointplot(y=model_scores, x=model_names)
+        plt.xticks(rotation=90)
+        plt.title(&#34;Model comparison plot&#34;)
+        plt.show()
+
+    return fitted_model, model_scores</code></pre>
+</details>
+</dd>
+<dt id="datasist.model.get_classification_report"><code class="name flex">
+<span>def <span class="ident">get_classification_report</span></span>(<span>y_train=None, prediction=None, show_roc_plot=True, save_plot=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Generates performance report for a classification problem.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>y_train: Array, series, list.</p>
+<pre><code>The truth/ground value from the train data set.
+</code></pre>
+<p>prediction: Array, series, list.</p>
+<pre><code>The predicted value by a trained model.
+</code></pre>
+<p>show_roc_plot: Bool, default True.</p>
+<pre><code>Show the model ROC curve.
+</code></pre>
+<p>save_plot: Bool, default True.</p>
+<pre><code>Save the plot to the current working directory.
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_classification_report(y_train=None, prediction=None, show_roc_plot=True, save_plot=False):
+    &#39;&#39;&#39;
+    Generates performance report for a classification problem.
+
+    Parameters:
+    ------------------
+    y_train: Array, series, list.
+
+        The truth/ground value from the train data set.
+    
+    prediction: Array, series, list.
+
+        The predicted value by a trained model.
+
+    show_roc_plot: Bool, default True.
+
+        Show the model ROC curve.
+
+    save_plot: Bool, default True.
+
+        Save the plot to the current working directory.
+
+    &#39;&#39;&#39;
+    acc = accuracy_score(y_train, prediction)
+    f1 = f1_score(y_train, prediction)
+    precision = precision_score(y_train, prediction)
+    recall = recall_score(y_train, prediction)
+    confusion_mat = confusion_matrix(y_train, prediction)
 
     print(&#34;Accuracy is &#34;, round(acc * 100))
     print(&#34;F1 score is &#34;, round(f1 * 100))
@@ -201,10 +500,93 @@ def get_classification_report(target=None, pred=None, show_roc_plot=True, save_p
     print(&#39;&#39;)
 
     if show_roc_plot:        
-        plot_auc(target, pred)
+        plot_auc(y_train, prediction)
 
         if save_plot:
             plt.savefig(&#34;roc_plot.png&#34;)</code></pre>
+</details>
+</dd>
+<dt id="datasist.model.make_submission_csv"><code class="name flex">
+<span>def <span class="ident">make_submission_csv</span></span>(<span>estimator=None, X_train=None, y_train=None, test_data=None, sample_submision_file=None, sub_col_name=None, name='final_submission')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Train a estimator and makes prediction with it on the final test set. Also
+returns a sample submission file for data science competitions</p>
+<h2 id="parameters">Parameters:</h2>
+<p>estimator: Sklearn estimator.</p>
+<pre><code>An sklearn estimator that implements the fit and predict functions.
+</code></pre>
+<p>X_train: Array, DataFrame, Series.</p>
+<pre><code>The feature set (x) to use in training an estimator to predict the outcome (y).
+</code></pre>
+<p>y_train: Series, 1-d array, list</p>
+<pre><code>The ground truth value for the train dataset
+</code></pre>
+<p>test_data: Array, DataFrame. Series.</p>
+<pre><code>The final test set (x) to predict on.
+</code></pre>
+<p>sample_submision_file: DataFrame, Series.</p>
+<pre><code>A sample csv file provided by data science competition hosts to use in creating your final submission.
+</code></pre>
+<p>sub_col_name: String.</p>
+<pre><code>Name of the prediction column in the sample submission file.
+</code></pre>
+<p>name: String.</p>
+<pre><code>Name of the created submission file.
+</code></pre>
+<h2 id="return">Return</h2>
+<p>Csv file saved in current working directory</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_submission_csv(estimator=None, X_train=None, y_train=None, test_data=None,
+                  sample_submision_file=None, sub_col_name=None, name=&#34;final_submission&#34;):
+    &#39;&#39;&#39;
+    Train a estimator and makes prediction with it on the final test set. Also
+    returns a sample submission file for data science competitions
+    
+    Parameters:
+    -----------------------
+    estimator: Sklearn estimator.
+
+        An sklearn estimator that implements the fit and predict functions.
+
+    X_train: Array, DataFrame, Series.
+
+        The feature set (x) to use in training an estimator to predict the outcome (y).
+
+    y_train: Series, 1-d array, list
+
+        The ground truth value for the train dataset
+
+    test_data: Array, DataFrame. Series.
+
+        The final test set (x) to predict on.
+    
+    sample_submision_file: DataFrame, Series.
+
+        A sample csv file provided by data science competition hosts to use in creating your final submission.
+
+    sub_col_name: String.
+
+        Name of the prediction column in the sample submission file.
+
+    name: String.
+
+        Name of the created submission file.
+
+    Return:
+
+        Csv file saved in current working directory
+    &#39;&#39;&#39;
+    estimator.fit(X_train, y_train)
+    pred = estimator.predict(test_data)
+
+    sub = sample_submision_file
+    sub[sub_col_name] = pred
+    sub.to_csv(name + &#39;.csv&#39;, index=False)
+    print(&#34;File has been saved to current working directory&#34;)</code></pre>
 </details>
 </dd>
 <dt id="datasist.model.plot_feature_importance"><code class="name flex">
@@ -265,90 +647,127 @@ col_names: list
 </details>
 </dd>
 <dt id="datasist.model.train_classifier"><code class="name flex">
-<span>def <span class="ident">train_classifier</span></span>(<span>train_data=None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False)</span>
+<span>def <span class="ident">train_classifier</span></span>(<span>X_train=None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>train a classification model and returns all the popular performance metric.</p>
+<section class="desc"><p>Train a classification estimator and calculate numerous performance metric.</p>
 <h2 id="parameters">Parameters:</h2>
-<h1 id="todo-update-doc">TODO update Doc</h1></section>
+<pre><code>X_train: Array, DataFrame, Series.
+
+    The feature set (x) to use in training an estimator in other predict the outcome (y).
+
+y_train: Series, 1-d array, list
+
+    The ground truth value for the train dataset
+
+X_val: Array, DataFrame. Series.
+
+    The feature set (x) to use in validating a trained estimator.
+
+y_val: Series, 1-d array, list
+
+    The ground truth value for the validation dataset.
+
+estimator: sklearn estimator.
+
+    Sklearn estimator that implements the fit and predict functions.
+
+cross_validate: Bool, default False
+
+    Use a cross validation strategy or not.
+
+cv: Int, default 5
+
+    Number of folds to use in cross validation.
+
+show_roc_curve: Bool, default True.
+
+    Plot a ROC plot showing estimator performance.
+
+save_plot: Bool, default False.
+    Save the plot as a png file.
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def train_classifier(train_data = None, target=None, val_data=None, val_data_target=None, model=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
+<pre><code class="python">def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
     &#39;&#39;&#39;
-    train a classification model and returns all the popular performance metric.
+    Train a classification estimator and calculate numerous performance metric.
 
     Parameters:
     ----------------------------
-    #TODO update Doc
+        X_train: Array, DataFrame, Series.
+
+            The feature set (x) to use in training an estimator in other predict the outcome (y).
+
+        y_train: Series, 1-d array, list
+
+            The ground truth value for the train dataset
+
+        X_val: Array, DataFrame. Series.
+
+            The feature set (x) to use in validating a trained estimator.
+
+        y_val: Series, 1-d array, list
+
+            The ground truth value for the validation dataset.
+
+        estimator: sklearn estimator.
+
+            Sklearn estimator that implements the fit and predict functions.
+
+        cross_validate: Bool, default False
+
+            Use a cross validation strategy or not.
+        
+        cv: Int, default 5
+
+            Number of folds to use in cross validation.
+        
+        show_roc_curve: Bool, default True.
+
+            Plot a ROC plot showing estimator performance.
+        
+        save_plot: Bool, default False.
+            Save the plot as a png file.
     
 &#39;&#39;&#39;
-    if train_data is None:
-        raise ValueError(&#34;train_data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    if X_train is None:
+        raise ValueError(&#34;X_train: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
     
-    if target is None:
-        raise ValueError(&#34;target: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
+    if y_train is None:
+        raise ValueError(&#34;y_train: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
 
     #initialize variables to hold calculations
     pred, acc, f1, precision, recall, confusion_mat = 0, 0, 0, 0, 0, None
 
     if cross_validate:
         dict_scorers  = {&#39;acc&#39; : accuracy_score,
-                    &#39;f1&#39; : f1_score,
-                    &#39;precision&#39;: precision_score, 
-                    &#39;recall&#39; : recall_score}
+                        &#39;f1&#39; : f1_score,
+                        &#39;precision&#39;: precision_score, 
+                        &#39;recall&#39; : recall_score
+                        }
+
 
         metric_names = [&#39;Accuracy&#39;, &#39;F1_score&#39;, &#39;Precision&#39;, &#39;Recall&#39;]
 
         for metric_name, scorer in zip(metric_names, dict_scorers):
-            cv_score = np.mean(cross_val_score(model, train_data, target, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
+            cv_score = np.mean(cross_val_score(estimator, X_train, y_train, scoring=make_scorer(dict_scorers[scorer]),cv=cv))
             print(&#34;{} is {}&#34;.format(metric_name,  round(cv_score * 100, 4)))
+
         #TODO Add cross validation function for confusion matrix
   
     else:
-        if val_data is None:
-            raise ValueError(&#34;val_data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+        if X_val is None:
+            raise ValueError(&#34;X_val: Expecting a DataFrame/ numpy array, got &#39;None&#39;&#34;)
         
-        if val_data_target is None:
-            raise ValueError(&#34;val_data_target: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
+        if y_val is None:
+            raise ValueError(&#34;y_val: Expecting a Series/ numpy1D array, got &#39;None&#39;&#34;)
 
-        model.fit(train_data, target)
-        pred = model.predict(val_data)
-        get_classification_report(val_data_target, pred, show_roc_plot, save_plot)</code></pre>
-</details>
-</dd>
-<dt id="datasist.model.train_predict"><code class="name flex">
-<span>def <span class="ident">train_predict</span></span>(<span>model=None, train_data=None, target=None, test_data=None, make_submission_file=False, sample_submision_file=None, submission_col_name=None, submision_file_name=None)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Train a model and makes prediction with it on the final test set. Also
-returns a sample submission file for data science competitions</p>
-<p>Parameters:</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def train_predict(model=None, train_data=None, target=None, test_data=None, make_submission_file=False,
-                  sample_submision_file=None, submission_col_name=None, 
-                  submision_file_name=None):
-    &#39;&#39;&#39;
-    Train a model and makes prediction with it on the final test set. Also
-    returns a sample submission file for data science competitions
-    
-    Parameters:
-
-    &#39;&#39;&#39;
-    model.fit(train_data, target)
-    pred = model.predict(test_data)
-
-    if make_submission_file:
-        sub = sample_submision_file
-        sub[submission_col_name] = pred
-        sub.to_csv(submision_file_name + &#39;.csv&#39;, index=False)
-        print(&#34;File has been saved to current working directory&#34;)
-    else:
-        return pred</code></pre>
+        estimator.fit(X_train, y_train)
+        pred = estimator.predict(X_val)
+        get_classification_report(y_val, pred, show_roc_plot, save_plot)</code></pre>
 </details>
 </dd>
 </dl>
@@ -369,10 +788,11 @@ returns a sample submission file for data science competitions</p>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="datasist.model.compare_model" href="#datasist.model.compare_model">compare_model</a></code></li>
 <li><code><a title="datasist.model.get_classification_report" href="#datasist.model.get_classification_report">get_classification_report</a></code></li>
+<li><code><a title="datasist.model.make_submission_csv" href="#datasist.model.make_submission_csv">make_submission_csv</a></code></li>
 <li><code><a title="datasist.model.plot_feature_importance" href="#datasist.model.plot_feature_importance">plot_feature_importance</a></code></li>
 <li><code><a title="datasist.model.train_classifier" href="#datasist.model.train_classifier">train_classifier</a></code></li>
-<li><code><a title="datasist.model.train_predict" href="#datasist.model.train_predict">train_predict</a></code></li>
 </ul>
 </li>
 </ul>
