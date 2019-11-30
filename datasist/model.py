@@ -232,7 +232,7 @@ def get_classification_report(y_train=None, prediction=None, show_roc_plot=True,
             plt.savefig("roc_plot.png")
 
 
-def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True):
+def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True, plot=True):
     """
     Train multiple user-defined model and display report based on defined metric. Enables user to pick the best base model for a problem.
 
@@ -291,9 +291,10 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
         model_scores.append(model_score)
         model_names.append(type(fitted_model[i]).__name__)
             
-    sns.pointplot(y=model_scores, x=model_names)
-    plt.xticks(rotation=90)
-    plt.title("Model comparison plot")
-    plt.show()
+    if plot:
+        sns.pointplot(y=model_scores, x=model_names)
+        plt.xticks(rotation=90)
+        plt.title("Model comparison plot")
+        plt.show()
 
     return fitted_model, model_scores
