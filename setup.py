@@ -7,7 +7,7 @@ with open("README.md", "r") as cd:
 setup(
       name='datasist',
       packages=['datasist'],
-      version='0.1',
+      version='1.0',
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
       long_description=long_description,
