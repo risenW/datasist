@@ -556,7 +556,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
 
 def plot_auc(labels, predictions):
     '''
-    Compute the false positive rate, true positive rate and threshold along with the AUC
+    Computes and plot the false positive rate, true positive rate and threshold along with the AUC
     Parameters:
     --------------------
 
@@ -592,6 +592,7 @@ def plot_auc(labels, predictions):
 
 def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alpha = 0.2):
     '''
+    Makes a scatter plot of data using shape_col as seperation.
     Parameter:
 
         data: Dataframe 
@@ -633,6 +634,7 @@ def plot_scatter_shape(data = None, cols = None, shape_col = '', col_y = '', alp
 
 def autoviz(data):
     '''
+    Automatically visualize a data set. If dataset is large, autoViz uses a statistically valid sample for plotting.
     Parameter:
     --------------------
         data: Dataframe 

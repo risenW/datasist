@@ -619,6 +619,7 @@ def plot_auc(labels, predictions):
 
 def plot_scatter_shape(data = None, cols = None, shape_col = &#39;&#39;, col_y = &#39;&#39;, alpha = 0.2):
     &#39;&#39;&#39;
+    Makes a scatter plot of data using shape_col as seperation.
     Parameter:
 
         data: Dataframe 
@@ -660,6 +661,7 @@ def plot_scatter_shape(data = None, cols = None, shape_col = &#39;&#39;, col_y =
 
 def autoviz(data):
     &#39;&#39;&#39;
+    Automatically visualize a data set. If dataset is large, autoViz uses a statistically valid sample for plotting.
     Parameter:
     --------------------
         data: Dataframe 
@@ -697,6 +699,9 @@ def autoviz(data):
 <span>def <span class="ident">autoviz</span></span>(<span>data)</span>
 </code></dt>
 <dd>
+<section class="desc">
+            <p>    Automatically visualize a data set. If dataset is large, autoViz uses a statistically valid sample for plotting.
+                </p>
 <section class="desc"><h2 id="parameter">Parameter:</h2>
 <pre><code>data: Dataframe 
     The data to plot
