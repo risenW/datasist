@@ -249,32 +249,32 @@ def timeplot(data=None, num_cols=None, time_col=None, subplots=True, marker='.',
 
 
 
-def time_boxplot(data=None, features=None, x=None, subplots=True, figsize=(12,10)):
-    '''
-    Makes a box plot of features against a specified column
+# def time_boxplot(data=None, features=None, x=None, subplots=True, figsize=(12,10)):
+#     '''
+#     Makes a box plot of features against a specified column
     
-    '''
+#     '''
 
-    if subplots:
-        fig, axes = plt.subplots(len(features), 1, figsize=figsize, sharex=True)
-        for feature, ax in zip(features, axes):
-            sns.boxplot(data=data, x=x, y=feature, ax=ax)
-            ax.set_ylabel('Count')
-            ax.set_title("Boxplot of '{}' vs. {} ".format(feature, x))
-            plt.tight_layout()
-            # Remove the automatic x-axis label from all but the bottom subplot
-            if ax != axes[-1]:
-                ax.set_xlabel('')
-    else:
-        for feature in features:
-            fig = plt.figure(figsize=figsize) # define plot area
-            ax = fig.gca() # define axis 
-            sns.boxplot(data=data, x=x, y=feature, ax=ax)
-            ax.set_ylabel('Count')
-            ax.set_title("Boxplot of '{}' vs. {} ".format(feature, x))
-            plt.tight_layout()
-            ax.set_xlabel('')
-            plt.show()
+#     if subplots:
+#         fig, axes = plt.subplots(len(features), 1, figsize=figsize, sharex=True)
+#         for feature, ax in zip(features, axes):
+#             sns.boxplot(data=data, x=x, y=feature, ax=ax)
+#             ax.set_ylabel('Count')
+#             ax.set_title("Boxplot of '{}' vs. {} ".format(feature, x))
+#             plt.tight_layout()
+#             # Remove the automatic x-axis label from all but the bottom subplot
+#             if ax != axes[-1]:
+#                 ax.set_xlabel('')
+#     else:
+#         for feature in features:
+#             fig = plt.figure(figsize=figsize) # define plot area
+#             ax = fig.gca() # define axis 
+#             sns.boxplot(data=data, x=x, y=feature, ax=ax)
+#             ax.set_ylabel('Count')
+#             ax.set_title("Boxplot of '{}' vs. {} ".format(feature, x))
+#             plt.tight_layout()
+#             ax.set_xlabel('')
+#             plt.show()
 
 
 
