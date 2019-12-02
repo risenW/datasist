@@ -93,9 +93,13 @@ A detailed overview on how to contribute can be found in the **[contributing gui
 
 If you are simply looking to start working with the datasist codebase, navigate to the [GitHub "issues"tab](https://github.com/risenW/datasist/issues) and start looking through interesting issues. There are a number of issues listed under good first issue where you could start out.
 
-
 ### Example Usage
 
 [Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
 
 [Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/examples/Example_irisdata.ipynb)
+
+
+List of contributors [here](https://github.com/risenW/datasist/graphs/contributors)
+
+Logo design by [Heybee](https://twitter.com/therealheybee)
