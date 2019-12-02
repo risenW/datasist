@@ -1,5 +1,5 @@
 <div align="center">
-  <img src='datasist.png' alt="datasist" style="width: 500px; height: 350px; margin-left: 200px;">
+  <img src='https://risenw.github.io/datasist/datasist.png' alt="datasist" style="width: 300px; height: 200px; margin-left: 200px;">
 </div>
 
 # datasist: Python library for easy data modeling, visualization, exploration and analysis.
