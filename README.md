@@ -95,7 +95,9 @@ If you are simply looking to start working with the datasist codebase, navigate 
 
 ### Example Usage
 
-[Classification problem using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
+Detailed articles covering some of the important features of datasist and can be found [here](https://towardsdatascience.com/https-medium-com-risingdeveloper-easy-data-analysis-visualization-and-modeling-using-datasist-part1-8b26526dbe01) and [here](https://towardsdatascience.com/easy-data-analysis-visualization-and-modeling-using-datasist-part-2-d2ce7fbf79e3)
+
+[Basic classification example using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
 
 [Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/examples/Example_irisdata.ipynb)
 
