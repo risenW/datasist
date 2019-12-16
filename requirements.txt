@@ -6,5 +6,4 @@ seaborn
 scikit-learn
 numpy
 spacy
-en_core_web_sm
 en

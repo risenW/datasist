@@ -25,7 +25,6 @@ setup(
         'jupyter',
         'scikit-learn',
         'spacy',
-        'en_core_web_sm',
         'en'
         ],
       classifiers=[
