@@ -5,7 +5,9 @@ import re
 import os
 import spacy 
 os.system("python3 -m spacy download en_core_web_sm")
-nlp_m = spacy.load('en_core_web_sm')
+# os.system("pip3 install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz")
+import en_core_web_sm
+nlp_m = en_core_web_sm.load()
 from spacy.lang.en.stop_words import STOP_WORDS
 
 
