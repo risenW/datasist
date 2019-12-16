@@ -4,7 +4,7 @@ This module contains all functions relating to nlp
 import re
 import os
 import spacy 
-os.system("python -m spacy download en_core_web_sm")
+os.system("python3 -m spacy download en_core_web_sm")
 nlp_m = spacy.load('en_core_web_sm')
 from spacy.lang.en.stop_words import STOP_WORDS
 
