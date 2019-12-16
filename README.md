@@ -58,7 +58,14 @@ pip install datasist
 - seaborn
 - matplotlib
 - scikit-learn
+- en
+- en_core_web_sm
 
+### Install nlp language models using
+```sh
+python -m spacy download en
+python -m spacy download en_core_web_sm
+```
 
 ## Installation from source
 To install datasist from source you need python 3.6> in addition to the normal
