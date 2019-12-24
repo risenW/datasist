@@ -7,7 +7,7 @@ with open("README.md", "r") as cd:
 setup(
       name='datasist',
       packages=['datasist'],
-      version='1.3',
+      version='1.4',
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
       long_description=long_description,
@@ -23,9 +23,7 @@ setup(
         'seaborn',
         'numpy',
         'jupyter',
-        'scikit-learn',
-        'spacy',
-        'en'
+        'scikit-learn'
         ],
       classifiers=[
         'Development Status :: 5 - Production/Stable',   

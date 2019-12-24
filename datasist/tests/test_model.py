@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, 
 
 from datasist import model
 
+
 def test_compare_model_classification():
     x_train, y_train = make_classification(
         n_samples=50, 
@@ -23,6 +24,7 @@ def test_compare_model_classification():
     assert type(fitted_model) is list
     assert type(model_scores) is list
     assert hasattr(fitted_model[0], "predict")
+
 
 def test_compare_model_regression():
     x_train, y_train = make_classification(

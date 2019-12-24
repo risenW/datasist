@@ -5,5 +5,3 @@ matplotlib
 seaborn
 scikit-learn
 numpy
-spacy
-en

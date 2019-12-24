@@ -4,7 +4,7 @@ This module contains all functions relating to modeling in using sklearn library
 '''
 import platform
 
-from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer
+from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer, mean_absolute_error, mean_squared_error, r2_score, mean_squared_log_error
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
@@ -230,6 +230,55 @@ def get_classification_report(y_train=None, prediction=None, show_roc_plot=True,
 
         if save_plot:
             plt.savefig("roc_plot.png")
+
+
+def get_regression_report(y_true=None, prediction=None, show_r2_plot=True, save_plot=False):
+    '''
+    Generates performance report for a regression problem.
+
+    Parameters:
+    ------------------
+    y_true: Array, series, list.
+
+        The truth/ground value from the train data set.
+    
+    prediction: Array, series, list.
+
+        The predicted value by a trained model.
+
+    show_r2_plot: Bool, default True.
+
+        Show the r-squared curve.
+
+    save_plot: Bool, default True.
+
+        Save the plot to the current working directory.
+
+    '''
+    mae = mean_absolute_error(y_true, prediction)
+    mse = mean_squared_error(y_true, prediction)
+    msle = precision_score(y_true, prediction)
+    r2 = r2_score(y_true, prediction)
+    
+    print("Mean Absolute Error: ", round(mae, 5))
+    print("Mean Squared Error: ", round(mse, 5))
+    print("Mean Squared Log Error: ", round(msle, 5))
+    print("R-squared Error:  ", round(r2, 5))
+    print("*" * 100)
+
+    if show_r2_plot:              
+        plt.scatter(y_true,prediction)
+        plt.xlabel('Truth values')
+        plt.ylabel('Predicted values')
+        plt.plot(np.unique(y_true), np.poly1d(np.polyfit(y_true, y_true, 1))(np.unique(y_true)))
+        plt.text(0.7, 0.2, 'R-squared = %0.2f' % r2)
+        plt.show()
+
+        if save_plot:
+            plt.savefig("r2_plot.png")
+
+
+
 
 
 def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=None, scoring_cv=3, silenced=True, plot=True):
