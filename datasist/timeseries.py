@@ -168,31 +168,42 @@ def time_elapsed(data=None, date_cols=None, by='s', col_name=None):
         Pandas DataFrame with new column for elapsed time.
     '''
 
-    if data is None:
-        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
-
     if date_cols is None:
         raise ValueError("date_col: Expecting a list of Date columns, got 'None'")
     
     if len(date_cols) != 2:
         raise ValueError("date_col: lenght of date_cols should be 2, got '{}'".format(len(date_cols)))
-
-    #convert to Pandas DateTime format
-    df = data.copy()
-
-    date1 = pd.to_datetime(df[date_cols[0]])
-    date2 = pd.to_datetime(df[date_cols[1]])
-
+    
     by_mapping = {'h': 'hrs', 'm': 'mins', 's': 'secs'}
 
-    if col_name is None:
-        col_name = by_mapping[by] + '_btw_' + date_cols[0] + '_' + date_cols[1]
-        df[col_name] = (df[date_cols[0]] - df[date_cols[1]]) / np.timedelta64(1,by) 
+    if data is None:
+
+        date1 = pd.to_datetime(date_cols[0])
+        date2 = pd.to_datetime(date_cols[1])
+
+        if col_name is None:
+            col_name = 'time_elapsed_' + by_mapping[by]
+            time_elapsed = (date1 - date2) / np.timedelta64(1,by) 
+            return pd.DataFrame(time_elapsed, columns=[col_name])
+        else:
+            time_elapsed = (date1 - date2) / np.timedelta64(1,by) 
+            return pd.DataFrame(time_elapsed, columns=[col_name])
     else:
-        df[col_name] = (df[date_cols[0]] - df[date_cols[1]]) / np.timedelta64(1,by) 
+        #convert to Pandas DateTime format
+        df = data.copy()
 
+        date1 = pd.to_datetime(df[date_cols[0]])
+        date2 = pd.to_datetime(df[date_cols[1]])
 
-    return df
+        if col_name is None:
+            col_name = by_mapping[by] + '_btw_' + date_cols[0] + '_' + date_cols[1]
+            df[col_name] = (df[date_cols[0]] - df[date_cols[1]]) / np.timedelta64(1,by) 
+            return df
+
+        else:
+            df[col_name] = (df[date_cols[0]] - df[date_cols[1]]) / np.timedelta64(1,by) 
+            return df
+
 
 
 def describe_date(data=None, date_col=None):
