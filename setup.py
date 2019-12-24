@@ -7,7 +7,7 @@ with open("README.md", "r") as cd:
 setup(
       name='datasist',
       packages=['datasist'],
-      version='1.2',
+      version='1.3',
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
       long_description=long_description,
@@ -16,7 +16,7 @@ setup(
       author_email='risingodegua@gmail.com',
       url='https://github.com/risenW/datasist',
       keywords=['Data Analysis', 'Feature Engineering', 'Visualization'],
-      download_url='https://github.com/risenW/datasist/archive/v1.2.tar.gz', 
+      download_url='https://github.com/risenW/datasist/archive/v1.3.tar.gz', 
       install_requires=[
         'pandas',
         'matplotlib',
