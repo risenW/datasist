@@ -138,7 +138,7 @@ def extract_time(data=None, time_cols=None, subset=None, drop=True):
     return df
 
 
-def time_elapsed(data=None, date_cols=None, by='s', col_name=None):
+def get_time_elapsed(data=None, date_cols=None, by='s', col_name=None):
     '''
     Calculates the time elapsed between two specified date columns 
     and returns the value in either seconds (s), minute (m) or hours (h).
@@ -203,6 +203,37 @@ def time_elapsed(data=None, date_cols=None, by='s', col_name=None):
         else:
             df[col_name] = (df[date_cols[0]] - df[date_cols[1]]) / np.timedelta64(1,by) 
             return df
+
+
+def get_period_of_day(date_col=None):
+    '''
+    Returns a list of the time of the day as regards to mornings, afternoons or evenings. Hour of the day that falls
+    between [0,1,2,3,4,5,6,7,8,9,10,11,12] are mapped to mornings, [13,14,15,16]] are mapped to afternoons and [17,18,19,20,21,22,23] are mapped to eveinings. 
+    
+    Parameter:
+    ------------
+        date_cols: Series, 1-D DataFrame
+
+            The datetime feature
+
+    Returns:
+    ----------
+        Series of mapped values
+    
+    '''
+
+    if date_col is None:
+        raise ValueError("date_cols: Expect a date columns, got 'None'")
+
+    
+    if date_col.dtype != np.int:
+        
+        date_col_hr = pd.to_datetime(date_col).dt.hour
+        return date_col_hr.map(_map_hours)
+    
+    else:
+        return date_col.map(_map_hours)
+
 
 
 
@@ -350,3 +381,11 @@ def set_date_index(data, date_col):
     #Set as time_col as DataFrame index
     return data.set_index(date_col)
 
+
+def _map_hours(x):   
+    if x in [0,1,2,3,4,5,6,7,8,9,10,11,12]:
+        return 'morning'
+    elif x in [13,14,15,16]:
+        return 'afternoon'
+    else:
+        return 'evening'
