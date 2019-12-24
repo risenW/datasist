@@ -16,7 +16,7 @@ setup(
       author_email='risingodegua@gmail.com',
       url='https://github.com/risenW/datasist',
       keywords=['Data Analysis', 'Feature Engineering', 'Visualization'],
-      download_url='https://github.com/risenW/datasist/archive/v1.3.tar.gz', 
+      download_url='https://github.com/risenW/datasist/archive/v1.4.tar.gz', 
       install_requires=[
         'pandas',
         'matplotlib',
