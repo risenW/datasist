@@ -17,7 +17,7 @@ matrix:
         - pip3 install -U pytest
         - pip3 install codecov
       install:
-        - pip install ".[test]"
+        - pip install .
       script: python3 -m pytest
       after_success: python 3 -m codecov
     - name: "Python 3.7.3 on macOS 10.14"
@@ -30,7 +30,7 @@ matrix:
         - pip3 install -U pytest
         - pip3 install codecov
       install:
-        - pip install ".[test]"
+        - pip install .
       script: python3 -m pytest
       after_success: python 3 -m codecov
     #  ====== WINDOWS =========
