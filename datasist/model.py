@@ -3,21 +3,25 @@ This module contains all functions relating to modeling in using sklearn library
 
 '''
 import platform
-
-from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer, mean_absolute_error, mean_squared_error, r2_score, mean_squared_log_error
-from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 import pandas as pd
+import seaborn as sns
+from .visualizations import plot_auc
+from sklearn.metrics import roc_curve, confusion_matrix, precision_score, accuracy_score, recall_score, f1_score, make_scorer, mean_absolute_error, mean_squared_error, r2_score, mean_squared_log_error
+from sklearn.model_selection import KFold, cross_val_score
+import joblib
+import pickle
+import os
+import json
+from pathlib import Path
+import logging
+
 
 if platform.system() == "Darwin":
     import matplotlib as plt
     plt.use('TkAgg')
 else:
     import matplotlib.pyplot as plt
-
-import seaborn as sns
-
-from .visualizations import plot_auc
 
 
 def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estimator=None, cross_validate=False, cv=5, show_roc_plot=True, save_plot=False):
@@ -347,3 +351,78 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
         plt.show()
 
     return fitted_model, model_scores
+
+
+def save_model(model, name='model', format='joblib'):
+    '''
+    Save a trained machine learning model in the models folder.
+    Folders must be initialized using the datasist start_project function.
+    Creates a folder models if datasist standard directory is not provided.
+
+    Parameters:
+    ------------
+    model: binary file, Python object
+        Trained model file to save in the models folder.
+
+    name: string
+        Name of the model to save it with.
+
+    format: string
+        Format to use in saving the model. It can be one of [joblib, pickle or keras].
+
+    Returns:
+    ---------
+    None
+
+    '''
+
+    if model is None:
+        raise ValueError("model: Expecting a binary model file, got 'None'")
+   
+    #get file path from config file
+    #we assume that the user is saving the model from the models folder
+    config = None
+    try:
+        homepath = _get_home_path(os.getcwd())
+        config_path = os.path.join(homepath, 'config.txt')
+        with open(config_path) as configfile:
+            config = json.load(configfile)
+        
+    except FileNotFoundError as e:
+       msg = '''models folder does not exist. Make sure you have created a project using datasist's start_project function, and your current working
+                 directory ends with either scripts/modeling or notebooks/modeling'''
+       logging.error(msg)
+
+    model_path = os.path.join(config['modelpath'], name)
+
+    if format is "joblib":
+        filename = model_path + '.jbl'
+        joblib.dump(model, model_path)
+        print("model saved in {}".format(filename))
+    elif format is 'pickle':
+        filename = model_path + '.pkl'
+        pickle.dump(model, model_path)
+        print("model saved in {}".format(filename))
+
+    elif format is 'keras':
+        filename = model_path + '.h5'
+        model.save(filename)
+        print("model saved in {}".format(filename))
+
+    else:
+        logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(format))
+
+
+
+
+
+
+def _get_home_path(filepath):
+    if filepath.endswith('scripts/modeling'):
+        indx = filepath.index("scripts/modeling")
+        path = filepath[0:indx]
+        return path
+    elif filepath.endswith('notebooks/modeling'):
+        indx = filepath.index("notebooks/modeling")
+        path = filepath[0:indx]
+        return path
