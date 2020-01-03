@@ -1,7 +1,8 @@
 import os
 import shutil
 from datasist.project import start_project
-
+from sklearn.ensemble import RandomForestClassifier
+from datasist.project import save_model
 
 def test_start_project():
     expected = ['notebooks',
@@ -9,7 +10,7 @@ def test_start_project():
                 'data',
                 'test',
                 'scripts',
-                'config.json',
+                'config.txt',
                 'models',
                 'outputs']
     start_project("tests/sampletest")
@@ -20,3 +21,11 @@ def test_start_project():
     shutil.rmtree("tests/sampletest")
 
 
+
+def test_save_model():
+    rf = RandomForestClassifier()
+    save_model(model=rf, name='tests/randomforest', method='joblib')
+    expected = 'randomforest.jbl'
+    output = os.listdir('tests/')
+    assert expected in output
+    os.remove('tests/randomforest.jbl')

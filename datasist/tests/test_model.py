@@ -4,8 +4,6 @@ import os
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, GradientBoostingClassifier, RandomForestRegressor
 
-from datasist import model
-
 
 def test_compare_model_classification():
     x_train, y_train = make_classification(
@@ -44,11 +42,3 @@ def test_compare_model_regression():
     assert type(model_scores) is list
     assert hasattr(fitted_model[0], "predict")
 
-
-def test_save_model():
-    rf = RandomForestClassifier()
-    model.save_model(model=rf, name='tests/randomforest', method='joblib')
-    expected = 'randomforest.jbl'
-    output = os.listdir('tests/')
-    assert expected in output
-    os.remove('tests/randomforest.jbl')
