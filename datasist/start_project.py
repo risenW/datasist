@@ -3,10 +3,10 @@ import argparse
 
 def start_project(project_name=None):
     '''
-    Creates a standard data science project folder structure. This helps in
+    Creates a standard data science project directory. This helps in
     easy team collaboration, rapid prototyping, easy reproducibility and fast iteration. 
     
-    This folder structure is by no means a globally recognized standard, and was inspired by
+    The directory structure is by no means a globally recognized standard, but was inspired by
     the folder structure created by the Azure team (https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview)
     and Edward Ma (https://makcedward.github.io/) of OOCL.
     
