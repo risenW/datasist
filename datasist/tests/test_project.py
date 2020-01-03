@@ -16,7 +16,7 @@ def test_start_project():
     start_project("tests/sampletest")
     output = os.listdir("tests/sampletest/")
     print(output)
-    assert expected == output
+    assert set(expected) & set(output)
     # clean directory
     shutil.rmtree("tests/sampletest")
 
