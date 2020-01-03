@@ -330,7 +330,7 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
 
     for i, model in enumerate(models_list):
         if silenced is not True:
-            print(f"Fitting {type(model).__name__} ... \n")
+            print(f"Fitting {type(model).__name__} ...")
         model.fit(x_train, y_train)
         # append fitted model into list
         fitted_model.append(model)
