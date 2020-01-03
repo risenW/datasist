@@ -1,6 +1,7 @@
 
 import pytest
-
+import os
+import shutil
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, GradientBoostingClassifier, RandomForestRegressor
 
@@ -43,3 +44,5 @@ def test_compare_model_regression():
     assert type(fitted_model) is list
     assert type(model_scores) is list
     assert hasattr(fitted_model[0], "predict")
+
+

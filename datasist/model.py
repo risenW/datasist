@@ -353,7 +353,7 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     return fitted_model, model_scores
 
 
-def save_model(model, name='model', format='joblib'):
+def save_model(model, name='model', method='joblib'):
     '''
     Save a trained machine learning model in the models folder.
     Folders must be initialized using the datasist start_project function.
@@ -367,7 +367,7 @@ def save_model(model, name='model', format='joblib'):
     name: string
         Name of the model to save it with.
 
-    format: string
+    method: string
         Format to use in saving the model. It can be one of [joblib, pickle or keras].
 
     Returns:
@@ -382,35 +382,55 @@ def save_model(model, name='model', format='joblib'):
     #get file path from config file
     #we assume that the user is saving the model from the models folder
     config = None
+
     try:
         homepath = _get_home_path(os.getcwd())
         config_path = os.path.join(homepath, 'config.txt')
+        
         with open(config_path) as configfile:
             config = json.load(configfile)
         
+        model_path = os.path.join(config['modelpath'], name)
+
+        if method is "joblib":
+            filename = model_path + '.jbl'
+            joblib.dump(model, model_path)
+            print("model saved in {}".format(filename))
+        elif method is 'pickle':
+            filename = model_path + '.pkl'
+            pickle.dump(model, model_path)
+            print("model saved in {}".format(filename))
+
+        elif method is 'keras':
+            filename = model_path + '.h5'
+            model.save(filename)
+            print("model saved in {}".format(filename))
+
+        else:
+            logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(method))
+            
     except FileNotFoundError as e:
-       msg = '''models folder does not exist. Make sure you have created a project using datasist's start_project function, and your current working
-                 directory ends with either scripts/modeling or notebooks/modeling'''
-       logging.error(msg)
+        msg = "models folder does not exist. Saving model to the {} folder. It is recommended that you start your project using datasist's start_project function".format(name)
+        logging.info(msg)
 
-    model_path = os.path.join(config['modelpath'], name)
+        if method is "joblib":
+            filename = name + '.jbl'
+            joblib.dump(model, filename)
+            print("model saved in current working directory")
+        elif method is 'pickle':
+            filename = name + '.pkl'
+            pickle.dump(model, filename)
+            print("model saved in current working directory")
 
-    if format is "joblib":
-        filename = model_path + '.jbl'
-        joblib.dump(model, model_path)
-        print("model saved in {}".format(filename))
-    elif format is 'pickle':
-        filename = model_path + '.pkl'
-        pickle.dump(model, model_path)
-        print("model saved in {}".format(filename))
+        elif method is 'keras':
+            filename = name + '.h5'
+            model.save(filename)
+            print("model saved in current working directory")
 
-    elif format is 'keras':
-        filename = model_path + '.h5'
-        model.save(filename)
-        print("model saved in {}".format(filename))
+        else:
+            logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(method))
+            
 
-    else:
-        logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(format))
 
 
 
@@ -426,3 +446,5 @@ def _get_home_path(filepath):
         indx = filepath.index("notebooks/modeling")
         path = filepath[0:indx]
         return path
+    else:
+        return filepath
