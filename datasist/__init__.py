@@ -4,4 +4,4 @@ from . import structdata
 from . import timeseries
 from . import visualizations
 from . import model
-from .import start_project
+from .import project

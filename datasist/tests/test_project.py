@@ -1,6 +1,6 @@
 import os
 import shutil
-from datasist.start_project import start_project
+from datasist.project import start_project
 
 
 def test_start_project():

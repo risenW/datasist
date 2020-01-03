@@ -124,6 +124,7 @@ def start_project(project_name=None):
 
 
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--project_name", help="Name of the parent directory to initialize folders")
