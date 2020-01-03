@@ -1,7 +1,6 @@
 
 import pytest
 import os
-import shutil
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, GradientBoostingClassifier, RandomForestRegressor
 
@@ -46,3 +45,10 @@ def test_compare_model_regression():
     assert hasattr(fitted_model[0], "predict")
 
 
+def test_save_model():
+    rf = RandomForestClassifier()
+    model.save_model(model=rf, name='tests/randomforest', method='joblib')
+    expected = 'randomforest.jbl'
+    output = os.listdir('tests/')
+    assert expected in output
+    os.remove('tests/randomforest.jbl')
