@@ -226,7 +226,7 @@ def save_model(model, name='model', method='joblib'):
 
 def save_data(data, name='proc_data', method='csv', loc='processed'):
     
-     '''
+    '''
     Saves data in the data folder. The data folder contains the processed and raw subfolders.
 
     The processed subfolder holds data that have been processed by some methods and can be used for later computation. Files like
@@ -254,7 +254,6 @@ def save_data(data, name='proc_data', method='csv', loc='processed'):
     None
 
     '''
-
     pass
 
 
@@ -298,9 +297,9 @@ def _get_home_path(filepath):
         return filepath
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--project_name", help="Name of the parent directory to initialize folders")
-    args = parser.parse_args()
+# if __name__ == "__main__":
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("-p", "--project_name", help="Name of the parent directory to initialize folders")
+#     args = parser.parse_args()
 
-    start_project(args.project_name)
+#     start_project(args.project_name)
