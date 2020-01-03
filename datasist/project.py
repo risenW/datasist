@@ -224,6 +224,66 @@ def save_model(model, name='model', method='joblib'):
             
 
 
+def save_data(data, name='proc_data', method='csv', loc='processed'):
+    
+     '''
+    Saves data in the data folder. The data folder contains the processed and raw subfolders.
+
+    The processed subfolder holds data that have been processed by some methods and can be used for later computation. Files like
+    feature matrixes, clean data files etc.
+
+    The raw subfolder contains data in the raw format. This can be in the form of sql tables, csv files raw texts etc.
+    Folders must be initialized using the datasist start_project function.
+
+    Parameters:
+    ------------
+    data: binary strings, CSV, txt
+        Data to save in the specified folder
+
+    name: string, Default proc_data
+        Name of the data file to save.
+
+    method: string, Default csv
+        Format to use in saving the data. It can be one of [ csv, joblib, pickle, numpy ].
+    
+    loc: string, Default processed.
+        subfolder to save the data file to. Can be one of [processed, raw ]
+
+    Returns:
+    ---------
+    None
+
+    '''
+
+    pass
+
+
+
+def save_outputs(data, name='proc_outputs', method='joblib'):
+
+    '''
+    Saves files like vocublaries, class labels, mappings, encodings, images etc. in the outputs folder. 
+    
+    Parameters:
+    ------------
+    data: binary strings, CSV, txt
+        Data to save in the folder
+
+    name: string, Default proc_outputs
+        Name of the data file to save.
+
+    method: string, Default joblib
+        Format to use in saving the data. It can be one of [ csv, joblib, pickle, numpy ].
+
+    Returns:
+    ---------
+    None
+
+    '''
+
+    pass
+
+
 
 def _get_home_path(filepath):
     if filepath.endswith('scripts/modeling'):
