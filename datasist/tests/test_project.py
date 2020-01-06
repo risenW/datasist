@@ -92,3 +92,44 @@ def test_save_data_before_init(): #Test data saving in an un-initialized project
     os.remove('tests/raw_file.csv')
 
 
+
+def test_save_outputs_csv(): #Test data saving in a directory structure created with datasist start_project function
+    expected = 'proc_outputs.csv'
+
+    start_project("tests/sampletest") #create test folder structure
+    config_path = os.path.join('tests/sampletest', 'config.txt')
+    with open(config_path) as configfile:
+        config = json.load(configfile)
+    
+    output_path= os.path.join(config['outputpath'])
+    aa = pd.DataFrame([1,2,3,4,5])
+    save_outputs(data=aa,name=output_path + '/proc_outputs', method='csv')
+
+    assert expected in os.listdir(output_path)
+    shutil.rmtree("tests/sampletest")
+
+def test_save_outputs_jbl(): #Test data saving in a directory structure created with datasist start_project function
+    expected = 'proc_outputs.jbl'
+
+    start_project("tests/sampletest") #create test folder structure
+    config_path = os.path.join('tests/sampletest', 'config.txt')
+    with open(config_path) as configfile:
+        config = json.load(configfile)
+    
+    output_path= os.path.join(config['outputpath'])
+    aa = pd.DataFrame([1,2,3,4,5])
+    save_outputs(data=aa,name=output_path + '/proc_outputs')
+
+    assert expected in os.listdir(output_path)
+    shutil.rmtree("tests/sampletest")
+    
+
+def test_save_output_before_init(): #Test output saving in an un-initialized datasist project
+    expected = 'out_file.csv'    
+    aa = pd.DataFrame([1,2,3,4,5])
+    save_data(aa, name='tests/out_file', method='csv')
+
+    assert expected in os.listdir('tests')
+    os.remove('tests/out_file.csv')
+
+
