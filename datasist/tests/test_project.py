@@ -127,7 +127,7 @@ def test_save_outputs_jbl(): #Test data saving in a directory structure created 
 def test_save_output_before_init(): #Test output saving in an un-initialized datasist project
     expected = 'out_file.csv'    
     aa = pd.DataFrame([1,2,3,4,5])
-    save_data(aa, name='tests/out_file', method='csv')
+    save_outputs(aa, name='tests/out_file', method='csv')
 
     assert expected in os.listdir('tests')
     os.remove('tests/out_file.csv')
