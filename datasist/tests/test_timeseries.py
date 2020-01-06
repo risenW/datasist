@@ -18,6 +18,5 @@ def test_get_period_of_day():
     df = pd.Series([12,15,1,22,23,1])
     expected = ['morning', 'afternoon', 'morning', 'evening', 'evening', 'morning']
     output = list(timeseries.get_period_of_day(df))
-    # pd.testing.assert_series_equal(expected, output)
     assert set(expected) == set(output)
     

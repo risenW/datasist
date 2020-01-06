@@ -90,41 +90,41 @@ def start_project(project_name=None):
     os.makedirs(os.path.join(basepath, 'test'), exist_ok=True)
     
     desc = '''
-            ### PROJECT STRUCTURE:
+    PROJECT STRUCTURE:
 
-            ├── data
-            │   ├── processed
-            │   └── raw
-            ├── models
-            ├── notebooks
-            │   ├── eda
-            │   └── modeling
-            ├── scripts
-            │   ├── modeling
-            │   ├── preparation
-            │   └── processing
-            ├── test
+    ├── data
+    │   ├── processed
+    │   └── raw
+    ├── models
+    ├── notebooks
+    │   ├── eda
+    │   └── modeling
+    ├── scripts
+    │   ├── modeling
+    │   ├── preparation
+    │   └── processing
+    ├── test
 
-            DETAILS:
+    DETAILS:
 
-            data: Stores data used for the experiments, including raw and intermediate processed data.
-                processed: stores all processed data files after cleaning, analysis, feature creation etc.
-                raw: Stores all raw data obtained from databases, file storages, etc.
+    data: Stores data used for the experiments, including raw and intermediate processed data.
+        processed: stores all processed data files after cleaning, analysis, feature creation etc.
+        raw: Stores all raw data obtained from databases, file storages, etc.
 
-            models: Stores trained binary model files. This are models saved after training and evaluation for later use.
+    models: Stores trained binary model files. This are models saved after training and evaluation for later use.
 
-            notebooks: stores jupyter notebooks for exploration, modeling, evaluation, etc.
-                eda: Stores notebook of exploratory data analysis.
-                modeling: Stores notebook for modeling and evaluation of different models.
+    notebooks: stores jupyter notebooks for exploration, modeling, evaluation, etc.
+        eda: Stores notebook of exploratory data analysis.
+        modeling: Stores notebook for modeling and evaluation of different models.
 
-            scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
-                modeling: Stores all scripts and code relating to model building, evaluation and saving.
-                preparation: Stores all scripts used for data preparation and cleaning.
-                processing: Stores all scripts used for reading in data from different sources like databases or file storage.
+    scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
+        modeling: Stores all scripts and code relating to model building, evaluation and saving.
+        preparation: Stores all scripts used for data preparation and cleaning.
+        processing: Stores all scripts used for reading in data from different sources like databases or file storage.
 
-            test: Stores all test files for code in scripts.
+    test: Stores all test files for code in scripts.
 
-            ''' 
+    ''' 
     #project configuration settings
     json_config = {"description": "This file holds all confguration settings for the current project",
                     "basepath": basepath,
@@ -224,7 +224,7 @@ def save_model(model, name='model', method='joblib'):
             
 
 
-def save_data(data, name='proc_data', method='csv', loc='processed'):
+def save_data(data, name='processed_data', method=None, loc='processed'):
     
     '''
     Saves data in the data folder. The data folder contains the processed and raw subfolders.
@@ -243,8 +243,9 @@ def save_data(data, name='proc_data', method='csv', loc='processed'):
     name: string, Default proc_data
         Name of the data file to save.
 
-    method: string, Default csv
-        Format to use in saving the data. It can be one of [ csv, joblib, pickle, numpy ].
+    method: string, Default None
+        Format to use in saving the data. It can be empty string, and we assume it is a 
+        Pandas DataFrame, and we use the to_csv function, else we serialize with joblib.
     
     loc: string, Default processed.
         subfolder to save the data file to. Can be one of [processed, raw ]
@@ -254,7 +255,52 @@ def save_data(data, name='proc_data', method='csv', loc='processed'):
     None
 
     '''
-    pass
+    if data is None:
+        raise ValueError("data: Expecting a dataset, got 'None'")
+
+    if loc not in ['processed', 'raw']:
+        raise ValueError("loc: location not found, expecting one of [processed , raw] got {}".format(loc))
+    
+    try:
+        homepath = _get_home_path(os.getcwd())
+        config_path = os.path.join(homepath, 'config.txt')
+        
+        with open(config_path) as configfile:
+            config = json.load(configfile)
+        
+        data_path = os.path.join(config['datapath'], loc)
+
+
+        if method is "joblib":
+            filename =  os.path.join(data_path, name) + '.jbl'
+            joblib.dump(data, filename)
+            print("Data saved in {}".format(filename))
+
+        else:
+            try:
+                data.to_csv(os.path.join(data_path, name) + '.csv', index=False)
+                print("Data saved successfully")
+
+            except AttributeError as e:
+                print("The file to save must be a Pandas DataFrame. Otherwise, change method parameter to joblib ")
+                logging.error(e)                     
+
+
+    except FileNotFoundError as e:
+        msg = "data folder does not exist. Saving data to the {} folder. It is recommended that you start your project using datasist's start_project function".format(name)
+        logging.info(msg)
+
+        if method is "joblib":
+            filename = name + '.jbl'
+            joblib.dump(data, filename)
+            print("data saved in current working directory")
+        else:
+            try:
+                data.to_csv(name + '.csv',  index=False)
+            except AttributeError as e:
+                logging.info("The file to save must be a Pandas DataFrame, else change method to joblib ")
+                logging.error(e)                 
+
 
 
 
@@ -291,6 +337,10 @@ def _get_home_path(filepath):
         return path
     elif filepath.endswith('notebooks/modeling'):
         indx = filepath.index("notebooks/modeling")
+        path = filepath[0:indx]
+        return path
+    elif filepath.endswith('notebooks/eda'):
+        indx = filepath.index("notebooks/eda")
         path = filepath[0:indx]
         return path
     else:
