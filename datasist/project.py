@@ -304,10 +304,10 @@ def save_data(data, name='processed_data', method=None, loc='processed'):
 
 
 
-def save_outputs(data, name='proc_outputs', method='joblib'):
+def save_outputs(data=None, name='proc_outputs', method='joblib'):
 
     '''
-    Saves files like vocublaries, class labels, mappings, encodings, images etc. in the outputs folder. 
+    Saves files like vocabulary, class labels, mappings, encodings, images etc. in the outputs folder. 
     
     Parameters:
     ------------
@@ -318,15 +318,61 @@ def save_outputs(data, name='proc_outputs', method='joblib'):
         Name of the data file to save.
 
     method: string, Default joblib
-        Format to use in saving the data. It can be one of [ csv, joblib, pickle, numpy ].
+        Format to use in saving the data. It can be one of [csv, joblib, pickle].
 
     Returns:
     ---------
     None
 
     '''
+    if data is None:
+        raise ValueError("data: Expecting a dataset, got 'None'")
 
-    pass
+    if method not in ['csv', 'joblib', 'pickle']:
+        raise ValueError("method: Expecting one of ['csv', 'joblib', 'pickle'] got {}".format(method))
+    
+    try:
+        homepath = _get_home_path(os.getcwd())
+        config_path = os.path.join(homepath, 'config.txt')
+        
+        with open(config_path) as configfile:
+            config = json.load(configfile)
+        
+        outputs_path = config['outputpath']
+
+
+        if method is "joblib":
+            filename =  os.path.join(outputs_path, name) + '.jbl'
+            joblib.dump(data, filename)
+            print("Data saved in {}".format(filename))
+        elif method is 'pickle':
+            filename =  os.path.join(outputs_path, name) + '.pkl'
+            pickle.dump(data, filename)
+            print("Data saved in {}".format(filename))
+        elif method is 'csv':
+            data.to_csv(os.path.join(outputs_path, name) + '.csv', index=False)
+            print("Data saved successfully")
+        else:
+            logging.error("An error occured while savng the file")                    
+
+
+    except FileNotFoundError as e:
+        msg = "outputs folder does not exist. Saving data to the current folder. It is recommended that you start your project using datasist's start_project function"
+        logging.info(msg)
+
+        if method is "joblib":
+            filename =  name + '.jbl'
+            joblib.dump(data, filename)
+            print("Data saved in {}".format(filename))
+        elif method is 'pickle':
+            filename =  name + '.pkl'
+            pickle.dump(data, filename)
+            print("Data saved in {}".format(filename))
+        elif method is 'csv':
+            data.to_csv(name + '.csv', index=False)
+            print("Data saved successfully")
+        else:
+            logging.error("An error occured while savng the file")                              
 
 
 
