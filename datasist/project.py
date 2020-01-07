@@ -29,6 +29,8 @@ def start_project(project_name=None):
             │       ├── modeling
             │       ├── preparation
             │       ├── test
+            ├   ├── notebooks
+
 
 
             DETAILS:
@@ -46,6 +48,7 @@ def start_project(project_name=None):
                     preparation: Stores all scripts used for data preparation and cleaning.
                     ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
                     test: Stores all test files for code in scripts.
+                notebooks: Stores all jupyter notebooks used for experimentation.
     
     
     Parameters:
@@ -78,12 +81,15 @@ def start_project(project_name=None):
     os.makedirs(os.path.join(model_path), exist_ok=True)
 
     os.makedirs(os.path.join(src_path), exist_ok=True)
+    os.makedirs(os.path.join(src_path, 'notebooks'), exist_ok=True)
 
     os.makedirs(os.path.join(scripts_path), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'ingest'), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'preparation'), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'modeling'), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'test'), exist_ok=True)
+
+
     
     desc = '''
     PROJECT STRUCTURE:
@@ -99,6 +105,8 @@ def start_project(project_name=None):
             │       ├── modeling
             │       ├── preparation
             │       ├── test
+            ├   ├── notebooks
+
 
             data: Stores data used for the experiments, including raw and intermediate processed data.
                 processed: stores all processed data files after cleaning, analysis, feature creation etc.
@@ -113,7 +121,7 @@ def start_project(project_name=None):
                     preparation: Stores all scripts used for data preparation and cleaning.
                     ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
                     test: Stores all test files for code in scripts.
-    
+                notebooks: Stores all jupyter notebooks used for experimentation.
 
     ''' 
     #project configuration settings

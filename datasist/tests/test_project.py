@@ -7,7 +7,6 @@ import json
 import pandas as pd
 import logging
 
-
 def test_start_project():
     expected = ['README.txt',
                 'src',
