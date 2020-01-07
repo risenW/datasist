@@ -62,12 +62,15 @@ dependencies:
     - parso==0.5.2
     - pexpect==4.7.0
     - pickleshare==0.7.5
+    - pluggy==0.13.1
     - prometheus-client==0.7.1
     - prompt-toolkit==2.0.10
     - ptyprocess==0.6.0
+    - py==1.8.1
     - pygments==2.5.2
     - pyparsing==2.4.6
     - pyrsistent==0.15.6
+    - pytest==5.3.2
     - python-dateutil==2.8.1
     - pytz==2019.3
     - pyzmq==18.1.1

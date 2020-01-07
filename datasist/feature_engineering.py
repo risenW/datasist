@@ -610,7 +610,7 @@ def convert_dtype(df):
         while i <= (df.shape[1])-1:
             val = df.iloc[:,i]
             if str(val.dtypes) =='object':
-                val = val.apply(lambda x: re.sub("^\s+|\s+$", "",x, flags=re.UNICODE)) #Remove spaces between strings
+                val = val.apply(lambda x: re.sub(r"^\s+|\s+$", "",x, flags=re.UNICODE)) #Remove spaces between strings
         
             try:
                 if str(val.dtypes) =='object':

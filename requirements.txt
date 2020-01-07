@@ -53,12 +53,15 @@ parso=0.5.2=pypi_0
 pexpect=4.7.0=pypi_0
 pickleshare=0.7.5=pypi_0
 pip=19.3.1=py37_0
+pluggy=0.13.1=pypi_0
 prometheus-client=0.7.1=pypi_0
 prompt-toolkit=2.0.10=pypi_0
 ptyprocess=0.6.0=pypi_0
+py=1.8.1=pypi_0
 pygments=2.5.2=pypi_0
 pyparsing=2.4.6=pypi_0
 pyrsistent=0.15.6=pypi_0
+pytest=5.3.2=pypi_0
 python=3.7.5=h0371630_0
 python-dateutil=2.8.1=pypi_0
 pytz=2019.3=pypi_0
