@@ -6,20 +6,18 @@ from datasist.project import save_model, save_data, save_outputs, _get_home_path
 import json
 import pandas as pd
 
+
 def test_start_project():
-    expected = ['notebooks',
-                'README.txt',
-                'data',
-                'test',
-                'scripts',
+    expected = ['README.txt',
+                'datass',
+                'src',
                 'config.txt',
-                'models',
                 'outputs']
     start_project("tests/sampletest")
     output = os.listdir("tests/sampletest/")
     assert set(expected) & set(output)
     # clean directory
-    shutil.rmtree("tests/sampletest")
+    # shutil.rmtree("tests/sampletest")
 
 
 

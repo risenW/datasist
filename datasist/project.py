@@ -21,15 +21,15 @@ def start_project(project_name=None):
             ├── data
             │   ├── processed
             │   └── raw
-            ├── models
-            ├── notebooks
-            │   ├── eda
-            │   └── modeling
-            ├── scripts
-            │   ├── modeling
-            │   ├── preparation
-            │   └── ingest
-            ├── test
+            ├── outputs
+            │   ├── models
+            ├── src
+            │   ├── scripts
+            │       ├── ingest
+            │       ├── modeling
+            │       ├── preparation
+            │       ├── test
+
 
             DETAILS:
 
@@ -37,18 +37,15 @@ def start_project(project_name=None):
                 processed: stores all processed data files after cleaning, analysis, feature creation etc.
                 raw: Stores all raw data obtained from databases, file storages, etc.
 
-            models: Stores trained binary model files. This are models saved after training and evaluation for later use.
+            outputs:Stores all output files from an experiment.
+                models: Stores trained binary model files. This are models saved after training and evaluation for later use.
 
-            notebooks: stores jupyter notebooks for exploration, modeling, evaluation, etc.
-                eda: Stores notebook of exploratory data analysis.
-                modeling: Stores notebook for modeling and evaluation of different models.
-
-            scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
-                modeling: Stores all scripts and code relating to model building, evaluation and saving.
-                preparation: Stores all scripts used for data preparation and cleaning.
-                ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
-
-            test: Stores all test files for code in scripts.
+            src: Stores all source code including scripts and notebook experiments.
+                scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
+                    modeling: Stores all scripts and code relating to model building, evaluation and saving.
+                    preparation: Stores all scripts used for data preparation and cleaning.
+                    ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
+                    test: Stores all test files for code in scripts.
     
     
     Parameters:
@@ -65,81 +62,75 @@ def start_project(project_name=None):
         raise ValueError("project_name: Expecting a string or filepath, got 'None'")
 
     
-    basepath = os.path.join(os.getcwd(), project_name)
-    datapath = os.path.join(basepath, 'data')
-    modelpath = os.path.join(basepath, 'models')
-    outputpath = os.path.join(basepath, 'outputs')
+    base_path = os.path.join(os.getcwd(), project_name)
+    data_path = os.path.join(base_path, 'data')
+    output_path = os.path.join(base_path, 'outputs')
+    model_path = os.path.join(output_path, 'models')
+    src_path = os.path.join(base_path, 'src')
+    scripts_path = os.path.join(base_path, 'src', 'scripts')
 
     
-    os.makedirs(datapath, exist_ok=True)
-    os.makedirs(os.path.join(datapath, 'raw'), exist_ok=True)
-    os.makedirs(os.path.join(datapath, 'processed'), exist_ok=True)
+    os.makedirs(data_path, exist_ok=True)
+    os.makedirs(os.path.join(data_path, 'raw'), exist_ok=True)
+    os.makedirs(os.path.join(data_path, 'processed'), exist_ok=True)
 
-    os.makedirs(os.path.join(basepath, 'notebooks'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'notebooks', 'eda'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'notebooks', 'modeling'), exist_ok=True)
+    os.makedirs(os.path.join(output_path), exist_ok=True)
+    os.makedirs(os.path.join(model_path), exist_ok=True)
 
-    os.makedirs(os.path.join(basepath, 'scripts'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'scripts', 'modeling'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'scripts', 'preparation'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'scripts', 'ingest'), exist_ok=True)
+    os.makedirs(os.path.join(src_path), exist_ok=True)
 
-    os.makedirs(modelpath, exist_ok=True)
-    os.makedirs(outputpath, exist_ok=True)
-
-    os.makedirs(os.path.join(basepath, 'test'), exist_ok=True)
+    os.makedirs(os.path.join(scripts_path), exist_ok=True)
+    os.makedirs(os.path.join(scripts_path, 'ingest'), exist_ok=True)
+    os.makedirs(os.path.join(scripts_path, 'preparation'), exist_ok=True)
+    os.makedirs(os.path.join(scripts_path, 'modeling'), exist_ok=True)
+    os.makedirs(os.path.join(scripts_path, 'test'), exist_ok=True)
     
     desc = '''
     PROJECT STRUCTURE:
 
-    ├── data
-    │   ├── processed
-    │   └── raw
-    ├── models
-    ├── notebooks
-    │   ├── eda
-    │   └── modeling
-    ├── scripts
-    │   ├── modeling
-    │   ├── ingest
-    │   └── processing
-    ├── test
+            ├── data
+            │   ├── processed
+            │   └── raw
+            ├── outputs
+            │   ├── models
+            ├── src
+            │   ├── scripts
+            │       ├── ingest
+            │       ├── modeling
+            │       ├── preparation
+            │       ├── test
 
-    DETAILS:
+            data: Stores data used for the experiments, including raw and intermediate processed data.
+                processed: stores all processed data files after cleaning, analysis, feature creation etc.
+                raw: Stores all raw data obtained from databases, file storages, etc.
 
-    data: Stores data used for the experiments, including raw and intermediate processed data.
-        processed: stores all processed data files after cleaning, analysis, feature creation etc.
-        raw: Stores all raw data obtained from databases, file storages, etc.
+            outputs:Stores all output files from an experiment.
+                models: Stores trained binary model files. This are models saved after training and evaluation for later use.
 
-    models: Stores trained binary model files. This are models saved after training and evaluation for later use.
-
-    notebooks: stores jupyter notebooks for exploration, modeling, evaluation, etc.
-        eda: Stores notebook of exploratory data analysis.
-        modeling: Stores notebook for modeling and evaluation of different models.
-
-    scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
-        modeling: Stores all scripts and code relating to model building, evaluation and saving.
-        preparation: Stores all scripts used for data preparation and cleaning.
-        ingest: Stores all scripts used for reading in data from different sources like databases, web, or file storage.
-
-    test: Stores all test files for code in scripts.
+            src: Stores all source code including scripts and notebook experiments.
+                scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
+                    modeling: Stores all scripts and code relating to model building, evaluation and saving.
+                    preparation: Stores all scripts used for data preparation and cleaning.
+                    ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
+                    test: Stores all test files for code in scripts.
+    
 
     ''' 
     #project configuration settings
     json_config = {"description": "This file holds all confguration settings for the current project",
-                    "basepath": basepath,
-                    "datapath" : datapath,
-                    "outputpath": outputpath,
-                    "modelpath": modelpath}
+                    "basepath": base_path,
+                    "datapath" : data_path,
+                    "outputpath": output_path,
+                    "modelpath": model_path}
     
     #create a readme.txt file to explain the folder structure
-    with open(os.path.join(basepath, "README.txt"), 'w') as readme:
+    with open(os.path.join(base_path, "README.txt"), 'w') as readme:
         readme.write(desc)
     
-    with open(os.path.join(basepath, "config.txt"), 'w') as configfile:
+    with open(os.path.join(base_path, "config.txt"), 'w') as configfile:
         json.dump(json_config, configfile)
     
-    print("Project Initialized successfully in {}".format(basepath))
+    print("Project Initialized successfully in {}".format(base_path))
     print("Check folder description in ReadMe.txt")
 
 
