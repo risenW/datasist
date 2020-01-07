@@ -8,7 +8,7 @@
   <td>Latest Release</td>
   <td>
     <a href="https://pypi.org/project/datasist/">
-    <img src="https://img.shields.io/badge/pip-v1.0-blue.svg" alt="latest release" />
+    <img src="https://img.shields.io/badge/pip-v1.4-blue.svg" alt="latest release" />
     </a>
   </td>
 </tr>
