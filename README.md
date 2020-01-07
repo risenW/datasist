@@ -86,6 +86,9 @@ pip install -e .
 ## Documentation
 API documentation can be found [here](https://risenw.github.io/datasist/index.html)
 
+## Youtube Tutorial
+Introduction to Datasist by DataKnight [Click Here](https://youtu.be/ErWa_WWu7vM)
+
 ## Contributing to datasist
 
 All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome.
