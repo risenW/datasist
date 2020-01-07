@@ -82,7 +82,7 @@ def start_project(project_name=None):
     os.makedirs(os.path.join(basepath, 'scripts'), exist_ok=True)
     os.makedirs(os.path.join(basepath, 'scripts', 'modeling'), exist_ok=True)
     os.makedirs(os.path.join(basepath, 'scripts', 'preparation'), exist_ok=True)
-    os.makedirs(os.path.join(basepath, 'scripts', 'processing'), exist_ok=True)
+    os.makedirs(os.path.join(basepath, 'scripts', 'ingest'), exist_ok=True)
 
     os.makedirs(modelpath, exist_ok=True)
     os.makedirs(outputpath, exist_ok=True)
