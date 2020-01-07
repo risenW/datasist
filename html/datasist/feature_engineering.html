@@ -1,0 +1,1866 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>datasist.feature_engineering API documentation</title>
+<meta name="description" content="This module contains all functions relating to feature engineering" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>datasist.feature_engineering</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains all functions relating to feature engineering</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+This module contains all functions relating to feature engineering
+&#39;&#39;&#39;
+import datetime as dt
+import re
+import platform
+import pandas as pd
+import numpy as np
+
+if platform.system() == &#34;Darwin&#34;:
+    import matplotlib as plt
+    plt.use(&#39;TkAgg&#39;)
+else:
+    import matplotlib.pyplot as plt
+
+import seaborn as sns
+
+from .structdata import get_cat_feats, get_num_feats, get_date_cols
+from dateutil.parser import parse
+
+
+def drop_missing(data=None, percent=99):
+    &#39;&#39;&#39;
+    Drops missing columns with [percent] of missing data.
+
+    Parameters:
+    -------------------------
+        data: Pandas DataFrame or Series.
+
+        percent: float, Default 99
+
+            Percentage of missing values to be in a column before it is eligible for removal.
+
+    Returns:
+
+        Pandas DataFrame or Series.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    missing_percent = (data.isna().sum() / data.shape[0]) * 100
+    cols_2_drop = missing_percent[missing_percent.values &gt;= percent].index
+    print(&#34;Dropped {}&#34;.format(list(cols_2_drop)))
+    #Drop missing values
+    df = data.drop(cols_2_drop, axis=1)
+    return df
+
+
+
+def drop_redundant(data):
+    &#39;&#39;&#39;
+    Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.
+
+    Parameters:
+    -----------------------------
+        data: DataFrame or named series.
+    
+    Returns:
+
+        DataFrame or named series.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    #get columns
+    cols_2_drop = _nan_in_class(data)
+    print(&#34;Dropped {}&#34;.format(cols_2_drop))
+    df = data.drop(cols_2_drop, axis=1)
+    return df
+    
+
+# def fill_with_model(xtrain, xtest, estimator):
+
+    
+
+def _nan_in_class(data):
+    cols = []
+    for col in data.columns:
+        if len(data[col].unique()) == 1:
+            cols.append(col)
+
+        if len(data[col].unique()) == 2:
+            if np.nan in list(data[col].unique()):
+                cols.append(col)
+
+    return cols
+
+
+def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
+    &#39;&#39;&#39;
+    Fill missing values using the mode of the categorical features.
+
+    Parameters:
+    ------------------------
+        data: DataFrame or name Series.
+
+            Data set to perform operation on.
+
+        cat_features: List, Series, Array.
+
+            categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+        missing_encoding: List, Series, Array.
+
+            Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
+
+        missin_col: bool, Default True
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if cat_features is None:
+        cat_features = get_cat_feats(data)
+
+    df = data.copy()
+    #change all possible missing values to NaN
+    if missing_encoding is None:
+        missing_encoding = [&#39;&#39;, &#39; &#39;, -99, -999]
+
+    df.replace(missing_encoding, np.NaN, inplace=True)
+    
+    for feat in cat_features:
+        if missing_col:
+            df[feat + &#39;_missing_value&#39;] = (df[feat].isna()).astype(&#39;int64&#39;)
+        most_freq = df[feat].mode()[0]
+        df[feat] = df[feat].replace(np.NaN, most_freq)
+    
+    return df
+
+
+def fill_missing_num(data=None, num_features=None, method=&#39;mean&#39;, missing_col=False):
+    &#39;&#39;&#39;
+    fill missing values in numerical columns with specified [method] value
+
+    Parameters:
+        ------------------------------
+        data: DataFrame or name Series.
+
+            The data set to fill
+
+        features: list.
+
+            List of columns to fill
+
+        method: str, Default &#39;mean&#39;.
+
+            method to use in calculating fill value.
+
+        missing_col: bool, Default True
+
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if num_features is None:
+        num_features = get_num_feats(data)
+        #get numerical features with missing values
+        temp_df = data[num_features].isna().sum()
+        features = list(temp_df[num_features][temp_df[num_features] &gt; 0].index)
+        
+    df = data.copy()
+    for feat in features:
+        if missing_col:
+            df[feat + &#39;_missing_value&#39;] = (df[feat].isna()).astype(&#39;int64&#39;)
+        if method is &#39;mean&#39;:
+            mean = df[feat].mean()
+            df[feat].fillna(mean, inplace=True)
+        elif method is &#39;median&#39;:
+            median = df[feat].median()
+            df[feat].fillna(median, inplace=True)
+        elif method is &#39;mode&#39;:
+            mode = df[feat].mode()[0]
+            df[feat].fillna(mode, inplace=True)
+        else:
+            raise ValueError(&#34;method: must specify a fill method, one of [mean, mode or median]&#39;&#34;)
+
+    return df
+
+
+   
+
+
+def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
+    &#39;&#39;&#39;
+    Performs a groupby on the specified categorical features and merges
+    the result to the original dataframe.
+
+    Parameter:
+    -----------------------
+
+        data: DataFrame
+
+            Data set to perform operation on.
+
+        cat_features: list, series, 1D-array
+
+            categorical features to groupby.
+
+        statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
+
+            aggregates to perform on grouped data.
+
+        col_to_merge: str
+
+            The column to merge on the dataset. Must be present in the data set.
+
+    Returns:
+
+        Dataframe.
+
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if statistics is None:     
+        statistics = [&#39;mean&#39;, &#39;count&#39;]
+    
+    if cat_features is None:
+        cat_features = get_num_feats(data)
+
+    if col_to_merge is None:
+        raise ValueError(&#34;col_to_merge: Expecting a string [column to merge on], got &#39;None&#39;&#34;)
+
+    
+    df = data.copy()
+    
+    for cat in cat_features:      
+        temp = df.groupby([cat]).agg(statistics)[col_to_merge]
+        #rename columns
+        temp = temp.rename(columns={&#39;mean&#39;: cat + &#39;_&#39; + col_to_merge + &#39;_mean&#39;, &#39;count&#39;: cat + &#39;_&#39; + col_to_merge +  &#34;_count&#34;})
+        #merge the data sets
+        df = df.merge(temp, how=&#39;left&#39;, on=cat)
+    
+    
+    return df
+
+
+def get_qcut(data=None, col=None, q=None, duplicates=&#39;drop&#39;, return_type=&#39;float64&#39;):
+    &#39;&#39;&#39;
+    Cuts a series into bins using the pandas qcut function
+    and returns the resulting bins as a series for merging.
+
+    Parameter:
+    -------------
+
+        data: DataFrame, named Series
+
+            Data set to perform operation on.
+
+        col: str
+
+            column to cut/binnarize.
+
+        q: integer or array of quantiles
+
+            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+            array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+        duplicates: Default &#39;drop&#39;,
+
+            If bin edges are not unique drop non-uniques.
+
+        return_type: dtype, Default (float64)
+
+            Dtype of series to return. One of [float64, str, int64]
+    
+    Returns:
+    --------
+
+        Series, 1D-Array
+
+    &#39;&#39;&#39;
+
+    temp_df = pd.qcut(data[col], q=q, duplicates=duplicates).to_frame().astype(&#39;str&#39;)
+    #retrieve only the qcut categories
+    df = temp_df[col].str.split(&#39;,&#39;).apply(lambda x: x[0][1:]).astype(return_type)
+    
+    return df
+
+
+def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
+    &#39;&#39;&#39;
+    Creates a balanced data set from an imbalanced one. Used in a classification task.
+
+    Parameter:
+    ----------------------------
+        data: DataFrame, name series.
+
+            The imbalanced dataset.
+
+        target: str
+
+            Name of the target column.
+
+        categories: list
+
+            Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+        class_sizes: list
+
+            Size of each specified class. Must be in order with categoriess parameter.
+
+        replacement: bool, Default True.
+
+            samples with or without replacement.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if target is None:
+        raise ValueError(&#34;target: Expecting a String got &#39;None&#39;&#34;)
+
+    if categories is None:
+        categories = list(data[target].unique())
+    
+    if class_sizes is None:
+        #set size for each class to same value
+        temp_val = int(data.shape[0] / len(data[target].unique()))
+        class_sizes = [temp_val for _ in list(data[target].unique())]
+
+    
+    df = data.copy()
+    data_category = []
+    data_class_indx = []
+    
+    #get data corrresponding to each of the categories
+    for cat in categories: 
+        data_category.append(df[df[target] == cat])
+    
+    #sample and get the index corresponding to each category
+    for class_size, cat in zip(class_sizes, data_category):
+        data_class_indx.append(cat.sample(class_size, replace=True).index)
+        
+    #concat data together
+    new_data = pd.concat([df.loc[indx] for indx in data_class_indx], ignore_index=True).sample(sum(class_sizes)).reset_index(drop=True)
+    
+    if not replacement:
+        for indx in data_class_indx:
+            df.drop(indx, inplace=True)
+            
+        
+    return new_data
+
+
+
+def to_date(data):
+    &#39;&#39;&#39;
+    Automatically convert all date time columns to pandas Datetime format
+    &#39;&#39;&#39;
+
+    date_cols = get_date_cols(data)
+    for col in date_cols:
+        data[col] = pd.to_datetime(data[col])
+    
+    return data
+
+
+def haversine_distance(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Haversine distance between two location with latitude and longitude.
+    The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
+    
+    Parameter:
+    ---------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: 
+
+        Series: The Harversine distance between (lat1, lat2), (long1, long2)
+    
+    &#39;&#39;&#39;
+
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    AVG_EARTH_RADIUS = 6371  # in km
+    lat = lat2 - lat1
+    lng = long2 - long1
+    distance = np.sin(lat * 0.5) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(lng * 0.5) ** 2
+    harvesine_distance = 2 * AVG_EARTH_RADIUS * np.arcsin(np.sqrt(distance))
+    harvesine_distance_df = pd.Series(harvesine_distance)
+    return harvesine_distance_df
+
+
+def manhattan_distance(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Manhattan distance between two points.
+    It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
+
+    Parameter:
+    -------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: Series
+
+        The Manhattan distance between (lat1, lat2) and (long1, long2)
+    
+    &#39;&#39;&#39;
+    a = np.abs(lat2 -lat1)
+    b = np.abs(long1 - long2)
+    manhattan_distance = a + b
+    manhattan_distance_df = pd.Series(manhattan_distance)
+    return manhattan_distance_df
+    
+
+def bearing(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Bearing  between two points.
+    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. 
+
+    Parameter:
+    -------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: Series
+
+        The Bearing between (lat1, lat2) and (long1, long2)
+    
+    &#39;&#39;&#39;
+    AVG_EARTH_RADIUS = 6371
+    long_delta = np.radians(long2 - long1)
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    y = np.sin(long_delta) * np.cos(lat2)
+    x = np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(long_delta)
+    bearing = np.degrees(np.arctan2(y, x))
+    bearing_df = pd.Series(bearing)
+    return bearing_df
+    
+
+def get_location_center(point1, point2):
+    &#39;&#39;&#39;
+    Calculates the center between two points.
+
+    Parameter:
+    ---------------------------
+        point1: list, series, scalar
+
+            End point latitude of the location.
+
+        long1: list, series, scalar
+
+            Start point longitude of the location.
+
+        long2: list, series, scalar
+
+            End point longitude of the location.
+
+    Returns: Series
+    
+        The center between point1 and point2
+    
+    &#39;&#39;&#39;
+    center = (point1 + point2) / 2
+    center_df = pd.Series(center)
+    return center_df
+
+def log_transform(data, columns, plot=True, figsize=(12,6)):
+    &#39;&#39;&#39;
+    Nomralizes the dataset to be as close to the gaussian distribution.
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, Series.
+        Data to Log transform.
+
+    columns: List, Series
+        Columns to be transformed to normality using log transformation
+    
+    plot: bool, default True
+        Plots a before and after log transformation plot
+    
+    Returns:
+        Log-transformed dataframe
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if columns is None:
+        raise ValueError(&#34;columns: Expecting at least a column in the list of columns but got &#39;None&#39;&#34;)
+    
+    df = data.copy()
+    for col in columns:
+        df[col] = np.log1p(df[col])
+
+    if plot:
+        for col in columns: 
+            _ = plt.figure(figsize = figsize)
+            plt.subplot(1, 2, 1)
+            sns.distplot(data[col], color=&#34;m&#34;, label=&#34;Skewness : %.2f&#34; % (df[col].skew()))    
+            plt.title(&#39;Distribution of &#39; + col + &#34; before Log transformation&#34;)
+            plt.legend(loc=&#39;best&#39;)
+            
+            plt.subplot(1, 2, 2)
+            sns.distplot(df[col], color=&#34;m&#34;, label=&#34;Skewness : %.2f&#34; % (df[col].skew()))    
+            plt.title(&#39;Distribution of &#39; + col + &#34; after Log transformation&#34;)
+            plt.legend(loc=&#39;best&#39;)
+            plt.tight_layout(2)
+            plt.show()
+
+    return df
+
+
+def convert_dtype(df):
+    &#39;&#39;&#39;
+    Convert datatype of a feature to its original datatype.
+    If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
+    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
+    
+    Parameter:
+    ---------------------------
+    df: DataFrame, Series
+        Dataset to convert data type
+
+    
+    Returns:
+    -----------------
+        DataFrame or Series.
+
+    Example: 
+    data = {&#39;Name&#39;:[&#39;Tom&#39;, &#39;nick&#39;, &#39;jack&#39;], 
+            &#39;Age&#39;:[&#39;20&#39;, &#39;21&#39;, &#39;19&#39;],
+            &#39;Date of Birth&#39;: [&#39;1999-11-17&#39;,&#39;20 Sept 1998&#39;,&#39;Wed Sep 19 14:55:02 2000&#39;]} 
+     
+    df = pd.DataFrame(data)
+
+    df.info()
+    &gt;&gt;&gt; 
+    &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null object
+        Date of Birth    3 non-null object
+        dtypes: object(3)
+        memory usage: 76.0+ bytes
+    
+    conv = convert_dtype(df)
+    conv.info()
+    &gt;&gt;&gt; 
+    &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null int32
+        Date of Birth    3 non-null datetime64[ns]
+        dtypes: datetime64[ns](1), int32(1), object(1)
+        memory usage: 88.0+ bytes
+
+
+    &#39;&#39;&#39;
+    if df.isnull().any().any() == True:
+        raise ValueError(&#34;DataFrame contain missing values&#34;)
+    else:
+        i = 0
+        changed_dtype = []
+        #Function to handle datetime dtype
+        def is_date(string, fuzzy=False):
+            try:
+                parse(string, fuzzy=fuzzy)
+                return True
+            except ValueError:
+                return False
+            
+        while i &lt;= (df.shape[1])-1:
+            val = df.iloc[:,i]
+            if str(val.dtypes) ==&#39;object&#39;:
+                val = val.apply(lambda x: re.sub(r&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
+        
+            try:
+                if str(val.dtypes) ==&#39;object&#39;:
+                    if val.min().isdigit() == True: #Check if the string is an integer dtype
+                        int_v = val.astype(int)
+                        changed_dtype.append(int_v)
+                    elif val.min().replace(&#39;.&#39;, &#39;&#39;, 1).isdigit() == True: #Check if the string is a float type
+                        float_v = val.astype(float)
+                        changed_dtype.append(float_v)
+                    elif is_date(val.min(),fuzzy=False) == True: #Check if the string is a datetime dtype
+                        dtime = pd.to_datetime(val)
+                        changed_dtype.append(dtime)
+                    else:
+                        changed_dtype.append(val) #This indicate the dtype is a string
+                else:
+                    changed_dtype.append(val) #This could count for symbols in a feature
+            
+            except ValueError:
+                raise ValueError(&#34;DataFrame columns contain one or more DataType&#34;)
+            except:
+                raise Exception()
+
+            i = i+1
+
+        data_f = pd.concat(changed_dtype,1)
+
+        return data_f
+            
+
+
+def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = False):
+
+    &#39;&#39;&#39;
+    Categorize age data into separate bins
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, Series.
+        Data for which feature to be binned exist.
+
+    feature: List, Series
+        Columns to be binned
+
+    
+    Bins: List, numpy.ndarray
+        Specifies the different categories
+        Bins must be one greater labels
+    
+    
+    labels: List, Series
+        Name identified to the various categories
+
+    fill_missing(default = None): int
+        mean : feature average
+        mode : most occuring data in the feature
+        median : middle point in the feature
+
+    drop_original: bool
+        Drops original feature after beaning
+    
+
+    Returns:
+        Returns a binned dataframe
+    &#39;&#39;&#39;
+
+    
+    df = data.copy()
+    for col in feature:
+        if fill_missing == None:
+        
+            if df[col].isnull().any():
+                raise ValueError(&#34;data: Mising Value found in table&#34;)
+            
+            else:
+                df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins= bins, labels=labels)
+            
+    
+        elif fill_missing == &#39;mean&#39;:
+            df[col].fillna(int(df[col].mean()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+
+        elif fill_missing == &#39;mode&#39;:
+            df[col].fillna(int(df[col].mode()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+    
+        elif fill_missing == &#39;median&#39;:
+            df[col].fillna(int(df[col].median()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+            
+        
+        if drop_original == True:
+           
+            df.drop(columns = col, inplace = True)
+
+    return df
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="datasist.feature_engineering.bearing"><code class="name flex">
+<span>def <span class="ident">bearing</span></span>(<span>lat1, long1, lat2, long2)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Calculates the Bearing
+between two points.
+The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. </p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
+lat2: scalar,float
+
+    End point latitude of the location.
+
+long1: scalar,float
+
+    Start point longitude of the location.
+
+long2: scalar,float
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The Bearing between (lat1, lat2) and (long1, long2)
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bearing(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Bearing  between two points.
+    The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. 
+
+    Parameter:
+    -------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: Series
+
+        The Bearing between (lat1, lat2) and (long1, long2)
+    
+    &#39;&#39;&#39;
+    AVG_EARTH_RADIUS = 6371
+    long_delta = np.radians(long2 - long1)
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    y = np.sin(long_delta) * np.cos(lat2)
+    x = np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(long_delta)
+    bearing = np.degrees(np.arctan2(y, x))
+    bearing_df = pd.Series(bearing)
+    return bearing_df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.bin_age"><code class="name flex">
+<span>def <span class="ident">bin_age</span></span>(<span>data, feature, bins, labels, fill_missing=None, drop_original=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Categorize age data into separate bins</p>
+<h2 id="parameter">Parameter:</h2>
+<p>data: DataFrame, Series.
+Data for which feature to be binned exist.</p>
+<p>feature: List, Series
+Columns to be binned</p>
+<p>Bins: List, numpy.ndarray
+Specifies the different categories
+Bins must be one greater labels</p>
+<p>labels: List, Series
+Name identified to the various categories</p>
+<p>fill_missing(default = None): int
+mean : feature average
+mode : most occuring data in the feature
+median : middle point in the feature</p>
+<p>drop_original: bool
+Drops original feature after beaning</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Returns</code> <code>a</code> <code>binned</code> <code>dataframe</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = False):
+
+    &#39;&#39;&#39;
+    Categorize age data into separate bins
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, Series.
+        Data for which feature to be binned exist.
+
+    feature: List, Series
+        Columns to be binned
+
+    
+    Bins: List, numpy.ndarray
+        Specifies the different categories
+        Bins must be one greater labels
+    
+    
+    labels: List, Series
+        Name identified to the various categories
+
+    fill_missing(default = None): int
+        mean : feature average
+        mode : most occuring data in the feature
+        median : middle point in the feature
+
+    drop_original: bool
+        Drops original feature after beaning
+    
+
+    Returns:
+        Returns a binned dataframe
+    &#39;&#39;&#39;
+
+    
+    df = data.copy()
+    for col in feature:
+        if fill_missing == None:
+        
+            if df[col].isnull().any():
+                raise ValueError(&#34;data: Mising Value found in table&#34;)
+            
+            else:
+                df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins= bins, labels=labels)
+            
+    
+        elif fill_missing == &#39;mean&#39;:
+            df[col].fillna(int(df[col].mean()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+
+        elif fill_missing == &#39;mode&#39;:
+            df[col].fillna(int(df[col].mode()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+    
+        elif fill_missing == &#39;median&#39;:
+            df[col].fillna(int(df[col].median()), inplace  = True)
+            df[col + &#39;_binned&#39;] = pd.cut(x=df[col], bins=bins, labels=labels)
+            
+        
+        if drop_original == True:
+           
+            df.drop(columns = col, inplace = True)
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.convert_dtype"><code class="name flex">
+<span>def <span class="ident">convert_dtype</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Convert datatype of a feature to its original datatype.
+If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float
+or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype</p>
+<h2 id="parameter">Parameter:</h2>
+<p>df: DataFrame, Series
+Dataset to convert data type</p>
+<h2 id="returns">Returns:</h2>
+<pre><code>DataFrame or Series.
+</code></pre>
+<p>Example:
+data = {'Name':['Tom', 'nick', 'jack'],
+'Age':['20', '21', '19'],
+'Date of Birth': ['1999-11-17','20 Sept 1998','Wed Sep 19 14:55:02 2000']} </p>
+<p>df = pd.DataFrame(data)</p>
+<p>df.info()</p>
+<pre><code>&gt;&gt;&gt; 
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+
+
+RangeIndex: 3 entries, 0 to 2
+Data columns (total 3 columns):
+Name             3 non-null object
+Age              3 non-null object
+Date of Birth    3 non-null object
+dtypes: object(3)
+memory usage: 76.0+ bytes
+</code></pre>
+<p>conv = convert_dtype(df)
+conv.info()</p>
+<pre><code>&gt;&gt;&gt; 
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+
+
+RangeIndex: 3 entries, 0 to 2
+Data columns (total 3 columns):
+Name             3 non-null object
+Age              3 non-null int32
+Date of Birth    3 non-null datetime64[ns]
+dtypes: datetime64[ns](1), int32(1), object(1)
+memory usage: 88.0+ bytes
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_dtype(df):
+    &#39;&#39;&#39;
+    Convert datatype of a feature to its original datatype.
+    If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
+    or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype
+    
+    Parameter:
+    ---------------------------
+    df: DataFrame, Series
+        Dataset to convert data type
+
+    
+    Returns:
+    -----------------
+        DataFrame or Series.
+
+    Example: 
+    data = {&#39;Name&#39;:[&#39;Tom&#39;, &#39;nick&#39;, &#39;jack&#39;], 
+            &#39;Age&#39;:[&#39;20&#39;, &#39;21&#39;, &#39;19&#39;],
+            &#39;Date of Birth&#39;: [&#39;1999-11-17&#39;,&#39;20 Sept 1998&#39;,&#39;Wed Sep 19 14:55:02 2000&#39;]} 
+     
+    df = pd.DataFrame(data)
+
+    df.info()
+    &gt;&gt;&gt; 
+    &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null object
+        Date of Birth    3 non-null object
+        dtypes: object(3)
+        memory usage: 76.0+ bytes
+    
+    conv = convert_dtype(df)
+    conv.info()
+    &gt;&gt;&gt; 
+    &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+        RangeIndex: 3 entries, 0 to 2
+        Data columns (total 3 columns):
+        Name             3 non-null object
+        Age              3 non-null int32
+        Date of Birth    3 non-null datetime64[ns]
+        dtypes: datetime64[ns](1), int32(1), object(1)
+        memory usage: 88.0+ bytes
+
+
+    &#39;&#39;&#39;
+    if df.isnull().any().any() == True:
+        raise ValueError(&#34;DataFrame contain missing values&#34;)
+    else:
+        i = 0
+        changed_dtype = []
+        #Function to handle datetime dtype
+        def is_date(string, fuzzy=False):
+            try:
+                parse(string, fuzzy=fuzzy)
+                return True
+            except ValueError:
+                return False
+            
+        while i &lt;= (df.shape[1])-1:
+            val = df.iloc[:,i]
+            if str(val.dtypes) ==&#39;object&#39;:
+                val = val.apply(lambda x: re.sub(r&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
+        
+            try:
+                if str(val.dtypes) ==&#39;object&#39;:
+                    if val.min().isdigit() == True: #Check if the string is an integer dtype
+                        int_v = val.astype(int)
+                        changed_dtype.append(int_v)
+                    elif val.min().replace(&#39;.&#39;, &#39;&#39;, 1).isdigit() == True: #Check if the string is a float type
+                        float_v = val.astype(float)
+                        changed_dtype.append(float_v)
+                    elif is_date(val.min(),fuzzy=False) == True: #Check if the string is a datetime dtype
+                        dtime = pd.to_datetime(val)
+                        changed_dtype.append(dtime)
+                    else:
+                        changed_dtype.append(val) #This indicate the dtype is a string
+                else:
+                    changed_dtype.append(val) #This could count for symbols in a feature
+            
+            except ValueError:
+                raise ValueError(&#34;DataFrame columns contain one or more DataType&#34;)
+            except:
+                raise Exception()
+
+            i = i+1
+
+        data_f = pd.concat(changed_dtype,1)
+
+        return data_f</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.create_balanced_data"><code class="name flex">
+<span>def <span class="ident">create_balanced_data</span></span>(<span>data=None, target=None, categories=None, class_sizes=None, replacement=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates a balanced data set from an imbalanced one. Used in a classification task.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>data: DataFrame, name series.
+
+    The imbalanced dataset.
+
+target: str
+
+    Name of the target column.
+
+categories: list
+
+    Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+class_sizes: list
+
+    Size of each specified class. Must be in order with categoriess parameter.
+
+replacement: bool, Default True.
+
+    samples with or without replacement.
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
+    &#39;&#39;&#39;
+    Creates a balanced data set from an imbalanced one. Used in a classification task.
+
+    Parameter:
+    ----------------------------
+        data: DataFrame, name series.
+
+            The imbalanced dataset.
+
+        target: str
+
+            Name of the target column.
+
+        categories: list
+
+            Unique categories in the target column. If not set, we use infer the unique categories in the column.
+
+        class_sizes: list
+
+            Size of each specified class. Must be in order with categoriess parameter.
+
+        replacement: bool, Default True.
+
+            samples with or without replacement.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if target is None:
+        raise ValueError(&#34;target: Expecting a String got &#39;None&#39;&#34;)
+
+    if categories is None:
+        categories = list(data[target].unique())
+    
+    if class_sizes is None:
+        #set size for each class to same value
+        temp_val = int(data.shape[0] / len(data[target].unique()))
+        class_sizes = [temp_val for _ in list(data[target].unique())]
+
+    
+    df = data.copy()
+    data_category = []
+    data_class_indx = []
+    
+    #get data corrresponding to each of the categories
+    for cat in categories: 
+        data_category.append(df[df[target] == cat])
+    
+    #sample and get the index corresponding to each category
+    for class_size, cat in zip(class_sizes, data_category):
+        data_class_indx.append(cat.sample(class_size, replace=True).index)
+        
+    #concat data together
+    new_data = pd.concat([df.loc[indx] for indx in data_class_indx], ignore_index=True).sample(sum(class_sizes)).reset_index(drop=True)
+    
+    if not replacement:
+        for indx in data_class_indx:
+            df.drop(indx, inplace=True)
+            
+        
+    return new_data</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.drop_missing"><code class="name flex">
+<span>def <span class="ident">drop_missing</span></span>(<span>data=None, percent=99)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Drops missing columns with [percent] of missing data.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: Pandas DataFrame or Series.
+
+percent: float, Default 99
+
+    Percentage of missing values to be in a column before it is eligible for removal.
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>Pandas DataFrame or Series.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drop_missing(data=None, percent=99):
+    &#39;&#39;&#39;
+    Drops missing columns with [percent] of missing data.
+
+    Parameters:
+    -------------------------
+        data: Pandas DataFrame or Series.
+
+        percent: float, Default 99
+
+            Percentage of missing values to be in a column before it is eligible for removal.
+
+    Returns:
+
+        Pandas DataFrame or Series.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    missing_percent = (data.isna().sum() / data.shape[0]) * 100
+    cols_2_drop = missing_percent[missing_percent.values &gt;= percent].index
+    print(&#34;Dropped {}&#34;.format(list(cols_2_drop)))
+    #Drop missing values
+    df = data.drop(cols_2_drop, axis=1)
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.drop_redundant"><code class="name flex">
+<span>def <span class="ident">drop_redundant</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: DataFrame or named series.
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>DataFrame or named series.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drop_redundant(data):
+    &#39;&#39;&#39;
+    Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.
+
+    Parameters:
+    -----------------------------
+        data: DataFrame or named series.
+    
+    Returns:
+
+        DataFrame or named series.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    #get columns
+    cols_2_drop = _nan_in_class(data)
+    print(&#34;Dropped {}&#34;.format(cols_2_drop))
+    df = data.drop(cols_2_drop, axis=1)
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.fill_missing_cats"><code class="name flex">
+<span>def <span class="ident">fill_missing_cats</span></span>(<span>data=None, cat_features=None, missing_encoding=None, missing_col=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fill missing values using the mode of the categorical features.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>data: DataFrame or name Series.
+
+    Data set to perform operation on.
+
+cat_features: List, Series, Array.
+
+    categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+missing_encoding: List, Series, Array.
+
+    Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
+
+missin_col: bool, Default True
+    Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
+    &#39;&#39;&#39;
+    Fill missing values using the mode of the categorical features.
+
+    Parameters:
+    ------------------------
+        data: DataFrame or name Series.
+
+            Data set to perform operation on.
+
+        cat_features: List, Series, Array.
+
+            categorical features to perform operation on. If not provided, we automatically infer the categoricals from the dataset.
+
+        missing_encoding: List, Series, Array.
+
+            Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
+
+        missin_col: bool, Default True
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if cat_features is None:
+        cat_features = get_cat_feats(data)
+
+    df = data.copy()
+    #change all possible missing values to NaN
+    if missing_encoding is None:
+        missing_encoding = [&#39;&#39;, &#39; &#39;, -99, -999]
+
+    df.replace(missing_encoding, np.NaN, inplace=True)
+    
+    for feat in cat_features:
+        if missing_col:
+            df[feat + &#39;_missing_value&#39;] = (df[feat].isna()).astype(&#39;int64&#39;)
+        most_freq = df[feat].mode()[0]
+        df[feat] = df[feat].replace(np.NaN, most_freq)
+    
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.fill_missing_num"><code class="name flex">
+<span>def <span class="ident">fill_missing_num</span></span>(<span>data=None, num_features=None, method='mean', missing_col=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>fill missing values in numerical columns with specified [method] value</p>
+<h2 id="parameters">Parameters</h2>
+<hr>
+<dl>
+<dt><strong><code>data</code></strong></dt>
+<dd>
+<p>DataFrame or name Series.</p>
+<p>The data set to fill</p>
+</dd>
+<dt><strong><code>features</code></strong></dt>
+<dd>
+<p>list.</p>
+<p>List of columns to fill</p>
+</dd>
+<dt><strong><code>method</code></strong></dt>
+<dd>
+<p>str, Default 'mean'.</p>
+<p>method to use in calculating fill value.</p>
+</dd>
+<dt><strong><code>missing_col</code></strong></dt>
+<dd>
+<p>bool, Default True</p>
+<p>Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.</p>
+</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fill_missing_num(data=None, num_features=None, method=&#39;mean&#39;, missing_col=False):
+    &#39;&#39;&#39;
+    fill missing values in numerical columns with specified [method] value
+
+    Parameters:
+        ------------------------------
+        data: DataFrame or name Series.
+
+            The data set to fill
+
+        features: list.
+
+            List of columns to fill
+
+        method: str, Default &#39;mean&#39;.
+
+            method to use in calculating fill value.
+
+        missing_col: bool, Default True
+
+            Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if num_features is None:
+        num_features = get_num_feats(data)
+        #get numerical features with missing values
+        temp_df = data[num_features].isna().sum()
+        features = list(temp_df[num_features][temp_df[num_features] &gt; 0].index)
+        
+    df = data.copy()
+    for feat in features:
+        if missing_col:
+            df[feat + &#39;_missing_value&#39;] = (df[feat].isna()).astype(&#39;int64&#39;)
+        if method is &#39;mean&#39;:
+            mean = df[feat].mean()
+            df[feat].fillna(mean, inplace=True)
+        elif method is &#39;median&#39;:
+            median = df[feat].median()
+            df[feat].fillna(median, inplace=True)
+        elif method is &#39;mode&#39;:
+            mode = df[feat].mode()[0]
+            df[feat].fillna(mode, inplace=True)
+        else:
+            raise ValueError(&#34;method: must specify a fill method, one of [mean, mode or median]&#39;&#34;)
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.get_location_center"><code class="name flex">
+<span>def <span class="ident">get_location_center</span></span>(<span>point1, point2)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Calculates the center between two points.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>point1: list, series, scalar
+
+    End point latitude of the location.
+
+long1: list, series, scalar
+
+    Start point longitude of the location.
+
+long2: list, series, scalar
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The center between point1 and point2
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_location_center(point1, point2):
+    &#39;&#39;&#39;
+    Calculates the center between two points.
+
+    Parameter:
+    ---------------------------
+        point1: list, series, scalar
+
+            End point latitude of the location.
+
+        long1: list, series, scalar
+
+            Start point longitude of the location.
+
+        long2: list, series, scalar
+
+            End point longitude of the location.
+
+    Returns: Series
+    
+        The center between point1 and point2
+    
+    &#39;&#39;&#39;
+    center = (point1 + point2) / 2
+    center_df = pd.Series(center)
+    return center_df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.get_qcut"><code class="name flex">
+<span>def <span class="ident">get_qcut</span></span>(<span>data=None, col=None, q=None, duplicates='drop', return_type='float64')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Cuts a series into bins using the pandas qcut function
+and returns the resulting bins as a series for merging.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>data: DataFrame, named Series
+
+    Data set to perform operation on.
+
+col: str
+
+    column to cut/binnarize.
+
+q: integer or array of quantiles
+
+    Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+    array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+duplicates: Default 'drop',
+
+    If bin edges are not unique drop non-uniques.
+
+return_type: dtype, Default (float64)
+
+    Dtype of series to return. One of [float64, str, int64]
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>Series, 1D-Array
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_qcut(data=None, col=None, q=None, duplicates=&#39;drop&#39;, return_type=&#39;float64&#39;):
+    &#39;&#39;&#39;
+    Cuts a series into bins using the pandas qcut function
+    and returns the resulting bins as a series for merging.
+
+    Parameter:
+    -------------
+
+        data: DataFrame, named Series
+
+            Data set to perform operation on.
+
+        col: str
+
+            column to cut/binnarize.
+
+        q: integer or array of quantiles
+
+            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
+            array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+
+        duplicates: Default &#39;drop&#39;,
+
+            If bin edges are not unique drop non-uniques.
+
+        return_type: dtype, Default (float64)
+
+            Dtype of series to return. One of [float64, str, int64]
+    
+    Returns:
+    --------
+
+        Series, 1D-Array
+
+    &#39;&#39;&#39;
+
+    temp_df = pd.qcut(data[col], q=q, duplicates=duplicates).to_frame().astype(&#39;str&#39;)
+    #retrieve only the qcut categories
+    df = temp_df[col].str.split(&#39;,&#39;).apply(lambda x: x[0][1:]).astype(return_type)
+    
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.haversine_distance"><code class="name flex">
+<span>def <span class="ident">haversine_distance</span></span>(<span>lat1, long1, lat2, long2)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Calculates the Haversine distance between two location with latitude and longitude.
+The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
+lat2: scalar,float
+
+    End point latitude of the location.
+
+long1: scalar,float
+
+    Start point longitude of the location.
+
+long2: scalar,float
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: </p>
+<pre><code>Series: The Harversine distance between (lat1, lat2), (long1, long2)
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def haversine_distance(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Haversine distance between two location with latitude and longitude.
+    The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
+    
+    Parameter:
+    ---------------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: 
+
+        Series: The Harversine distance between (lat1, lat2), (long1, long2)
+    
+    &#39;&#39;&#39;
+
+    lat1, long1, lat2, long2 = map(np.radians, (lat1, long1, lat2, long2))
+    AVG_EARTH_RADIUS = 6371  # in km
+    lat = lat2 - lat1
+    lng = long2 - long1
+    distance = np.sin(lat * 0.5) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(lng * 0.5) ** 2
+    harvesine_distance = 2 * AVG_EARTH_RADIUS * np.arcsin(np.sqrt(distance))
+    harvesine_distance_df = pd.Series(harvesine_distance)
+    return harvesine_distance_df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.log_transform"><code class="name flex">
+<span>def <span class="ident">log_transform</span></span>(<span>data, columns, plot=True, figsize=(12, 6))</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Nomralizes the dataset to be as close to the gaussian distribution.</p>
+<h2 id="parameter">Parameter:</h2>
+<p>data: DataFrame, Series.
+Data to Log transform.</p>
+<p>columns: List, Series
+Columns to be transformed to normality using log transformation</p>
+<p>plot: bool, default True
+Plots a before and after log transformation plot</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Log</code>-<code>transformed</code> <code>dataframe</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def log_transform(data, columns, plot=True, figsize=(12,6)):
+    &#39;&#39;&#39;
+    Nomralizes the dataset to be as close to the gaussian distribution.
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame, Series.
+        Data to Log transform.
+
+    columns: List, Series
+        Columns to be transformed to normality using log transformation
+    
+    plot: bool, default True
+        Plots a before and after log transformation plot
+    
+    Returns:
+        Log-transformed dataframe
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if columns is None:
+        raise ValueError(&#34;columns: Expecting at least a column in the list of columns but got &#39;None&#39;&#34;)
+    
+    df = data.copy()
+    for col in columns:
+        df[col] = np.log1p(df[col])
+
+    if plot:
+        for col in columns: 
+            _ = plt.figure(figsize = figsize)
+            plt.subplot(1, 2, 1)
+            sns.distplot(data[col], color=&#34;m&#34;, label=&#34;Skewness : %.2f&#34; % (df[col].skew()))    
+            plt.title(&#39;Distribution of &#39; + col + &#34; before Log transformation&#34;)
+            plt.legend(loc=&#39;best&#39;)
+            
+            plt.subplot(1, 2, 2)
+            sns.distplot(df[col], color=&#34;m&#34;, label=&#34;Skewness : %.2f&#34; % (df[col].skew()))    
+            plt.title(&#39;Distribution of &#39; + col + &#34; after Log transformation&#34;)
+            plt.legend(loc=&#39;best&#39;)
+            plt.tight_layout(2)
+            plt.show()
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.manhattan_distance"><code class="name flex">
+<span>def <span class="ident">manhattan_distance</span></span>(<span>lat1, long1, lat2, long2)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Calculates the Manhattan distance between two points.
+It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. </p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>lat1: scalar,float
+
+    Start point latitude of the location.
+
+lat2: scalar,float
+
+    End point latitude of the location.
+
+long1: scalar,float
+
+    Start point longitude of the location.
+
+long2: scalar,float
+
+    End point longitude of the location.
+</code></pre>
+<p>Returns: Series</p>
+<pre><code>The Manhattan distance between (lat1, lat2) and (long1, long2)
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def manhattan_distance(lat1, long1, lat2, long2):
+    &#39;&#39;&#39;
+    Calculates the Manhattan distance between two points.
+    It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
+
+    Parameter:
+    -------------------
+        lat1: scalar,float
+
+            Start point latitude of the location.
+
+        lat2: scalar,float 
+
+            End point latitude of the location.
+
+        long1: scalar,float
+
+            Start point longitude of the location.
+
+        long2: scalar,float 
+
+            End point longitude of the location.
+
+    Returns: Series
+
+        The Manhattan distance between (lat1, lat2) and (long1, long2)
+    
+    &#39;&#39;&#39;
+    a = np.abs(lat2 -lat1)
+    b = np.abs(long1 - long2)
+    manhattan_distance = a + b
+    manhattan_distance_df = pd.Series(manhattan_distance)
+    return manhattan_distance_df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.merge_groupby"><code class="name flex">
+<span>def <span class="ident">merge_groupby</span></span>(<span>data=None, cat_features=None, statistics=None, col_to_merge=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Performs a groupby on the specified categorical features and merges
+the result to the original dataframe.</p>
+<h2 id="parameter">Parameter:</h2>
+<pre><code>data: DataFrame
+
+    Data set to perform operation on.
+
+cat_features: list, series, 1D-array
+
+    categorical features to groupby.
+
+statistics: list, series, 1D-array, Default ['mean', 'count]
+
+    aggregates to perform on grouped data.
+
+col_to_merge: str
+
+    The column to merge on the dataset. Must be present in the data set.
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>Dataframe.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
+    &#39;&#39;&#39;
+    Performs a groupby on the specified categorical features and merges
+    the result to the original dataframe.
+
+    Parameter:
+    -----------------------
+
+        data: DataFrame
+
+            Data set to perform operation on.
+
+        cat_features: list, series, 1D-array
+
+            categorical features to groupby.
+
+        statistics: list, series, 1D-array, Default [&#39;mean&#39;, &#39;count]
+
+            aggregates to perform on grouped data.
+
+        col_to_merge: str
+
+            The column to merge on the dataset. Must be present in the data set.
+
+    Returns:
+
+        Dataframe.
+
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+    
+    if statistics is None:     
+        statistics = [&#39;mean&#39;, &#39;count&#39;]
+    
+    if cat_features is None:
+        cat_features = get_num_feats(data)
+
+    if col_to_merge is None:
+        raise ValueError(&#34;col_to_merge: Expecting a string [column to merge on], got &#39;None&#39;&#34;)
+
+    
+    df = data.copy()
+    
+    for cat in cat_features:      
+        temp = df.groupby([cat]).agg(statistics)[col_to_merge]
+        #rename columns
+        temp = temp.rename(columns={&#39;mean&#39;: cat + &#39;_&#39; + col_to_merge + &#39;_mean&#39;, &#39;count&#39;: cat + &#39;_&#39; + col_to_merge +  &#34;_count&#34;})
+        #merge the data sets
+        df = df.merge(temp, how=&#39;left&#39;, on=cat)
+    
+    
+    return df</code></pre>
+</details>
+</dd>
+<dt id="datasist.feature_engineering.to_date"><code class="name flex">
+<span>def <span class="ident">to_date</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Automatically convert all date time columns to pandas Datetime format</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_date(data):
+    &#39;&#39;&#39;
+    Automatically convert all date time columns to pandas Datetime format
+    &#39;&#39;&#39;
+
+    date_cols = get_date_cols(data)
+    for col in date_cols:
+        data[col] = pd.to_datetime(data[col])
+    
+    return data</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="datasist" href="index.html">datasist</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="datasist.feature_engineering.bearing" href="#datasist.feature_engineering.bearing">bearing</a></code></li>
+<li><code><a title="datasist.feature_engineering.bin_age" href="#datasist.feature_engineering.bin_age">bin_age</a></code></li>
+<li><code><a title="datasist.feature_engineering.convert_dtype" href="#datasist.feature_engineering.convert_dtype">convert_dtype</a></code></li>
+<li><code><a title="datasist.feature_engineering.create_balanced_data" href="#datasist.feature_engineering.create_balanced_data">create_balanced_data</a></code></li>
+<li><code><a title="datasist.feature_engineering.drop_missing" href="#datasist.feature_engineering.drop_missing">drop_missing</a></code></li>
+<li><code><a title="datasist.feature_engineering.drop_redundant" href="#datasist.feature_engineering.drop_redundant">drop_redundant</a></code></li>
+<li><code><a title="datasist.feature_engineering.fill_missing_cats" href="#datasist.feature_engineering.fill_missing_cats">fill_missing_cats</a></code></li>
+<li><code><a title="datasist.feature_engineering.fill_missing_num" href="#datasist.feature_engineering.fill_missing_num">fill_missing_num</a></code></li>
+<li><code><a title="datasist.feature_engineering.get_location_center" href="#datasist.feature_engineering.get_location_center">get_location_center</a></code></li>
+<li><code><a title="datasist.feature_engineering.get_qcut" href="#datasist.feature_engineering.get_qcut">get_qcut</a></code></li>
+<li><code><a title="datasist.feature_engineering.haversine_distance" href="#datasist.feature_engineering.haversine_distance">haversine_distance</a></code></li>
+<li><code><a title="datasist.feature_engineering.log_transform" href="#datasist.feature_engineering.log_transform">log_transform</a></code></li>
+<li><code><a title="datasist.feature_engineering.manhattan_distance" href="#datasist.feature_engineering.manhattan_distance">manhattan_distance</a></code></li>
+<li><code><a title="datasist.feature_engineering.merge_groupby" href="#datasist.feature_engineering.merge_groupby">merge_groupby</a></code></li>
+<li><code><a title="datasist.feature_engineering.to_date" href="#datasist.feature_engineering.to_date">to_date</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

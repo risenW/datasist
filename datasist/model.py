@@ -57,6 +57,7 @@ def train_classifier(X_train = None, y_train=None, X_val=None, y_val=None, estim
             Plot a ROC plot showing estimator performance.
         
         save_plot: Bool, default False.
+
             Save the plot as a png file.
     
 '''
@@ -115,6 +116,7 @@ def plot_feature_importance(estimator=None, col_names=None):
 
     Returns:
     --------
+    
         Matplotlib figure showing feature importances
     '''
     if estimator is None:

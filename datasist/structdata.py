@@ -286,17 +286,6 @@ def cat_summarizer(data, x=None, y=None, hue=None, palette='Set1', verbose=True)
     Returns:
     ----------------------
         Quick Stats of the data and also the count plot
-    
-    Example:
-
-        c_palette = ['tab:blue', 'tab:orange']
-
-        categorical_summarized(train, y = 'date_block_num', palette=c_palette)
-
-
-        # Feature Variable: Gender
-
-        categorical_summarized(train_data, y = 'Sex', hue='Survived', palette=c_palette)
 
     '''
     if x == None:
@@ -401,6 +390,22 @@ def check_train_test_set(train_data, test_data, index=None, col=None):
     
     Parameters:
     -------------------
+        train_data: DataFrame
+
+            The first data set to join
+
+        test_data: DataFrame
+             
+             The second dataset to join
+
+        index: Str, Default None
+
+            An index column present in both dataset to be used in plotting
+        
+        col: Str, Default None
+
+            A feature present in both dataset used in plotting
+
     
     '''
     print('There are {} training rows and {} test rows.'.format(train_data.shape[0], test_data.shape[0]))

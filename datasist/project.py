@@ -53,12 +53,13 @@ def start_project(project_name=None):
     
     Parameters:
     -------------
-    project_name: String, Filepath
+        project_name: String, Filepath
+
             Name of filepath of the directory to initialize and create folders.
-    
+        
     Returns:
     -------------
-    None
+        None
     
     '''
     if project_name is None:
@@ -152,18 +153,21 @@ def save_model(model, name='model', method='joblib'):
 
     Parameters:
     ------------
-    model: binary file, Python object
-        Trained model file to save in the models folder.
+        model: binary file, Python object
 
-    name: string
-        Name of the model to save it with.
+            Trained model file to save in the models folder.
 
-    method: string
-        Format to use in saving the model. It can be one of [joblib, pickle or keras].
+        name: string
+
+            Name of the model to save it with.
+
+        method: string
+
+            Format to use in saving the model. It can be one of [joblib, pickle or keras].
 
     Returns:
     ---------
-    None
+        None
 
     '''
 
@@ -236,18 +240,21 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
 
     Parameters:
     ------------
-    data: binary strings, CSV, txt
-        Data to save in the specified folder
+        data: binary strings, CSV, txt
 
-    name: string, Default proc_data
-        Name of the data file to save.
+            Data to save in the specified folder
 
-    method: string, Default None
-        Format to use in saving the data. It can be empty string, and we assume it is a 
-        Pandas DataFrame, and we use the to_csv function, else we serialize with joblib.
-    
-    loc: string, Default processed.
-        subfolder to save the data file to. Can be one of [processed, raw ]
+        name: string, Default proc_data
+
+            Name of the data file to save.
+
+        method: string, Default None
+
+            Format to use in saving the data. It can be empty string, and we assume it is a Pandas DataFrame, and we use the to_csv function, else we serialize with joblib.
+        
+        loc: string, Default processed.
+
+            subfolder to save the data file to. Can be one of [processed, raw ]
 
     Returns:
     ---------
@@ -310,14 +317,17 @@ def save_outputs(data=None, name='proc_outputs', method='joblib'):
     
     Parameters:
     ------------
-    data: binary strings, CSV, txt
-        Data to save in the folder
+        data: binary strings, CSV, txt
 
-    name: string, Default proc_outputs
-        Name of the data file to save.
+            Data to save in the folder
 
-    method: string, Default joblib
-        Format to use in saving the data. It can be one of [csv, joblib, pickle].
+        name: string, Default proc_outputs
+
+            Name of the data file to save.
+
+        method: string, Default joblib
+        
+            Format to use in saving the data. It can be one of [csv, joblib, pickle].
 
     Returns:
     ---------
