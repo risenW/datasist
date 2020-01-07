@@ -28,7 +28,7 @@ def start_project(project_name=None):
             ├── scripts
             │   ├── modeling
             │   ├── preparation
-            │   └── processing
+            │   └── ingest
             ├── test
 
             DETAILS:
@@ -46,7 +46,7 @@ def start_project(project_name=None):
             scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
                 modeling: Stores all scripts and code relating to model building, evaluation and saving.
                 preparation: Stores all scripts used for data preparation and cleaning.
-                processing: Stores all scripts used for reading in data from different sources like databases or file storage.
+                ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
 
             test: Stores all test files for code in scripts.
     
@@ -101,7 +101,7 @@ def start_project(project_name=None):
     │   └── modeling
     ├── scripts
     │   ├── modeling
-    │   ├── preparation
+    │   ├── ingest
     │   └── processing
     ├── test
 
@@ -120,7 +120,7 @@ def start_project(project_name=None):
     scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
         modeling: Stores all scripts and code relating to model building, evaluation and saving.
         preparation: Stores all scripts used for data preparation and cleaning.
-        processing: Stores all scripts used for reading in data from different sources like databases or file storage.
+        ingest: Stores all scripts used for reading in data from different sources like databases, web, or file storage.
 
     test: Stores all test files for code in scripts.
 
