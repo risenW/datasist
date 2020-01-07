@@ -5,19 +5,21 @@ from sklearn.ensemble import RandomForestClassifier
 from datasist.project import save_model, save_data, save_outputs, _get_home_path
 import json
 import pandas as pd
+import logging
 
 
 def test_start_project():
     expected = ['README.txt',
-                'datass',
                 'src',
+                'data',
                 'config.txt',
                 'outputs']
     start_project("tests/sampletest")
     output = os.listdir("tests/sampletest/")
-    assert set(expected) & set(output)
+    assert set(expected) == set(output)
+    assert len(expected) == len(output)
     # clean directory
-    # shutil.rmtree("tests/sampletest")
+    shutil.rmtree("tests/sampletest")
 
 
 
@@ -45,8 +47,8 @@ def test_save_data_csv(): #Test data saving in a directory structure created wit
 
     aa = pd.DataFrame([1,2,3,4,5])
 
-    save_data(aa,name=data_path_proc + '/proc_file', loc='processed')
-    save_data(aa,name=data_path_raw + '/raw_file', loc='raw')
+    save_data(aa,name=data_path_proc + '/proc_file', method='csv', loc='processed')
+    save_data(aa,name=data_path_raw + '/raw_file',method='csv', loc='raw')
 
     assert expected1 in os.listdir(data_path_proc)
     assert expected2 in os.listdir(data_path_raw)
@@ -76,8 +78,8 @@ def test_save_data_jbl(): #Test data saving in a directory structure created wit
 
 
 def test_save_data_before_init(): #Test data saving in an un-initialized project
-    expected1 = 'proc_file.csv'
-    expected2 = 'raw_file.csv'
+    expected1 = 'proc_file.jbl'
+    expected2 = 'raw_file.jbl'
     
     aa = pd.DataFrame([1,2,3,4,5])
 
@@ -86,8 +88,8 @@ def test_save_data_before_init(): #Test data saving in an un-initialized project
 
     assert expected1 in os.listdir('tests')
     assert expected2 in os.listdir('tests')
-    os.remove('tests/proc_file.csv')
-    os.remove('tests/raw_file.csv')
+    os.remove('tests/proc_file.jbl')
+    os.remove('tests/raw_file.jbl')
 
 
 

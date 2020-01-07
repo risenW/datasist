@@ -215,7 +215,7 @@ def save_model(model, name='model', method='joblib'):
             
 
 
-def save_data(data, name='processed_data', method=None, loc='processed'):
+def save_data(data, name='processed_data', method='joblib', loc='processed'):
     
     '''
     Saves data in the data folder. The data folder contains the processed and raw subfolders.
@@ -368,16 +368,20 @@ def save_outputs(data=None, name='proc_outputs', method='joblib'):
 
 
 def _get_home_path(filepath):
-    if filepath.endswith('scripts/modeling'):
-        indx = filepath.index("scripts/modeling")
+    if filepath.endswith('src'):
+        indx = filepath.index("src")
         path = filepath[0:indx]
         return path
-    elif filepath.endswith('notebooks/modeling'):
-        indx = filepath.index("notebooks/modeling")
+    elif filepath.endswith('src/scripts/ingest'):
+        indx = filepath.index("src/scripts/ingest")
         path = filepath[0:indx]
         return path
-    elif filepath.endswith('notebooks/eda'):
-        indx = filepath.index("notebooks/eda")
+    elif filepath.endswith('src/scripts/preparation'):
+        indx = filepath.index("src/scripts/preparation")
+        path = filepath[0:indx]
+        return path
+    elif filepath.endswith("src/scripts/modeling"):
+        indx = filepath.index("src/scripts/modeling")
         path = filepath[0:indx]
         return path
     else:
