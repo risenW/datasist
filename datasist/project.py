@@ -392,6 +392,10 @@ def _get_home_path(filepath):
         indx = filepath.index("src/scripts/modeling")
         path = filepath[0:indx]
         return path
+    elif filepath.endswith("src/notebooks"):
+        indx = filepath.index("src/notebooks")
+        path = filepath[0:indx]
+        return path
     else:
         return filepath
 
