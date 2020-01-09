@@ -1,5 +1,5 @@
 import os
-import argparse  
+import argparse
 import json
 import joblib
 import pickle
@@ -63,9 +63,9 @@ def start_project(project_name=None):
     
     '''
     if project_name is None:
-        raise ValueError("project_name: Expecting a string or filepath, got 'None'")
+        raise ValueError(
+            "project_name: Expecting a string or filepath, got 'None'")
 
-    
     base_path = os.path.join(os.getcwd(), project_name)
     data_path = os.path.join(base_path, 'data')
     output_path = os.path.join(base_path, 'outputs')
@@ -73,7 +73,6 @@ def start_project(project_name=None):
     src_path = os.path.join(base_path, 'src')
     scripts_path = os.path.join(base_path, 'src', 'scripts')
 
-    
     os.makedirs(data_path, exist_ok=True)
     os.makedirs(os.path.join(data_path, 'raw'), exist_ok=True)
     os.makedirs(os.path.join(data_path, 'processed'), exist_ok=True)
@@ -90,8 +89,6 @@ def start_project(project_name=None):
     os.makedirs(os.path.join(scripts_path, 'modeling'), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'test'), exist_ok=True)
 
-
-    
     desc = '''
     PROJECT STRUCTURE:
 
@@ -124,25 +121,26 @@ def start_project(project_name=None):
                     test: Stores all test files for code in scripts.
                 notebooks: Stores all jupyter notebooks used for experimentation.
 
-    ''' 
+    '''
     #project configuration settings
-    json_config = {"description": "This file holds all confguration settings for the current project",
-                    "basepath": base_path,
-                    "datapath" : data_path,
-                    "outputpath": output_path,
-                    "modelpath": model_path}
-    
+    json_config = {
+        "description":
+        "This file holds all confguration settings for the current project",
+        "basepath": base_path,
+        "datapath": data_path,
+        "outputpath": output_path,
+        "modelpath": model_path
+    }
+
     #create a readme.txt file to explain the folder structure
     with open(os.path.join(base_path, "README.txt"), 'w') as readme:
         readme.write(desc)
-    
+
     with open(os.path.join(base_path, "config.txt"), 'w') as configfile:
         json.dump(json_config, configfile)
-    
+
     print("Project Initialized successfully in {}".format(base_path))
     print("Check folder description in ReadMe.txt")
-
-
 
 
 def save_model(model, name='model', method='joblib'):
@@ -173,19 +171,13 @@ def save_model(model, name='model', method='joblib'):
 
     if model is None:
         raise ValueError("model: Expecting a binary model file, got 'None'")
-   
+
     #get file path from config file
     #we assume that the user is saving the model from the models folder
     config = None
 
     try:
-        homepath = _get_home_path(os.getcwd())
-        config_path = os.path.join(homepath, 'config.txt')
-        
-        with open(config_path) as configfile:
-            config = json.load(configfile)
-        
-        model_path = os.path.join(config['modelpath'], name)
+        model_path = os.path.join(_get_path('modelpath'), name)
 
         if method is "joblib":
             filename = model_path + '.jbl'
@@ -202,10 +194,13 @@ def save_model(model, name='model', method='joblib'):
             print("model saved in {}".format(filename))
 
         else:
-            logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(method))
-            
+            logging.error(
+                "{} not supported, specify one of [joblib, pickle, keras]".
+                format(method))
+
     except FileNotFoundError as e:
-        msg = "models folder does not exist. Saving model to the {} folder. It is recommended that you start your project using datasist's start_project function".format(name)
+        msg = "models folder does not exist. Saving model to the {} folder. It is recommended that you start your project using datasist's start_project function".format(
+            name)
         logging.info(msg)
 
         if method is "joblib":
@@ -223,12 +218,12 @@ def save_model(model, name='model', method='joblib'):
             print("model saved in current working directory")
 
         else:
-            logging.error("{} not supported, specify one of [joblib, pickle, keras]".format(method))
-            
+            logging.error(
+                "{} not supported, specify one of [joblib, pickle, keras]".
+                format(method))
 
 
 def save_data(data, name='processed_data', method='joblib', loc='processed'):
-    
     '''
     Saves data in the data folder. The data folder contains the processed and raw subfolders.
 
@@ -265,35 +260,33 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
         raise ValueError("data: Expecting a dataset, got 'None'")
 
     if loc not in ['processed', 'raw']:
-        raise ValueError("loc: location not found, expecting one of [processed , raw] got {}".format(loc))
-    
-    try:
-        homepath = _get_home_path(os.getcwd())
-        config_path = os.path.join(homepath, 'config.txt')
-        
-        with open(config_path) as configfile:
-            config = json.load(configfile)
-        
-        data_path = os.path.join(config['datapath'], loc)
+        raise ValueError(
+            "loc: location not found, expecting one of [processed , raw] got {}"
+            .format(loc))
 
+    try:
+        data_path = os.path.join(_get_path('datapath'), loc)
 
         if method is "joblib":
-            filename =  os.path.join(data_path, name) + '.jbl'
+            filename = os.path.join(data_path, name) + '.jbl'
             joblib.dump(data, filename)
             print("Data saved in {}".format(filename))
 
         else:
             try:
-                data.to_csv(os.path.join(data_path, name) + '.csv', index=False)
+                data.to_csv(os.path.join(data_path, name) + '.csv',
+                            index=False)
                 print("Data saved successfully")
 
             except AttributeError as e:
-                print("The file to save must be a Pandas DataFrame. Otherwise, change method parameter to joblib ")
-                logging.error(e)                     
-
+                print(
+                    "The file to save must be a Pandas DataFrame. Otherwise, change method parameter to joblib "
+                )
+                logging.error(e)
 
     except FileNotFoundError as e:
-        msg = "data folder does not exist. Saving data to the {} folder. It is recommended that you start your project using datasist's start_project function".format(name)
+        msg = "data folder does not exist. Saving data to the {} folder. It is recommended that you start your project using datasist's start_project function".format(
+            name)
         logging.info(msg)
 
         if method is "joblib":
@@ -302,16 +295,15 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
             print("data saved in current working directory")
         else:
             try:
-                data.to_csv(name + '.csv',  index=False)
+                data.to_csv(name + '.csv', index=False)
             except AttributeError as e:
-                logging.info("The file to save must be a Pandas DataFrame, else change method to joblib ")
-                logging.error(e)                 
-
-
+                logging.info(
+                    "The file to save must be a Pandas DataFrame, else change method to joblib "
+                )
+                logging.error(e)
 
 
 def save_outputs(data=None, name='proc_outputs', method='joblib'):
-
     '''
     Saves files like vocabulary, class labels, mappings, encodings, images etc. in the outputs folder. 
     
@@ -338,50 +330,44 @@ def save_outputs(data=None, name='proc_outputs', method='joblib'):
         raise ValueError("data: Expecting a dataset, got 'None'")
 
     if method not in ['csv', 'joblib', 'pickle']:
-        raise ValueError("method: Expecting one of ['csv', 'joblib', 'pickle'] got {}".format(method))
-    
-    try:
-        homepath = _get_home_path(os.getcwd())
-        config_path = os.path.join(homepath, 'config.txt')
-        
-        with open(config_path) as configfile:
-            config = json.load(configfile)
-        
-        outputs_path = config['outputpath']
+        raise ValueError(
+            "method: Expecting one of ['csv', 'joblib', 'pickle'] got {}".
+            format(method))
 
+    try:
+        outputs_path = _get_path('outputpath')
 
         if method is "joblib":
-            filename =  os.path.join(outputs_path, name) + '.jbl'
+            filename = os.path.join(outputs_path, name) + '.jbl'
             joblib.dump(data, filename)
             print("Data saved in {}".format(filename))
         elif method is 'pickle':
-            filename =  os.path.join(outputs_path, name) + '.pkl'
+            filename = os.path.join(outputs_path, name) + '.pkl'
             pickle.dump(data, filename)
             print("Data saved in {}".format(filename))
         elif method is 'csv':
             data.to_csv(os.path.join(outputs_path, name) + '.csv', index=False)
             print("Data saved successfully")
         else:
-            logging.error("An error occured while savng the file")                    
-
+            logging.error("An error occured while savng the file")
 
     except FileNotFoundError as e:
         msg = "outputs folder does not exist. Saving data to the current folder. It is recommended that you start your project using datasist's start_project function"
         logging.info(msg)
 
         if method is "joblib":
-            filename =  name + '.jbl'
+            filename = name + '.jbl'
             joblib.dump(data, filename)
             print("Data saved in {}".format(filename))
         elif method is 'pickle':
-            filename =  name + '.pkl'
+            filename = name + '.pkl'
             pickle.dump(data, filename)
             print("Data saved in {}".format(filename))
         elif method is 'csv':
             data.to_csv(name + '.csv', index=False)
             print("Data saved successfully")
         else:
-            logging.error("An error occured while savng the file")                              
+            logging.error("An error occured while savng the file")
 
 
 
@@ -401,13 +387,24 @@ def _get_home_path(filepath):
     elif filepath.endswith("src/scripts/modeling"):
         indx = filepath.index("src/scripts/modeling")
         path = filepath[0:indx]
-        return path    
+        return path
     elif filepath.endswith("src/notebooks"):
         indx = filepath.index("src/notebooks")
         path = filepath[0:indx]
         return path
     else:
         return filepath
+
+
+def _get_path(dir=None):
+    homedir = _get_home_path(os.getcwd())
+    config_path = os.path.join(homedir, 'config.txt')
+
+    with open(config_path) as configfile:
+        config = json.load(configfile)
+
+    path = config[dir]
+    return path
 
 
 # if __name__ == "__main__":

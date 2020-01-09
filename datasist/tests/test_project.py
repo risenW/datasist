@@ -9,12 +9,12 @@ import logging
 
 
 #setup and teardown class to run before any test case
-def setup_class(function):
+def setup_function(function):
     project.start_project("tests/sampletest")
     print("starting")
  
-def teardown_class(function):
-    shutil.rmtree("sampletest")
+def teardown_function(function):
+    shutil.rmtree("tests/sampletest")
     print("tearing")
 
 
@@ -131,5 +131,13 @@ def test_save_output_before_init(): #Test output saving in an un-initialized dat
     os.remove('tests/out_file.csv')
 
 
-#clean up created start folder
-# shutil.rmtree("sampletest")
+def test_get_data():
+    pass
+
+
+def test_get_model():
+    pass
+
+
+def test_get_output():
+    pass
