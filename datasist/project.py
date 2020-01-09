@@ -3,6 +3,7 @@ import argparse
 import json
 import joblib
 import pickle
+import pandas as pd
 from pathlib import Path
 import logging
 
@@ -143,7 +144,7 @@ def start_project(project_name=None):
     print("Check folder description in ReadMe.txt")
 
 
-def save_model(model, name='model', method='joblib'):
+def save_model(model, name='model', method='jb'):
     '''
     Save a trained machine learning model in the models folder.
     Folders must be initialized using the datasist start_project function.
@@ -172,26 +173,19 @@ def save_model(model, name='model', method='joblib'):
     if model is None:
         raise ValueError("model: Expecting a binary model file, got 'None'")
 
-    #get file path from config file
-    #we assume that the user is saving the model from the models folder
-    config = None
-
     try:
         model_path = os.path.join(_get_path('modelpath'), name)
 
-        if method is "joblib":
+        if method is 'jb':
             filename = model_path + '.jbl'
-            joblib.dump(model, model_path)
-            print("model saved in {}".format(filename))
+            joblib.dump(model, filename)
         elif method is 'pickle':
             filename = model_path + '.pkl'
-            pickle.dump(model, model_path)
-            print("model saved in {}".format(filename))
+            pickle.dump(model, filename)
 
         elif method is 'keras':
             filename = model_path + '.h5'
             model.save(filename)
-            print("model saved in {}".format(filename))
 
         else:
             logging.error(
@@ -203,19 +197,16 @@ def save_model(model, name='model', method='joblib'):
             name)
         logging.info(msg)
 
-        if method is "joblib":
+        if method is 'jb':
             filename = name + '.jbl'
             joblib.dump(model, filename)
-            print("model saved in current working directory")
         elif method is 'pickle':
             filename = name + '.pkl'
             pickle.dump(model, filename)
-            print("model saved in current working directory")
 
         elif method is 'keras':
             filename = name + '.h5'
             model.save(filename)
-            print("model saved in current working directory")
 
         else:
             logging.error(
@@ -223,7 +214,7 @@ def save_model(model, name='model', method='joblib'):
                 format(method))
 
 
-def save_data(data, name='processed_data', method='joblib', loc='processed'):
+def save_data(data, name='processed_data', method='csv', loc='processed'):
     '''
     Saves data in the data folder. The data folder contains the processed and raw subfolders.
 
@@ -245,7 +236,7 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
 
         method: string, Default None
 
-            Format to use in saving the data. It can be empty string, and we assume it is a Pandas DataFrame, and we use the to_csv function, else we serialize with joblib.
+            Format to use in saving the data. If it is csv, we use the Pandas to_csv function, else we serialize with joblib.
         
         loc: string, Default processed.
 
@@ -267,21 +258,17 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
     try:
         data_path = os.path.join(_get_path('datapath'), loc)
 
-        if method is "joblib":
+        if method is 'jb':
             filename = os.path.join(data_path, name) + '.jbl'
             joblib.dump(data, filename)
-            print("Data saved in {}".format(filename))
 
         else:
             try:
                 data.to_csv(os.path.join(data_path, name) + '.csv',
                             index=False)
-                print("Data saved successfully")
 
             except AttributeError as e:
-                print(
-                    "The file to save must be a Pandas DataFrame. Otherwise, change method parameter to joblib "
-                )
+                logging.error("The file to save must be a Pandas DataFrame. Otherwise, change method parameter to joblib")
                 logging.error(e)
 
     except FileNotFoundError as e:
@@ -289,10 +276,9 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
             name)
         logging.info(msg)
 
-        if method is "joblib":
+        if method is 'jb':
             filename = name + '.jbl'
             joblib.dump(data, filename)
-            print("data saved in current working directory")
         else:
             try:
                 data.to_csv(name + '.csv', index=False)
@@ -303,7 +289,7 @@ def save_data(data, name='processed_data', method='joblib', loc='processed'):
                 logging.error(e)
 
 
-def save_outputs(data=None, name='proc_outputs', method='joblib'):
+def save_outputs(data=None, name='proc_outputs', method='jb'):
     '''
     Saves files like vocabulary, class labels, mappings, encodings, images etc. in the outputs folder. 
     
@@ -329,25 +315,22 @@ def save_outputs(data=None, name='proc_outputs', method='joblib'):
     if data is None:
         raise ValueError("data: Expecting a dataset, got 'None'")
 
-    if method not in ['csv', 'joblib', 'pickle']:
+    if method not in ['csv', 'jb', 'pickle']:
         raise ValueError(
-            "method: Expecting one of ['csv', 'joblib', 'pickle'] got {}".
+            "method: Expecting one of ['csv', 'jb', 'pickle'] got {}".
             format(method))
 
     try:
         outputs_path = _get_path('outputpath')
 
-        if method is "joblib":
+        if method is 'jb':
             filename = os.path.join(outputs_path, name) + '.jbl'
             joblib.dump(data, filename)
-            print("Data saved in {}".format(filename))
         elif method is 'pickle':
             filename = os.path.join(outputs_path, name) + '.pkl'
             pickle.dump(data, filename)
-            print("Data saved in {}".format(filename))
         elif method is 'csv':
             data.to_csv(os.path.join(outputs_path, name) + '.csv', index=False)
-            print("Data saved successfully")
         else:
             logging.error("An error occured while savng the file")
 
@@ -355,19 +338,116 @@ def save_outputs(data=None, name='proc_outputs', method='joblib'):
         msg = "outputs folder does not exist. Saving data to the current folder. It is recommended that you start your project using datasist's start_project function"
         logging.info(msg)
 
-        if method is "joblib":
+        if method is 'jb':
             filename = name + '.jbl'
             joblib.dump(data, filename)
-            print("Data saved in {}".format(filename))
         elif method is 'pickle':
             filename = name + '.pkl'
             pickle.dump(data, filename)
-            print("Data saved in {}".format(filename))
         elif method is 'csv':
             data.to_csv(name + '.csv', index=False)
-            print("Data saved successfully")
         else:
             logging.error("An error occured while savng the file")
+
+
+def get_data(name=None, path=None, loc='processed', method='jb'):
+    '''
+    Gets the specified data from the data directory. Directory structure must have been created using the datasist start_project function.
+    
+    Parameter:
+    ------------------
+        name: String, List
+            name or list of dataset to retrieve from the data folder. 
+
+        path: String path, Default None
+            Absolute path to the dataset
+
+        loc: String, Default "processed"
+            One of [processed, raw]. Location of the dataset in the data folder. Defaults to the 'processed'.
+
+        method: String, Default 'jb'
+            Data serialization format. Can be either jb (joblib) or csv.
+
+    Returns:
+    -------------------
+        data or list of data objects
+    '''
+    if path:
+        data_path = path
+    else:
+        data_path = os.path.join(_get_path('datapath'), loc, name)
+
+    try:
+        if method is 'csv':
+            data = pd.read_csv(data_path)
+            return data
+
+        elif method is 'jb':
+            data = joblib.load(data_path)
+            logging.info(data_path)
+            return data
+        else:
+            raise AttributeError("Method: Could not read file. File must be saved as either csv or joblib.")
+
+    except FileNotFoundError as e:
+        logging.error(e)
+
+
+def get_model(name=None, path=None, method='jb'):
+    '''
+    Gets the specified model from the outputs/models directory. Directory structure must have been created using the datasist start_project function.
+    
+    Parameter:
+    ------------------
+        name: String
+            name of model to retrieve from the models folder. 
+
+        path: String path, Default None
+            Absolute path to the dataset
+
+        method: String, Default 'jb'
+            Data serialization format. Can be either jb (joblib) or csv.
+
+    Returns:
+    -------------------
+        model or list of models objects
+    '''
+    if path:
+        model_path = path
+    else:
+        model_path = os.path.join(_get_path('modelpath'), name)
+
+    try:
+        if method is 'keras':
+            pass
+        elif method is 'jb':
+            model = joblib.load(model_path)
+            return model
+        elif method is 'pickle':
+            model = pickle.load(model_path)
+            return model
+        else:
+            raise AttributeError("Method: Could not read object. Model must be serialized with joblib, pickle or keras.")
+
+    except FileNotFoundError as e:
+        logging.error(e)
+
+
+
+def get_output(name=None):
+    '''
+    Gets the specified object from the outputs directory. Directory structure must have been created using the datasist start_project function in the project module.
+    
+    Parameter:
+    ------------------
+        name: String, List
+            name or list of objects to retrieve from the outputs folder.  
+        
+    Returns:
+    -------------------
+        object or list of output objects
+    '''
+    pass
 
 
 
