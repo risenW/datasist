@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="generator" content="pdoc 0.7.2" />
+    <title>datasist.structdata API documentation</title>
+    <meta name="description"
+        content="This module contains all functions relating to the cleaning and exploration of structured data sets; mostly in pandas format" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="datasist-link-logo.png"/>
+
+   <style>
+        .flex {
+            display: flex !important
+        }
+
+        body {
+            line-height: 1.5em
+        }
+
+        #content {
+            padding: 20px
+        }
+
+        #sidebar {
+            padding: 30px;
+            overflow: hidden
+        }
+
+        .http-server-breadcrumbs {
+            font-size: 130%;
+            margin: 0 0 15px 0
+        }
+
+        #footer {
+            font-size: .75em;
+            padding: 5px 30px;
+            border-top: 1px solid #ddd;
+            text-align: right
+        }
+
+        #footer p {
+            margin: 0 0 0 1em;
+            display: inline-block
+        }
+
+        #footer p:last-child {
+            margin-right: 30px
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-weight: 300
+        }
+
+        h1 {
+            font-size: 2.5em;
+            line-height: 1.1em
+        }
+
+        h2 {
+            font-size: 1.75em;
+            margin: 1em 0 .50em 0
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin: 25px 0 10px 0
+        }
+
+        h4 {
+            margin: 0;
+            font-size: 105%
+        }
+
+        a {
+            color: #058;
+            text-decoration: none;
+            transition: color .3s ease-in-out
+        }
+
+        a:hover {
+            color: #e82
+        }
+
+        .title code {
+            font-weight: bold
+        }
+
+        h2[id^="header-"] {
+            margin-top: 2em
+        }
+
+        .ident {
+            color: #900
+        }
+
+        pre code {
+            background: #f8f8f8;
+            font-size: .8em;
+            line-height: 1.4em
+        }
+
+        code {
+            background: #f2f2f1;
+            padding: 1px 4px;
+            overflow-wrap: break-word
+        }
+
+        h1 code {
+            background: transparent
+        }
+
+        pre {
+            background: #f8f8f8;
+            border: 0;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 1ex
+        }
+
+        #http-server-module-list {
+            display: flex;
+            flex-flow: column
+        }
+
+        #http-server-module-list div {
+            display: flex
+        }
+
+        #http-server-module-list dt {
+            min-width: 10%
+        }
+
+        #http-server-module-list p {
+            margin-top: 0
+        }
+
+        .toc ul,
+        #index {
+            list-style-type: none;
+            margin: 0;
+            padding: 0
+        }
+
+        #index code {
+            background: transparent
+        }
+
+        #index h3 {
+            border-bottom: 1px solid #ddd
+        }
+
+        #index ul {
+            padding: 0
+        }
+
+        #index h4 {
+            font-weight: bold
+        }
+
+        #index h4+ul {
+            margin-bottom: .6em
+        }
+
+        @media (min-width:200ex) {
+            #index .two-column {
+                column-count: 2
+            }
+        }
+
+        @media (min-width:300ex) {
+            #index .two-column {
+                column-count: 3
+            }
+        }
+
+        dl {
+            margin-bottom: 2em
+        }
+
+        dl dl:last-child {
+            margin-bottom: 4em
+        }
+
+        dd {
+            margin: 0 0 1em 3em
+        }
+
+        #header-classes+dl>dd {
+            margin-bottom: 3em
+        }
+
+        dd dd {
+            margin-left: 2em
+        }
+
+        dd p {
+            margin: 10px 0
+        }
+
+        .name {
+            background: #eee;
+            font-weight: bold;
+            font-size: .85em;
+            padding: 5px 10px;
+            display: inline-block;
+            min-width: 40%
+        }
+
+        .name:hover {
+            background: #e0e0e0
+        }
+
+        .name>span:first-child {
+            white-space: nowrap
+        }
+
+        .name.class>span:nth-child(2) {
+            margin-left: .4em
+        }
+
+        .inherited {
+            color: #999;
+            border-left: 5px solid #eee;
+            padding-left: 1em
+        }
+
+        .inheritance em {
+            font-style: normal;
+            font-weight: bold
+        }
+
+        .desc h2 {
+            font-weight: 400;
+            font-size: 1.25em
+        }
+
+        .desc h3 {
+            font-size: 1em
+        }
+
+        .desc dt code {
+            background: inherit
+        }
+
+        .source summary,
+        .git-link-div {
+            color: #666;
+            text-align: right;
+            font-weight: 400;
+            font-size: .8em;
+            text-transform: uppercase
+        }
+
+        .source summary>* {
+            white-space: nowrap;
+            cursor: pointer
+        }
+
+        .git-link {
+            color: inherit;
+            margin-left: 1em
+        }
+
+        .source pre {
+            max-height: 500px;
+            overflow: auto;
+            margin: 0
+        }
+
+        .source pre code {
+            font-size: 12px;
+            overflow: visible
+        }
+
+        .hlist {
+            list-style: none
+        }
+
+        .hlist li {
+            display: inline
+        }
+
+        .hlist li:after {
+            content: ',\2002'
+        }
+
+        .hlist li:last-child:after {
+            content: none
+        }
+
+        .hlist .hlist {
+            display: inline;
+            padding-left: 1em
+        }
+
+        img {
+            max-width: 100%
+        }
+
+        .admonition {
+            padding: .1em .5em;
+            margin-bottom: 1em
+        }
+
+        .admonition-title {
+            font-weight: bold
+        }
+
+        .admonition.note,
+        .admonition.info,
+        .admonition.important {
+            background: #aef
+        }
+
+        .admonition.todo,
+        .admonition.versionadded,
+        .admonition.tip,
+        .admonition.hint {
+            background: #dfd
+        }
+
+        .admonition.warning,
+        .admonition.versionchanged,
+        .admonition.deprecated {
+            background: #fd4
+        }
+
+        .admonition.error,
+        .admonition.danger,
+        .admonition.caution {
+            background: lightpink
+        }
+    </style>
+    <style media="screen and (min-width: 700px)">
+        @media screen and (min-width:700px) {
+            #sidebar {
+                width: 30%
+            }
+
+            #content {
+                width: 70%;
+                max-width: 100ch;
+                padding: 3em 4em;
+                border-left: 1px solid #ddd
+            }
+
+            pre code {
+                font-size: 1em
+            }
+
+            .item .name {
+                font-size: 1em
+            }
+
+            main {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: flex-end
+            }
+
+            .toc ul ul,
+            #index ul {
+                padding-left: 1.5em
+            }
+
+            .toc>ul>li {
+                margin-top: .5em
+            }
+        }
+    </style>
+    <style media="print">
+        @media print {
+            #sidebar h1 {
+                page-break-before: always
+            }
+
+            .source {
+                display: none
+            }
+        }
+
+        @media print {
+            * {
+                background: transparent !important;
+                color: #000 !important;
+                box-shadow: none !important;
+                text-shadow: none !important
+            }
+
+            a[href]:after {
+                content: " ("attr(href) ")";
+                font-size: 90%
+            }
+
+            a[href][title]:after {
+                content: none
+            }
+
+            abbr[title]:after {
+                content: " ("attr(title) ")"
+            }
+
+            .ir a:after,
+            a[href^="javascript:"]:after,
+            a[href^="#"]:after {
+                content: ""
+            }
+
+            pre,
+            blockquote {
+                border: 1px solid #999;
+                page-break-inside: avoid
+            }
+
+            thead {
+                display: table-header-group
+            }
+
+            tr,
+            img {
+                page-break-inside: avoid
+            }
+
+            img {
+                max-width: 100% !important
+            }
+
+            @page {
+                margin: 0.5cm
+            }
+
+            p,
+            h2,
+            h3 {
+                orphans: 3;
+                widows: 3
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                page-break-after: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <article id="content">
+            <header>
+                <h1 class="title">Module <code>datasist.structdata</code></h1>
+            </header>
+            <section id="section-intro">
+                <p>The structdata module contains numerous functions for working with structured data mostly in the
+                    Pandas DataFrame format. These functions can be used to easily manipulate and analyze tabular
+                    DataFrames. </p>
+
+                <section>
+                    <h2 class="section-title" id="header-functions">Functions</h2>
+                    <dl>
+                        <dt id="datasist.structdata.cat_summarizer"><code class="name flex">
+<span>def <span class="ident">cat_summarizer</span></span>(<span>data, x=None, y=None, hue=None, palette='Set1', verbose=True)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Helper function that gives a quick summary of a given column of categorical data</p>
+                                <h2 id="parameters">Parameters:</h2>
+                                <pre><code>dataframe: pandas dataframe
+
+x: str.
+    horizontal axis to plot the labels of categorical data, y would be the count.
+
+y: str. 
+    vertical axis to plot the labels of categorical data, x would be the count.
+
+hue: str. i
+    if you want to compare it another variable (usually the target variable)
+
+palette: array, list.
+
+    Colour of the plot
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>Quick Stats of the data and also the count plot
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def cat_summarizer(data, x=None, y=None, hue=None, palette=&#39;Set1&#39;, verbose=True):
+    &#39;&#39;&#39;
+    Helper function that gives a quick summary of a given column of categorical data
+
+    Parameters:
+    ---------------------------
+        dataframe: pandas dataframe
+
+        x: str.
+            horizontal axis to plot the labels of categorical data, y would be the count.
+
+        y: str. 
+            vertical axis to plot the labels of categorical data, x would be the count.
+
+        hue: str. i
+            if you want to compare it another variable (usually the target variable)
+
+        palette: array, list.
+
+            Colour of the plot
+
+    Returns:
+    ----------------------
+        Quick Stats of the data and also the count plot
+    
+    Example:
+
+        c_palette = [&#39;tab:blue&#39;, &#39;tab:orange&#39;]
+
+        categorical_summarized(train, y = &#39;date_block_num&#39;, palette=c_palette)
+
+
+        # Feature Variable: Gender
+
+        categorical_summarized(train_data, y = &#39;Sex&#39;, hue=&#39;Survived&#39;, palette=c_palette)
+
+    &#39;&#39;&#39;
+    if x == None:
+        column_interested = y
+    else:
+        column_interested = x
+    series = data[column_interested]
+    print(series.describe())
+    print(&#39;mode: &#39;, series.mode())
+    if verbose:
+        print(&#39;=&#39;*80)
+        print(series.value_counts())
+
+    sns.countplot(x=x, y=y, hue=hue, data=data, palette=palette)
+    plt.show()</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.check_train_test_set"><code class="name flex">
+<span>def <span class="ident">check_train_test_set</span></span>(<span>train_data, test_data, index=None, col=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Checks the distribution of train and test for uniqueness in order to determine
+                                    the best feature engineering strategy.</p>
+                                <pre><code class="python">
+Checks the distribution of train and test for uniqueness in order to determine
+the best feature engineering strategy.
+
+Parameters:
+-------------------
+    train_data: DataFrame
+
+        The first data set to join
+
+    test_data: DataFrame
+            
+            The second dataset to join
+
+    index: Str, Default None
+
+        An index column present in both dataset to be used in plotting
+    
+    col: Str, Default None
+
+        A feature present in both dataset used in plotting</code></pre>
+
+
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def check_train_test_set(train_data, test_data, index=None, col=None):
+    &#39;&#39;&#39;
+    Checks the distribution of train and test for uniqueness in order to determine
+    the best feature engineering strategy.
+    
+    Parameters:
+    -------------------
+    
+    &#39;&#39;&#39;
+    print(&#39;There are {} training rows and {} test rows.&#39;.format(train_data.shape[0], test_data.shape[0]))
+    print(&#39;There are {} training columns and {} test columns.&#39;.format(train_data.shape[1], test_data.shape[1]))
+    
+    if index:
+        if train_data[index].nunique() == train_data.shape[0]:
+            print(&#39;Id field is unique.&#39;)
+        else:
+            print(&#39;Id field is not unique&#39;)
+
+        if len(np.intersect1d(train_data[index].values, test_data[index].values))== 0:
+            print(&#39;Train and test sets have distinct Ids.&#39;) 
+        else:
+            print(&#39;Train and test sets IDs are the same.&#39;)
+            _space()
+
+        plt.plot(train_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;train&#39;)
+        plt.plot(test_data.groupby(col).count()[[index]], &#39;o-&#39;, label=&#39;test&#39;)
+        plt.title(&#39;Train and test instances overlap.&#39;)
+        plt.legend(loc=0)
+        plt.ylabel(&#39;number of records&#39;)
+        plt.show()</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.describe"><code class="name flex">
+<span>def <span class="ident">describe</span></span>(<span>data=None, name='', date_cols=None, show_categories=False, plot_missing=False)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Calculates statistics and information about a data set. Information displayed are
+                                    shapes, size, number of categorical/numeric/date features, missing values,
+                                    dtypes of objects etc.</p>
+                                <h2 id="parameters">Parameters:</h2>
+                                <pre><code>data: Pandas DataFrame
+
+    The data to describe.
+
+name: str, optional
+
+    The name of the data set passed to the function.
+
+date_cols: list/series/array
+
+    Date column names in the data set.
+
+show_categories: bool, default False
+
+    Displays the unique classes and counts in each of the categorical feature in the data set.
+
+plot_missing: bool, default True
+
+    Plots missing values as a heatmap
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>None
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def describe(data=None, name=&#39;&#39;, date_cols=None, show_categories=False, plot_missing=False):
+    &#39;&#39;&#39;
+    Calculates statistics and information about a data set. Information displayed are
+    shapes, size, number of categorical/numeric/date features, missing values,
+    dtypes of objects etc.
+
+    Parameters:
+    --------------------
+        data: Pandas DataFrame
+
+            The data to describe.
+
+        name: str, optional
+
+            The name of the data set passed to the function.
+
+        date_cols: list/series/array
+
+            Date column names in the data set.
+
+        show_categories: bool, default False
+
+            Displays the unique classes and counts in each of the categorical feature in the data set.
+
+        plot_missing: bool, default True
+
+            Plots missing values as a heatmap
+
+    Returns:
+    -------
+        None
+    &#39;&#39;&#39;
+    
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    ## Get categorical features
+    cat_features = get_cat_feats(data)
+    
+    #Get numerical features
+    num_features = get_num_feats(data)
+
+    print(&#39;First five data points&#39;)
+    display(data.head())
+    _space()
+
+    print(&#39;Random five data points&#39;)
+    display(data.sample(5))
+    _space()
+
+    print(&#39;Last five data points&#39;)
+    display(data.tail())
+    _space()
+
+    print(&#39;Shape of {} data set: {}&#39;.format(name, data.shape))
+    _space()
+
+    print(&#39;Size of {} data set: {}&#39;.format(name, data.size))
+    _space()
+
+    print(&#39;Data Types&#39;)
+    print(&#34;Note: All Non-numerical features are identified as objects in pandas&#34;)
+    display(pd.DataFrame(data.dtypes, columns=[&#39;Data Type&#39;]))
+    _space()
+
+    date_cols = get_date_cols(data)
+    if len(date_cols) is not 0:
+        print(&#34;Column(s) {} should be in Datetime format. Use the [to_date] function in datasist.feature_engineering to convert to Pandas Datetime format&#34;.format(date_cols))
+        _space()
+
+    print(&#39;Numerical Features in Data set&#39;)
+    print(num_features)
+    _space()
+
+    print(&#39;Statistical Description of Columns&#39;)
+    display(data.describe())
+    _space()
+    
+    print(&#39;Description of Categorical Features&#39;)
+    display(data.describe(include=[np.object, pd.Categorical]).T)
+    _space()
+
+    print(&#39;Categorical Features in Data set&#39;)
+    display(cat_features)
+    _space()
+          
+    print(&#39;Unique class Count of Categorical features&#39;)
+    display(get_unique_counts(data))
+    _space()
+
+    if show_categories:     
+        print(&#39;Classes in Categorical Columns&#39;)
+        print(&#34;-&#34;*30)
+        class_count(data, cat_features)
+        _space()
+
+    print(&#39;Missing Values in Data&#39;)
+    display(display_missing(data))
+
+    #Plots the missing values
+    if plot_missing:
+        plot_missing(data)</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.detect_outliers"><code class="name flex">
+<span>def <span class="ident">detect_outliers</span></span>(<span>data, n, features)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Detect Rows with outliers.</p>
+                                <h2 id="parameters">Parameters</h2>
+                                <pre><code>data: DataFrame or named Series
+
+n: the bench mark for the number of allowable outliers in the columns.
+
+features: Specific columns you want to check for outliers and it accepts only numerical values.
+</code></pre>
+                                <h2 id="returns">Returns</h2>
+                                <pre><code>The rows where outliers are present.
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def detect_outliers(data, n, features):
+    &#39;&#39;&#39;
+        Detect Rows with outliers.
+
+        Parameters
+        ----------
+            data: DataFrame or named Series
+
+            n: the bench mark for the number of allowable outliers in the columns.
+            
+            features: Specific columns you want to check for outliers and it accepts only numerical values.
+
+        Returns
+        -------
+            The rows where outliers are present.
+        &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame/ numpy2d array, got &#39;None&#39;&#34;)
+
+    if features is None:
+        raise ValueError(&#34;columns: Expecting features i.e columns of the dataset but got &#39;None&#39;&#34;)
+
+    if n is None:
+        n = 2
+
+    outlier_indices = []
+
+    # iterate over features(columns)
+    for col in features:
+        # 1st quartile (25%)
+        Q1 = np.percentile(data[col], 25)
+        # 3rd quartile (75%)
+        Q3 = np.percentile(data[col], 75)
+        # Interquartile range (IQR)
+        IQR = Q3 - Q1
+
+        # outlier step
+        outlier_step = 1.5 * IQR
+
+        # Determine a list of indices of outliers for feature col
+        outlier_list_col = data[(data[col] &lt; Q1 - outlier_step) | (data[col] &gt; Q3 + outlier_step)].index
+
+        # append the found outlier indices for col to the list of outlier indices
+        outlier_indices.extend(outlier_list_col)
+
+    # select observations containing more than 2 outliers
+    outlier_indices = Counter(outlier_indices)
+    multiple_outliers = list(k for k, v in outlier_indices.items() if v &gt; n)
+
+    return multiple_outliers</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.display_missing"><code class="name flex">
+<span>def <span class="ident">display_missing</span></span>(<span>data=None, plot=False)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Display missing values as a pandas dataframe.</p>
+                                <h2 id="parameters">Parameters</h2>
+                                <pre><code>data: DataFrame or named Series
+
+plot: bool, Default False
+
+    Plots missing values in dataset as a heatmap
+</code></pre>
+                                <h2 id="returns">Returns</h2>
+                                <pre><code>Matplotlib Figure:
+
+    Heatmap plot of missing values
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def display_missing(data=None, plot=False):
+    &#39;&#39;&#39;
+    Display missing values as a pandas dataframe.
+
+    Parameters
+    ----------
+        data: DataFrame or named Series
+
+        plot: bool, Default False
+
+            Plots missing values in dataset as a heatmap
+    
+    Returns
+    -------
+        Matplotlib Figure:
+
+            Heatmap plot of missing values
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    df = data.isna().sum()
+    df = df.reset_index()
+    df.columns = [&#39;features&#39;, &#39;missing_counts&#39;]
+
+    missing_percent = round((df[&#39;missing_counts&#39;] / data.shape[0]) * 100, 1)
+    df[&#39;missing_percent&#39;] = missing_percent
+
+    if plot:
+        plot_missing(data)
+        return df
+    else:
+        return df</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.get_cat_feats"><code class="name flex">
+<span>def <span class="ident">get_cat_feats</span></span>(<span>data=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Returns the categorical features in a data set</p>
+                                <h2 id="parameters">Parameters:</h2>
+                                <pre><code>data: DataFrame or named Series
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>List
+    A list of all the categorical features in a dataset.
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def get_cat_feats(data=None):
+    &#39;&#39;&#39;
+    Returns the categorical features in a data set
+
+    Parameters:
+    -----------
+        data: DataFrame or named Series 
+
+    Returns:
+    -------
+        List
+            A list of all the categorical features in a dataset.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    cat_features = num_features = data.select_dtypes(include=[&#39;object&#39;]).columns
+
+    return list(cat_features)</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.get_date_cols"><code class="name flex">
+<span>def <span class="ident">get_date_cols</span></span>(<span>data=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Returns the Datetime columns in a data set.</p>
+                                <h2 id="parameters">Parameters</h2>
+                                <pre><code>data: DataFrame or named Series
+
+    Data set to infer datetime columns from.
+
+convert: bool, Default True
+
+    Converts the inferred date columns to pandas DateTime type
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>List
+
+ Date column names in the data set
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def get_date_cols(data=None):
+    &#39;&#39;&#39;
+    Returns the Datetime columns in a data set.
+
+    Parameters
+    ----------
+        data: DataFrame or named Series
+
+            Data set to infer datetime columns from.
+
+        convert: bool, Default True
+
+            Converts the inferred date columns to pandas DateTime type
+    Returns:
+    -------
+        List
+
+         Date column names in the data set
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    #Get existing date columns in pandas Datetime64 format
+    date_cols = set(data.dtypes[data.dtypes == &#39;datetime64[ns, UTC]&#39;].index)
+    #infer Date columns 
+    date_cols = date_cols.union(_match_date(data))
+       
+    return date_cols</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.get_num_feats"><code class="name flex">
+<span>def <span class="ident">get_num_feats</span></span>(<span>data=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Returns the numerical features in a data set</p>
+                                <h2 id="parameters">Parameters:</h2>
+                                <pre><code>data: DataFrame or named Series
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>List:
+    A list of all the numerical features in a dataset.
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def get_num_feats(data=None):
+    &#39;&#39;&#39;
+    Returns the numerical features in a data set
+
+    Parameters:
+    -----------
+        data: DataFrame or named Series 
+
+    Returns:
+    -------
+        List:
+            A list of all the numerical features in a dataset.
+    &#39;&#39;&#39;
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    num_features = data.select_dtypes(exclude=[&#39;object&#39;, &#39;datetime64&#39;]).columns
+
+    return list(num_features)</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.get_unique_counts"><code class="name flex">
+<span>def <span class="ident">get_unique_counts</span></span>(<span>data=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Gets the unique count of categorical features in a data set.</p>
+                                <h2 id="parameters">Parameters</h2>
+                                <pre><code>data: DataFrame or named Series
+</code></pre>
+                                <h2 id="returns">Returns</h2>
+                                <pre><code>DataFrame or Series
+
+    Unique value counts of the features in a dataset.
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def get_unique_counts(data=None):
+    &#39;&#39;&#39;
+    Gets the unique count of categorical features in a data set.
+
+    Parameters
+    -----------
+        data: DataFrame or named Series 
+
+    Returns
+    -------
+        DataFrame or Series
+
+            Unique value counts of the features in a dataset.
+    
+    &#39;&#39;&#39;
+
+    if data is None:
+        raise ValueError(&#34;data: Expecting a DataFrame or Series, got &#39;None&#39;&#34;)
+
+    features = get_cat_feats(data)
+    temp_len = []
+
+    for feature in features:
+        temp_len.append(len(data[feature].unique()))
+        
+    df = list(zip(features, temp_len))
+    df = pd.DataFrame(df, columns=[&#39;Feature&#39;, &#39;Unique Count&#39;])
+    df = df.style.bar(subset=[&#39;Unique Count&#39;], align=&#39;mid&#39;)
+    return df</code></pre>
+                            </details>
+                        </dd>
+                        <dt id="datasist.structdata.join_train_and_test"><code class="name flex">
+<span>def <span class="ident">join_train_and_test</span></span>(<span>data_train=None, data_test=None)</span>
+</code></dt>
+                        <dd>
+                            <section class="desc">
+                                <p>Joins two data sets and returns a dictionary containing their sizes and the
+                                    concatenated
+                                    data.
+                                    Used mostly before feature engineering to combine train and test set together.</p>
+                                <h2 id="parameter">Parameter:</h2>
+                                <pre><code>data_train: DataFrame, named series.
+
+    First data usually called train date to join.
+
+data_test: DataFrame, named series.
+
+    Second data set to join, usually called test.
+</code></pre>
+                                <h2 id="returns">Returns:</h2>
+                                <pre><code>Tuple: Merged data, size of train and size of test
+</code></pre>
+                            </section>
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def join_train_and_test(data_train=None, data_test=None):
+    &#39;&#39;&#39;
+    Joins two data sets and returns a dictionary containing their sizes and the concatenated data.
+    Used mostly before feature engineering to combine train and test set together.
+
+    Parameter:
+    ----------
+        data_train: DataFrame, named series.
+
+            First data usually called train date to join.
+
+        data_test: DataFrame, named series.
+
+            Second data set to join, usually called test.
+    
+    Returns:
+    -------
+        Tuple: Merged data, size of train and size of test
+    &#39;&#39;&#39;
+
+    n_train = data_train.shape[0]
+    n_test = data_test.shape[0]
+    all_data = pd.concat([data_train, data_test],sort=False).reset_index(drop=True)
+    
+    return all_data, n_train, n_test</code></pre>
+                            </details>
+                        </dd>
+                    </dl>
+                </section>
+                <section>
+                </section>
+        </article>
+        <nav id="sidebar">
+            <h1><a href="index.html"><img src="datasist.png" alt="logo"></a></h1>
+            <div class="toc">
+                <ul></ul>
+            </div>
+            <ul id="index">
+                <li>
+                    <ul>
+                        <li><code><a title="Home" href="index.html">Back Home</a></code></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3><a href="#header-functions">Functions</a></h3>
+                    <ul class="">
+                        <li><code><a title="datasist.structdata.cat_summarizer" href="#datasist.structdata.cat_summarizer">cat_summarizer</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.check_train_test_set" href="#datasist.structdata.check_train_test_set">check_train_test_set</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.describe" href="#datasist.structdata.describe">describe</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.detect_outliers" href="#datasist.structdata.detect_outliers">detect_outliers</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.display_missing" href="#datasist.structdata.display_missing">display_missing</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.get_cat_feats" href="#datasist.structdata.get_cat_feats">get_cat_feats</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.get_date_cols" href="#datasist.structdata.get_date_cols">get_date_cols</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.get_num_feats" href="#datasist.structdata.get_num_feats">get_num_feats</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.get_unique_counts" href="#datasist.structdata.get_unique_counts">get_unique_counts</a></code>
+                        </li>
+                        <li><code><a title="datasist.structdata.join_train_and_test" href="#datasist.structdata.join_train_and_test">join_train_and_test</a></code>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </main>
+    <footer id="footer">
+        <p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad()</script>
+</body>
+
+</html>
