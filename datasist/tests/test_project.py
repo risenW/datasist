@@ -1,11 +1,23 @@
 import os
 import shutil
-from datasist.project import start_project
+from datasist import project
 from sklearn.ensemble import RandomForestClassifier
 from datasist.project import save_model, save_data, save_outputs, _get_home_path
 import json
 import pandas as pd
 import logging
+
+
+#setup and teardown class to run before any test case
+def setup_class(function):
+    project.start_project("tests/sampletest")
+    print("starting")
+ 
+def teardown_class(function):
+    shutil.rmtree("sampletest")
+    print("tearing")
+
+
 
 def test_start_project():
     expected = ['README.txt',
@@ -13,13 +25,10 @@ def test_start_project():
                 'data',
                 'config.txt',
                 'outputs']
-    start_project("tests/sampletest")
-    output = os.listdir("tests/sampletest/")
+    project.start_project("tests/sampletest")
+    output = os.listdir("tests/sampletest")
     assert set(expected) == set(output)
     assert len(expected) == len(output)
-    # clean directory
-    shutil.rmtree("tests/sampletest")
-
 
 
 def test_save_model_joblib():
@@ -36,7 +45,6 @@ def test_save_data_csv(): #Test data saving in a directory structure created wit
     expected1 = 'proc_file.csv'
     expected2 = 'raw_file.csv'
 
-    start_project("tests/sampletest") #create test folder structure
     config_path = os.path.join('tests/sampletest', 'config.txt')
     with open(config_path) as configfile:
         config = json.load(configfile)
@@ -51,14 +59,12 @@ def test_save_data_csv(): #Test data saving in a directory structure created wit
 
     assert expected1 in os.listdir(data_path_proc)
     assert expected2 in os.listdir(data_path_raw)
-    shutil.rmtree("tests/sampletest")
 
 
 def test_save_data_jbl(): #Test data saving in a directory structure created with datasist start_project function
     expected1 = 'proc_file.jbl'
     expected2 = 'raw_file.jbl'
 
-    start_project("tests/sampletest") #create test folder structure
     config_path = os.path.join('tests/sampletest', 'config.txt')
     with open(config_path) as configfile:
         config = json.load(configfile)
@@ -73,7 +79,6 @@ def test_save_data_jbl(): #Test data saving in a directory structure created wit
 
     assert expected1 in os.listdir(data_path_proc)
     assert expected2 in os.listdir(data_path_raw)
-    shutil.rmtree("tests/sampletest")
 
 
 def test_save_data_before_init(): #Test data saving in an un-initialized project
@@ -95,7 +100,6 @@ def test_save_data_before_init(): #Test data saving in an un-initialized project
 def test_save_outputs_csv(): #Test data saving in a directory structure created with datasist start_project function
     expected = 'proc_outputs.csv'
 
-    start_project("tests/sampletest") #create test folder structure
     config_path = os.path.join('tests/sampletest', 'config.txt')
     with open(config_path) as configfile:
         config = json.load(configfile)
@@ -103,14 +107,11 @@ def test_save_outputs_csv(): #Test data saving in a directory structure created 
     output_path= os.path.join(config['outputpath'])
     aa = pd.DataFrame([1,2,3,4,5])
     save_outputs(data=aa,name=output_path + '/proc_outputs', method='csv')
-
     assert expected in os.listdir(output_path)
-    shutil.rmtree("tests/sampletest")
 
 def test_save_outputs_jbl(): #Test data saving in a directory structure created with datasist start_project function
     expected = 'proc_outputs.jbl'
 
-    start_project("tests/sampletest") #create test folder structure
     config_path = os.path.join('tests/sampletest', 'config.txt')
     with open(config_path) as configfile:
         config = json.load(configfile)
@@ -118,9 +119,7 @@ def test_save_outputs_jbl(): #Test data saving in a directory structure created 
     output_path= os.path.join(config['outputpath'])
     aa = pd.DataFrame([1,2,3,4,5])
     save_outputs(data=aa,name=output_path + '/proc_outputs')
-
     assert expected in os.listdir(output_path)
-    shutil.rmtree("tests/sampletest")
     
 
 def test_save_output_before_init(): #Test output saving in an un-initialized datasist project
@@ -132,3 +131,5 @@ def test_save_output_before_init(): #Test output saving in an un-initialized dat
     os.remove('tests/out_file.csv')
 
 
+#clean up created start folder
+# shutil.rmtree("sampletest")
