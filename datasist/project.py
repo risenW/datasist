@@ -434,20 +434,44 @@ def get_model(name=None, path=None, method='jb'):
 
 
 
-def get_output(name=None):
+def get_output(name=None, path=None, method='jb'):
     '''
-    Gets the specified object from the outputs directory. Directory structure must have been created using the datasist start_project function in the project module.
+    Gets the specified object from the outputs directory. Directory structure must have been created using the datasist start_project function.
     
     Parameter:
     ------------------
-        name: String, List
-            name or list of objects to retrieve from the outputs folder.  
-        
+        name: String
+            name of object to retrieve from the output folder. 
+
+        path: String path, Default None
+            Absolute path to the object
+
+        method: String, Default 'jb'
+            Object serialization format. Can either be jb (joblib) or csv.
+
     Returns:
     -------------------
-        object or list of output objects
+        model or list of models objects
     '''
-    pass
+    if path:
+        output_path = path
+    else:
+        output_path = os.path.join(_get_path('outputpath'), name)
+
+    try:
+        if method is 'keras':
+            pass
+        elif method is 'jb':
+            model = joblib.load(output_path)
+            return model
+        elif method is 'pickle':
+            model = pickle.load(output_path)
+            return model
+        else:
+            raise AttributeError("Method: Could not read object. Object must be serialized with joblib, pickle or keras.")
+
+    except FileNotFoundError as e:
+        logging.error(e)
 
 
 
@@ -486,10 +510,3 @@ def _get_path(dir=None):
     path = config[dir]
     return path
 
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("-p", "--project_name", help="Name of the parent directory to initialize folders")
-#     args = parser.parse_args()
-
-#     start_project(args.project_name)

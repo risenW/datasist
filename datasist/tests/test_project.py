@@ -10,11 +10,11 @@ import logging
 
 
 #setup and teardown class to run before any test case
-def setup_function(function):
+def setup_function(module):
     project.start_project("tests/sampletest")
     logging.info("starting")
  
-def teardown_function(function):
+def teardown_function(module):
     shutil.rmtree("tests/sampletest")
     logging.info("tearing")
 
@@ -145,9 +145,13 @@ def test_get_data_jb():
 def test_get_model():
     rf = RandomForestClassifier()
     save_model(rf, name='tests/sampletest/outputs/models/rf_model', method='jb')
-    output = get_model(path='tests/sampletest/data/processed/rf_model.jbl')
+    output = get_model(path='tests/sampletest/outputs/models/rf_model.jbl')
     assert hasattr(rf, 'fit')
 
 
+
 def test_get_output():
-    pass
+    temp = pd.DataFrame([1,2,3,4,5,6])
+    save_model(temp, name='tests/sampletest/outputs/submit', method='jb')
+    output = get_output(path='tests/sampletest/outputs/submit.jbl')
+    assert hasattr(temp,'sample')
