@@ -32,7 +32,7 @@ def drop_missing(data=None, percent=99):
             Percentage of missing values to be in a column before it is eligible for removal.
 
     Returns:
-
+    ------------------
         Pandas DataFrame or Series.
     '''
 
@@ -71,22 +71,6 @@ def drop_redundant(data):
     return df
     
 
-# def fill_with_model(xtrain, xtest, estimator):
-
-    
-
-def _nan_in_class(data):
-    cols = []
-    for col in data.columns:
-        if len(data[col].unique()) == 1:
-            cols.append(col)
-
-        if len(data[col].unique()) == 2:
-            if np.nan in list(data[col].unique()):
-                cols.append(col)
-
-    return cols
-
 
 def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
     '''
@@ -107,6 +91,7 @@ def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missi
             Values used in place of missing. Popular formats are [-1, -999, -99, '', ' ']
 
         missin_col: bool, Default True
+
             Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
     '''
 
@@ -258,8 +243,7 @@ def get_qcut(data=None, col=None, q=None, duplicates='drop', return_type='float6
 
         q: integer or array of quantiles
 
-            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately
-            array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
+            Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.
 
         duplicates: Default 'drop',
 
@@ -506,15 +490,19 @@ def log_transform(data, columns, plot=True, figsize=(12,6)):
     Parameter:
     -----------------------------------------
     data: DataFrame, Series.
+
         Data to Log transform.
 
     columns: List, Series
+
         Columns to be transformed to normality using log transformation
     
     plot: bool, default True
+
         Plots a before and after log transformation plot
     
     Returns:
+
         Log-transformed dataframe
     '''
 
@@ -555,8 +543,8 @@ def convert_dtype(df):
     Parameter:
     ---------------------------
     df: DataFrame, Series
-        Dataset to convert data type
 
+        Dataset to convert data type
     
     Returns:
     -----------------
@@ -610,7 +598,7 @@ def convert_dtype(df):
         while i <= (df.shape[1])-1:
             val = df.iloc[:,i]
             if str(val.dtypes) =='object':
-                val = val.apply(lambda x: re.sub("^\s+|\s+$", "",x, flags=re.UNICODE)) #Remove spaces between strings
+                val = val.apply(lambda x: re.sub(r"^\s+|\s+$", "",x, flags=re.UNICODE)) #Remove spaces between strings
         
             try:
                 if str(val.dtypes) =='object':
@@ -649,31 +637,33 @@ def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = Fa
     Parameter:
     -----------------------------------------
     data: DataFrame, Series.
+
         Data for which feature to be binned exist.
 
     feature: List, Series
-        Columns to be binned
 
+        Columns to be binned
     
     Bins: List, numpy.ndarray
-        Specifies the different categories
-        Bins must be one greater labels
-    
+
+        Specifies the different categories. Bins must be one greater labels.
     
     labels: List, Series
+
         Name identified to the various categories
 
     fill_missing(default = None): int
-        mean : feature average
-        mode : most occuring data in the feature
-        median : middle point in the feature
+
+        mean : feature average.
+        mode : most occuring data in the feature.
+        median : middle point in the feature.
 
     drop_original: bool
-        Drops original feature after beaning
-    
+
+        Drops original feature after beaning.
 
     Returns:
-        Returns a binned dataframe
+        Returns a binned dataframe.
     '''
 
     
@@ -707,3 +697,16 @@ def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = Fa
 
     return df
     
+
+
+def _nan_in_class(data):
+    cols = []
+    for col in data.columns:
+        if len(data[col].unique()) == 1:
+            cols.append(col)
+
+        if len(data[col].unique()) == 2:
+            if np.nan in list(data[col].unique()):
+                cols.append(col)
+
+    return cols

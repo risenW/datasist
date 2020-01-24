@@ -1,37 +1,481 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.1" />
-<title>datasist.feature_engineering API documentation</title>
-<meta name="description" content="This module contains all functions relating to feature engineering" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
-<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="generator" content="pdoc 0.7.2" />
+    <title>datasist.feature_engineering API documentation</title>
+    <meta name="description" content="This module contains all functions relating to feature engineering" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="datasist-link-logo.png"/>
+
+    <style>
+        .flex {
+            display: flex !important
+        }
+
+        body {
+            line-height: 1.5em
+        }
+
+        #content {
+            padding: 20px
+        }
+
+        #sidebar {
+            padding: 30px;
+            overflow: hidden
+        }
+
+        .http-server-breadcrumbs {
+            font-size: 130%;
+            margin: 0 0 15px 0
+        }
+
+        #footer {
+            font-size: .75em;
+            padding: 5px 30px;
+            border-top: 1px solid #ddd;
+            text-align: right
+        }
+
+        #footer p {
+            margin: 0 0 0 1em;
+            display: inline-block
+        }
+
+        #footer p:last-child {
+            margin-right: 30px
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-weight: 300
+        }
+
+        h1 {
+            font-size: 2.5em;
+            line-height: 1.1em
+        }
+
+        h2 {
+            font-size: 1.75em;
+            margin: 1em 0 .50em 0
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin: 25px 0 10px 0
+        }
+
+        h4 {
+            margin: 0;
+            font-size: 105%
+        }
+
+        a {
+            color: #058;
+            text-decoration: none;
+            transition: color .3s ease-in-out
+        }
+
+        a:hover {
+            color: #e82
+        }
+
+        .title code {
+            font-weight: bold
+        }
+
+        h2[id^="header-"] {
+            margin-top: 2em
+        }
+
+        .ident {
+            color: #900
+        }
+
+        pre code {
+            background: #f8f8f8;
+            font-size: .8em;
+            line-height: 1.4em
+        }
+
+        code {
+            background: #f2f2f1;
+            padding: 1px 4px;
+            overflow-wrap: break-word
+        }
+
+        h1 code {
+            background: transparent
+        }
+
+        pre {
+            background: #f8f8f8;
+            border: 0;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 1ex
+        }
+
+        #http-server-module-list {
+            display: flex;
+            flex-flow: column
+        }
+
+        #http-server-module-list div {
+            display: flex
+        }
+
+        #http-server-module-list dt {
+            min-width: 10%
+        }
+
+        #http-server-module-list p {
+            margin-top: 0
+        }
+
+        .toc ul,
+        #index {
+            list-style-type: none;
+            margin: 0;
+            padding: 0
+        }
+
+        #index code {
+            background: transparent
+        }
+
+        #index h3 {
+            border-bottom: 1px solid #ddd
+        }
+
+        #index ul {
+            padding: 0
+        }
+
+        #index h4 {
+            font-weight: bold
+        }
+
+        #index h4+ul {
+            margin-bottom: .6em
+        }
+
+        @media (min-width:200ex) {
+            #index .two-column {
+                column-count: 2
+            }
+        }
+
+        @media (min-width:300ex) {
+            #index .two-column {
+                column-count: 3
+            }
+        }
+
+        dl {
+            margin-bottom: 2em
+        }
+
+        dl dl:last-child {
+            margin-bottom: 4em
+        }
+
+        dd {
+            margin: 0 0 1em 3em
+        }
+
+        #header-classes+dl>dd {
+            margin-bottom: 3em
+        }
+
+        dd dd {
+            margin-left: 2em
+        }
+
+        dd p {
+            margin: 10px 0
+        }
+
+        .name {
+            background: #eee;
+            font-weight: bold;
+            font-size: .85em;
+            padding: 5px 10px;
+            display: inline-block;
+            min-width: 40%
+        }
+
+        .name:hover {
+            background: #e0e0e0
+        }
+
+        .name>span:first-child {
+            white-space: nowrap
+        }
+
+        .name.class>span:nth-child(2) {
+            margin-left: .4em
+        }
+
+        .inherited {
+            color: #999;
+            border-left: 5px solid #eee;
+            padding-left: 1em
+        }
+
+        .inheritance em {
+            font-style: normal;
+            font-weight: bold
+        }
+
+        .desc h2 {
+            font-weight: 400;
+            font-size: 1.25em
+        }
+
+        .desc h3 {
+            font-size: 1em
+        }
+
+        .desc dt code {
+            background: inherit
+        }
+
+        .source summary,
+        .git-link-div {
+            color: #666;
+            text-align: right;
+            font-weight: 400;
+            font-size: .8em;
+            text-transform: uppercase
+        }
+
+        .source summary>* {
+            white-space: nowrap;
+            cursor: pointer
+        }
+
+        .git-link {
+            color: inherit;
+            margin-left: 1em
+        }
+
+        .source pre {
+            max-height: 500px;
+            overflow: auto;
+            margin: 0
+        }
+
+        .source pre code {
+            font-size: 12px;
+            overflow: visible
+        }
+
+        .hlist {
+            list-style: none
+        }
+
+        .hlist li {
+            display: inline
+        }
+
+        .hlist li:after {
+            content: ',\2002'
+        }
+
+        .hlist li:last-child:after {
+            content: none
+        }
+
+        .hlist .hlist {
+            display: inline;
+            padding-left: 1em
+        }
+
+        img {
+            max-width: 100%
+        }
+
+        .admonition {
+            padding: .1em .5em;
+            margin-bottom: 1em
+        }
+
+        .admonition-title {
+            font-weight: bold
+        }
+
+        .admonition.note,
+        .admonition.info,
+        .admonition.important {
+            background: #aef
+        }
+
+        .admonition.todo,
+        .admonition.versionadded,
+        .admonition.tip,
+        .admonition.hint {
+            background: #dfd
+        }
+
+        .admonition.warning,
+        .admonition.versionchanged,
+        .admonition.deprecated {
+            background: #fd4
+        }
+
+        .admonition.error,
+        .admonition.danger,
+        .admonition.caution {
+            background: lightpink
+        }
+    </style>
+    <style media="screen and (min-width: 700px)">
+        @media screen and (min-width:700px) {
+            #sidebar {
+                width: 30%
+            }
+
+            #content {
+                width: 70%;
+                max-width: 100ch;
+                padding: 3em 4em;
+                border-left: 1px solid #ddd
+            }
+
+            pre code {
+                font-size: 1em
+            }
+
+            .item .name {
+                font-size: 1em
+            }
+
+            main {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: flex-end
+            }
+
+            .toc ul ul,
+            #index ul {
+                padding-left: 1.5em
+            }
+
+            .toc>ul>li {
+                margin-top: .5em
+            }
+        }
+    </style>
+    <style media="print">
+        @media print {
+            #sidebar h1 {
+                page-break-before: always
+            }
+
+            .source {
+                display: none
+            }
+        }
+
+        @media print {
+            * {
+                background: transparent !important;
+                color: #000 !important;
+                box-shadow: none !important;
+                text-shadow: none !important
+            }
+
+            a[href]:after {
+                content: " ("attr(href) ")";
+                font-size: 90%
+            }
+
+            a[href][title]:after {
+                content: none
+            }
+
+            abbr[title]:after {
+                content: " ("attr(title) ")"
+            }
+
+            .ir a:after,
+            a[href^="javascript:"]:after,
+            a[href^="#"]:after {
+                content: ""
+            }
+
+            pre,
+            blockquote {
+                border: 1px solid #999;
+                page-break-inside: avoid
+            }
+
+            thead {
+                display: table-header-group
+            }
+
+            tr,
+            img {
+                page-break-inside: avoid
+            }
+
+            img {
+                max-width: 100% !important
+            }
+
+            @page {
+                margin: 0.5cm
+            }
+
+            p,
+            h2,
+            h3 {
+                orphans: 3;
+                widows: 3
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                page-break-after: avoid
+            }
+        }
+    </style>
 </head>
+
 <body>
-<main>
-<article id="content">
-<header>
-<h1 class="title">Module <code>datasist.feature_engineering</code></h1>
-</header>
-<section id="section-intro">
-<p>This module contains all functions relating to feature engineering</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#39;&#39;&#39;
-This module contains all functions relating to feature engineering
+    <main>
+        <article id="content">
+            <header>
+                <h1 class="title">Module <code>datasist.feature_engineering</code></h1>
+            </header>
+            <section id="section-intro">
+                <p>The feature engineering contains functions for extracting important features from raw data and
+                    transforming them into formats that are suitable for machine learning models.
+                </p>
+                <details class="source">
+                    <summary>
+                        <span>Expand source code</span>
+                    </summary>
+                    <pre><code class="python">&#39;&#39;&#39;
 &#39;&#39;&#39;
 import datetime as dt
 import re
 import platform
-
 import pandas as pd
 import numpy as np
 
@@ -638,7 +1082,7 @@ def convert_dtype(df):
         while i &lt;= (df.shape[1])-1:
             val = df.iloc[:,i]
             if str(val.dtypes) ==&#39;object&#39;:
-                val = val.apply(lambda x: re.sub(&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
+                val = val.apply(lambda x: re.sub(r&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
         
             try:
                 if str(val.dtypes) ==&#39;object&#39;:
@@ -735,24 +1179,26 @@ def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = Fa
 
     return df
     </code></pre>
-</details>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="datasist.feature_engineering.bearing"><code class="name flex">
+                </details>
+            </section>
+            <section>
+            </section>
+            <section>
+            </section>
+            <section>
+                <h2 class="section-title" id="header-functions">Functions</h2>
+                <dl>
+                    <dt id="datasist.feature_engineering.bearing"><code class="name flex">
 <span>def <span class="ident">bearing</span></span>(<span>lat1, long1, lat2, long2)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Calculates the Bearing
-between two points.
-The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. </p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>lat1: scalar,float
+                    <dd>
+                        <section class="desc">
+                            <p>Calculates the Bearing
+                                between two points.
+                                The bearing is the compass direction to travel from a starting point, and must be within
+                                the range 0 to 360. </p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>lat1: scalar,float
 
     Start point latitude of the location.
 
@@ -768,14 +1214,15 @@ long2: scalar,float
 
     End point longitude of the location.
 </code></pre>
-<p>Returns: Series</p>
-<pre><code>The Bearing between (lat1, lat2) and (long1, long2)
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def bearing(lat1, long1, lat2, long2):
+                            <p>Returns: Series</p>
+                            <pre><code>The Bearing between (lat1, lat2) and (long1, long2)
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def bearing(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Bearing  between two points.
     The bearing is the compass direction to travel from a starting point, and must be within the range 0 to 360. 
@@ -811,39 +1258,53 @@ long2: scalar,float
     bearing = np.degrees(np.arctan2(y, x))
     bearing_df = pd.Series(bearing)
     return bearing_df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.bin_age"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.bin_age"><code class="name flex">
 <span>def <span class="ident">bin_age</span></span>(<span>data, feature, bins, labels, fill_missing=None, drop_original=False)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Categorize age data into separate bins</p>
-<h2 id="parameter">Parameter:</h2>
-<p>data: DataFrame, Series.
-Data for which feature to be binned exist.</p>
-<p>feature: List, Series
-Columns to be binned</p>
-<p>Bins: List, numpy.ndarray
-Specifies the different categories
-Bins must be one greater labels</p>
-<p>labels: List, Series
-Name identified to the various categories</p>
-<p>fill_missing(default = None): int
-mean : feature average
-mode : most occuring data in the feature
-median : middle point in the feature</p>
-<p>drop_original: bool
-Drops original feature after beaning</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>Returns</code> <code>a</code> <code>binned</code> <code>dataframe</code></dt>
-<dd>&nbsp;</dd>
-</dl></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = False):
+                    <dd>
+                        <section class="desc">
+                            <pre><code class="python">
+Categorize age data into separate bins
+    
+Parameter:
+--------------------
+    data: DataFrame, Series.
+
+        Data for which feature to be binned exist.
+    
+    feature: List, Series
+
+        Columns to be binned
+
+    Bins: List, numpy.ndarray
+
+        Specifies the different categories. Bins must be one greater labels.
+
+    labels: List, Series
+
+        Name identified to the various categories
+
+    fill_missing: int Default, None
+
+        mean : feature average
+        mode : most occuring data in the feature
+        median : middle point in the feature
+
+    drop_original: bool
+        Drops original feature after beaning
+
+Returns:
+
+    Binned DataFrame of age
+                        </code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def bin_age(data, feature, bins, labels, fill_missing = None, drop_original = False):
 
     &#39;&#39;&#39;
     Categorize age data into separate bins
@@ -908,58 +1369,34 @@ Drops original feature after beaning</p>
             df.drop(columns = col, inplace = True)
 
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.convert_dtype"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.convert_dtype"><code class="name flex">
 <span>def <span class="ident">convert_dtype</span></span>(<span>df)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Convert datatype of a feature to its original datatype.
-If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float
-or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a pandas dataframe and convert the features to their appropriate datatype</p>
-<h2 id="parameter">Parameter:</h2>
-<p>df: DataFrame, Series
-Dataset to convert data type</p>
-<h2 id="returns">Returns:</h2>
-<pre><code>DataFrame or Series.
+                    <dd>
+                        <section class="desc">
+                            <pre><code class="python">Converts datatype of a feature to its original datatype.
+If the datatype of a feature is being represented as a string while the initial datatype
+is an integer or a float
+or even a datetime dtype. The convert_dtype() function iterates over the feature(s) in a
+pandas dataframe and convert the features to their appropriate datatype
+
+Parameter:
+---------------
+df: DataFrame, Series
+    Dataset to convert data type
+
+Returns:
+
+    DataFrame or Series.
 </code></pre>
-<p>Example:
-data = {'Name':['Tom', 'nick', 'jack'],
-'Age':['20', '21', '19'],
-'Date of Birth': ['1999-11-17','20 Sept 1998','Wed Sep 19 14:55:02 2000']} </p>
-<p>df = pd.DataFrame(data)</p>
-<p>df.info()</p>
-<pre><code>&gt;&gt;&gt; 
-&lt;class 'pandas.core.frame.DataFrame'&gt;
 
-
-RangeIndex: 3 entries, 0 to 2
-Data columns (total 3 columns):
-Name             3 non-null object
-Age              3 non-null object
-Date of Birth    3 non-null object
-dtypes: object(3)
-memory usage: 76.0+ bytes
-</code></pre>
-<p>conv = convert_dtype(df)
-conv.info()</p>
-<pre><code>&gt;&gt;&gt; 
-&lt;class 'pandas.core.frame.DataFrame'&gt;
-
-
-RangeIndex: 3 entries, 0 to 2
-Data columns (total 3 columns):
-Name             3 non-null object
-Age              3 non-null int32
-Date of Birth    3 non-null datetime64[ns]
-dtypes: datetime64[ns](1), int32(1), object(1)
-memory usage: 88.0+ bytes
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def convert_dtype(df):
+                            <details class="source">
+                                <summary>
+                                    <span>Expand source code</span>
+                                </summary>
+                                <pre><code class="python">def convert_dtype(df):
     &#39;&#39;&#39;
     Convert datatype of a feature to its original datatype.
     If the datatype of a feature is being represented as a string while the initial datatype is an integer or a float 
@@ -1023,7 +1460,7 @@ memory usage: 88.0+ bytes
         while i &lt;= (df.shape[1])-1:
             val = df.iloc[:,i]
             if str(val.dtypes) ==&#39;object&#39;:
-                val = val.apply(lambda x: re.sub(&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
+                val = val.apply(lambda x: re.sub(r&#34;^\s+|\s+$&#34;, &#34;&#34;,x, flags=re.UNICODE)) #Remove spaces between strings
         
             try:
                 if str(val.dtypes) ==&#39;object&#39;:
@@ -1051,15 +1488,16 @@ memory usage: 88.0+ bytes
         data_f = pd.concat(changed_dtype,1)
 
         return data_f</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.create_balanced_data"><code class="name flex">
+                            </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.create_balanced_data"><code class="name flex">
 <span>def <span class="ident">create_balanced_data</span></span>(<span>data=None, target=None, categories=None, class_sizes=None, replacement=False)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Creates a balanced data set from an imbalanced one. Used in a classification task.</p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>data: DataFrame, name series.
+                    <dd>
+                        <section class="desc">
+                            <p>Creates a balanced data set from an imbalanced one. Used in a classification task.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>data: DataFrame, name series.
 
     The imbalanced dataset.
 
@@ -1078,12 +1516,13 @@ class_sizes: list
 replacement: bool, Default True.
 
     samples with or without replacement.
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def create_balanced_data(data=None, target=None, categories=None, class_sizes=None, replacement=False ):
     &#39;&#39;&#39;
     Creates a balanced data set from an imbalanced one. Used in a classification task.
 
@@ -1145,27 +1584,29 @@ replacement: bool, Default True.
             
         
     return new_data</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.drop_missing"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.drop_missing"><code class="name flex">
 <span>def <span class="ident">drop_missing</span></span>(<span>data=None, percent=99)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Drops missing columns with [percent] of missing data.</p>
-<h2 id="parameters">Parameters:</h2>
-<pre><code>data: Pandas DataFrame or Series.
+                    <dd>
+                        <section class="desc">
+                            <p>Drops missing columns with [percent] of missing data.</p>
+                            <h2 id="parameters">Parameters:</h2>
+                            <pre><code>data: Pandas DataFrame or Series.
 
 percent: float, Default 99
 
     Percentage of missing values to be in a column before it is eligible for removal.
 </code></pre>
-<h2 id="returns">Returns</h2>
-<p>Pandas DataFrame or Series.</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def drop_missing(data=None, percent=99):
+                            <h2 id="returns">Returns</h2>
+                            <p>Pandas DataFrame or Series.</p>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def drop_missing(data=None, percent=99):
     &#39;&#39;&#39;
     Drops missing columns with [percent] of missing data.
 
@@ -1191,23 +1632,26 @@ percent: float, Default 99
     #Drop missing values
     df = data.drop(cols_2_drop, axis=1)
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.drop_redundant"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.drop_redundant"><code class="name flex">
 <span>def <span class="ident">drop_redundant</span></span>(<span>data)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.</p>
-<h2 id="parameters">Parameters:</h2>
-<pre><code>data: DataFrame or named series.
+                    <dd>
+                        <section class="desc">
+                            <p>Removes features with the same value in all cell. Drops feature If Nan is the second
+                                unique class as well.</p>
+                            <h2 id="parameters">Parameters:</h2>
+                            <pre><code>data: DataFrame or named series.
 </code></pre>
-<h2 id="returns">Returns</h2>
-<p>DataFrame or named series.</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def drop_redundant(data):
+                            <h2 id="returns">Returns</h2>
+                            <p>DataFrame or named series.</p>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def drop_redundant(data):
     &#39;&#39;&#39;
     Removes features with the same value in all cell. Drops feature If Nan is the second unique class as well.
 
@@ -1228,15 +1672,16 @@ percent: float, Default 99
     print(&#34;Dropped {}&#34;.format(cols_2_drop))
     df = data.drop(cols_2_drop, axis=1)
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.fill_missing_cats"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.fill_missing_cats"><code class="name flex">
 <span>def <span class="ident">fill_missing_cats</span></span>(<span>data=None, cat_features=None, missing_encoding=None, missing_col=False)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Fill missing values using the mode of the categorical features.</p>
-<h2 id="parameters">Parameters:</h2>
-<pre><code>data: DataFrame or name Series.
+                    <dd>
+                        <section class="desc">
+                            <p>Fill missing values using the mode of the categorical features.</p>
+                            <h2 id="parameters">Parameters:</h2>
+                            <pre><code>data: DataFrame or name Series.
 
     Data set to perform operation on.
 
@@ -1250,12 +1695,13 @@ missing_encoding: List, Series, Array.
 
 missin_col: bool, Default True
     Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def fill_missing_cats(data=None, cat_features=None, missing_encoding=None, missing_col=False):
     &#39;&#39;&#39;
     Fill missing values using the mode of the categorical features.
 
@@ -1274,6 +1720,7 @@ missin_col: bool, Default True
             Values used in place of missing. Popular formats are [-1, -999, -99, &#39;&#39;, &#39; &#39;]
 
         missin_col: bool, Default True
+
             Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.
     &#39;&#39;&#39;
 
@@ -1297,42 +1744,45 @@ missin_col: bool, Default True
         df[feat] = df[feat].replace(np.NaN, most_freq)
     
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.fill_missing_num"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.fill_missing_num"><code class="name flex">
 <span>def <span class="ident">fill_missing_num</span></span>(<span>data=None, num_features=None, method='mean', missing_col=False)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>fill missing values in numerical columns with specified [method] value</p>
-<h2 id="parameters">Parameters</h2>
-<hr>
-<dl>
-<dt><strong><code>data</code></strong></dt>
-<dd>
-<p>DataFrame or name Series.</p>
-<p>The data set to fill</p>
-</dd>
-<dt><strong><code>features</code></strong></dt>
-<dd>
-<p>list.</p>
-<p>List of columns to fill</p>
-</dd>
-<dt><strong><code>method</code></strong></dt>
-<dd>
-<p>str, Default 'mean'.</p>
-<p>method to use in calculating fill value.</p>
-</dd>
-<dt><strong><code>missing_col</code></strong></dt>
-<dd>
-<p>bool, Default True</p>
-<p>Creates a new column to capture the missing values. 1 if missing and 0 otherwise. This can sometimes help a machine learning model.</p>
-</dd>
-</dl></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def fill_missing_num(data=None, num_features=None, method=&#39;mean&#39;, missing_col=False):
+                    <dd>
+                        <section class="desc">
+                            <p>fill missing values in numerical columns with specified [method] value</p>
+                            <h2 id="parameters">Parameters</h2>
+                            <hr>
+                            <dl>
+                                <dt><strong><code>data</code></strong></dt>
+                                <dd>
+                                    <p>DataFrame or name Series.</p>
+                                    <p>The data set to fill</p>
+                                </dd>
+                                <dt><strong><code>features</code></strong></dt>
+                                <dd>
+                                    <p>list.</p>
+                                    <p>List of columns to fill</p>
+                                </dd>
+                                <dt><strong><code>method</code></strong></dt>
+                                <dd>
+                                    <p>str, Default 'mean'.</p>
+                                    <p>method to use in calculating fill value.</p>
+                                </dd>
+                                <dt><strong><code>missing_col</code></strong></dt>
+                                <dd>
+                                    <p>bool, Default True</p>
+                                    <p>Creates a new column to capture the missing values. 1 if missing and 0 otherwise.
+                                        This can sometimes help a machine learning model.</p>
+                                </dd>
+                            </dl>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def fill_missing_num(data=None, num_features=None, method=&#39;mean&#39;, missing_col=False):
     &#39;&#39;&#39;
     fill missing values in numerical columns with specified [method] value
 
@@ -1380,15 +1830,16 @@ missin_col: bool, Default True
             raise ValueError(&#34;method: must specify a fill method, one of [mean, mode or median]&#39;&#34;)
 
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.get_location_center"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.get_location_center"><code class="name flex">
 <span>def <span class="ident">get_location_center</span></span>(<span>point1, point2)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Calculates the center between two points.</p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>point1: list, series, scalar
+                    <dd>
+                        <section class="desc">
+                            <p>Calculates the center between two points.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>point1: list, series, scalar
 
     End point latitude of the location.
 
@@ -1400,14 +1851,15 @@ long2: list, series, scalar
 
     End point longitude of the location.
 </code></pre>
-<p>Returns: Series</p>
-<pre><code>The center between point1 and point2
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_location_center(point1, point2):
+                            <p>Returns: Series</p>
+                            <pre><code>The center between point1 and point2
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def get_location_center(point1, point2):
     &#39;&#39;&#39;
     Calculates the center between two points.
 
@@ -1433,16 +1885,17 @@ long2: list, series, scalar
     center = (point1 + point2) / 2
     center_df = pd.Series(center)
     return center_df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.get_qcut"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.get_qcut"><code class="name flex">
 <span>def <span class="ident">get_qcut</span></span>(<span>data=None, col=None, q=None, duplicates='drop', return_type='float64')</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Cuts a series into bins using the pandas qcut function
-and returns the resulting bins as a series for merging.</p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>data: DataFrame, named Series
+                    <dd>
+                        <section class="desc">
+                            <p>Cuts a series into bins using the pandas qcut function
+                                and returns the resulting bins as a series for merging.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>data: DataFrame, named Series
 
     Data set to perform operation on.
 
@@ -1463,14 +1916,15 @@ return_type: dtype, Default (float64)
 
     Dtype of series to return. One of [float64, str, int64]
 </code></pre>
-<h2 id="returns">Returns:</h2>
-<pre><code>Series, 1D-Array
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_qcut(data=None, col=None, q=None, duplicates=&#39;drop&#39;, return_type=&#39;float64&#39;):
+                            <h2 id="returns">Returns:</h2>
+                            <pre><code>Series, 1D-Array
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def get_qcut(data=None, col=None, q=None, duplicates=&#39;drop&#39;, return_type=&#39;float64&#39;):
     &#39;&#39;&#39;
     Cuts a series into bins using the pandas qcut function
     and returns the resulting bins as a series for merging.
@@ -1511,16 +1965,18 @@ return_type: dtype, Default (float64)
     df = temp_df[col].str.split(&#39;,&#39;).apply(lambda x: x[0][1:]).astype(return_type)
     
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.haversine_distance"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.haversine_distance"><code class="name flex">
 <span>def <span class="ident">haversine_distance</span></span>(<span>lat1, long1, lat2, long2)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Calculates the Haversine distance between two location with latitude and longitude.
-The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.</p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>lat1: scalar,float
+                    <dd>
+                        <section class="desc">
+                            <p>Calculates the Haversine distance between two location with latitude and longitude.
+                                The haversine distance is the great-circle distance between two points on a sphere given
+                                their longitudes and latitudes.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>lat1: scalar,float
 
     Start point latitude of the location.
 
@@ -1536,14 +1992,15 @@ long2: scalar,float
 
     End point longitude of the location.
 </code></pre>
-<p>Returns: </p>
-<pre><code>Series: The Harversine distance between (lat1, lat2), (long1, long2)
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def haversine_distance(lat1, long1, lat2, long2):
+                            <p>Returns: </p>
+                            <pre><code>Series: The Harversine distance between (lat1, lat2), (long1, long2)
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def haversine_distance(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Haversine distance between two location with latitude and longitude.
     The haversine distance is the great-circle distance between two points on a sphere given their longitudes and latitudes.
@@ -1580,30 +2037,32 @@ long2: scalar,float
     harvesine_distance = 2 * AVG_EARTH_RADIUS * np.arcsin(np.sqrt(distance))
     harvesine_distance_df = pd.Series(harvesine_distance)
     return harvesine_distance_df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.log_transform"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.log_transform"><code class="name flex">
 <span>def <span class="ident">log_transform</span></span>(<span>data, columns, plot=True, figsize=(12, 6))</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Nomralizes the dataset to be as close to the gaussian distribution.</p>
-<h2 id="parameter">Parameter:</h2>
-<p>data: DataFrame, Series.
-Data to Log transform.</p>
-<p>columns: List, Series
-Columns to be transformed to normality using log transformation</p>
-<p>plot: bool, default True
-Plots a before and after log transformation plot</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>Log</code>-<code>transformed</code> <code>dataframe</code></dt>
-<dd>&nbsp;</dd>
-</dl></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def log_transform(data, columns, plot=True, figsize=(12,6)):
+                    <dd>
+                        <section class="desc">
+                            <p>Nomralizes the dataset to be as close to the gaussian distribution.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <p>data: DataFrame, Series.
+                                Data to Log transform.</p>
+                            <p>columns: List, Series
+                                Columns to be transformed to normality using log transformation</p>
+                            <p>plot: bool, default True
+                                Plots a before and after log transformation plot</p>
+                            <h2 id="returns">Returns</h2>
+                            <dl>
+                                <dt><code>Log</code>-<code>transformed</code> <code>dataframe</code></dt>
+                                <dd>&nbsp;</dd>
+                            </dl>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def log_transform(data, columns, plot=True, figsize=(12,6)):
     &#39;&#39;&#39;
     Nomralizes the dataset to be as close to the gaussian distribution.
 
@@ -1648,16 +2107,18 @@ Plots a before and after log transformation plot</p>
             plt.show()
 
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.manhattan_distance"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.manhattan_distance"><code class="name flex">
 <span>def <span class="ident">manhattan_distance</span></span>(<span>lat1, long1, lat2, long2)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Calculates the Manhattan distance between two points.
-It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. </p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>lat1: scalar,float
+                    <dd>
+                        <section class="desc">
+                            <p>Calculates the Manhattan distance between two points.
+                                It is the sum of horizontal and vertical distance between any two points given their
+                                latitudes and longitudes. </p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>lat1: scalar,float
 
     Start point latitude of the location.
 
@@ -1673,14 +2134,15 @@ long2: scalar,float
 
     End point longitude of the location.
 </code></pre>
-<p>Returns: Series</p>
-<pre><code>The Manhattan distance between (lat1, lat2) and (long1, long2)
-</code></pre></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def manhattan_distance(lat1, long1, lat2, long2):
+                            <p>Returns: Series</p>
+                            <pre><code>The Manhattan distance between (lat1, lat2) and (long1, long2)
+</code></pre>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def manhattan_distance(lat1, long1, lat2, long2):
     &#39;&#39;&#39;
     Calculates the Manhattan distance between two points.
     It is the sum of horizontal and vertical distance between any two points given their latitudes and longitudes. 
@@ -1713,16 +2175,17 @@ long2: scalar,float
     manhattan_distance = a + b
     manhattan_distance_df = pd.Series(manhattan_distance)
     return manhattan_distance_df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.merge_groupby"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.merge_groupby"><code class="name flex">
 <span>def <span class="ident">merge_groupby</span></span>(<span>data=None, cat_features=None, statistics=None, col_to_merge=None)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Performs a groupby on the specified categorical features and merges
-the result to the original dataframe.</p>
-<h2 id="parameter">Parameter:</h2>
-<pre><code>data: DataFrame
+                    <dd>
+                        <section class="desc">
+                            <p>Performs a groupby on the specified categorical features and merges
+                                the result to the original dataframe.</p>
+                            <h2 id="parameter">Parameter:</h2>
+                            <pre><code>data: DataFrame
 
     Data set to perform operation on.
 
@@ -1738,13 +2201,14 @@ col_to_merge: str
 
     The column to merge on the dataset. Must be present in the data set.
 </code></pre>
-<h2 id="returns">Returns</h2>
-<p>Dataframe.</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
+                            <h2 id="returns">Returns</h2>
+                            <p>Dataframe.</p>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def merge_groupby(data=None, cat_features=None, statistics=None, col_to_merge=None):
     &#39;&#39;&#39;
     Performs a groupby on the specified categorical features and merges
     the result to the original dataframe.
@@ -1797,18 +2261,20 @@ col_to_merge: str
     
     
     return df</code></pre>
-</details>
-</dd>
-<dt id="datasist.feature_engineering.to_date"><code class="name flex">
+                        </details>
+                    </dd>
+                    <dt id="datasist.feature_engineering.to_date"><code class="name flex">
 <span>def <span class="ident">to_date</span></span>(<span>data)</span>
 </code></dt>
-<dd>
-<section class="desc"><p>Automatically convert all date time columns to pandas Datetime format</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def to_date(data):
+                    <dd>
+                        <section class="desc">
+                            <p>Automatically convert all date time columns to pandas Datetime format</p>
+                        </section>
+                        <details class="source">
+                            <summary>
+                                <span>Expand source code</span>
+                            </summary>
+                            <pre><code class="python">def to_date(data):
     &#39;&#39;&#39;
     Automatically convert all date time columns to pandas Datetime format
     &#39;&#39;&#39;
@@ -1818,50 +2284,67 @@ col_to_merge: str
         data[col] = pd.to_datetime(data[col])
     
     return data</code></pre>
-</details>
-</dd>
-</dl>
-</section>
-<section>
-</section>
-</article>
-<nav id="sidebar">
-<h1><img src="datasist.png" alt="logo"></h1>
-<div class="toc">
-<ul></ul>
-</div>
-<ul id="index">
-<li><h3>Super-module</h3>
-<ul>
-<li><code><a title="datasist" href="index.html">datasist</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="datasist.feature_engineering.bearing" href="#datasist.feature_engineering.bearing">bearing</a></code></li>
-<li><code><a title="datasist.feature_engineering.bin_age" href="#datasist.feature_engineering.bin_age">bin_age</a></code></li>
-<li><code><a title="datasist.feature_engineering.convert_dtype" href="#datasist.feature_engineering.convert_dtype">convert_dtype</a></code></li>
-<li><code><a title="datasist.feature_engineering.create_balanced_data" href="#datasist.feature_engineering.create_balanced_data">create_balanced_data</a></code></li>
-<li><code><a title="datasist.feature_engineering.drop_missing" href="#datasist.feature_engineering.drop_missing">drop_missing</a></code></li>
-<li><code><a title="datasist.feature_engineering.drop_redundant" href="#datasist.feature_engineering.drop_redundant">drop_redundant</a></code></li>
-<li><code><a title="datasist.feature_engineering.fill_missing_cats" href="#datasist.feature_engineering.fill_missing_cats">fill_missing_cats</a></code></li>
-<li><code><a title="datasist.feature_engineering.fill_missing_num" href="#datasist.feature_engineering.fill_missing_num">fill_missing_num</a></code></li>
-<li><code><a title="datasist.feature_engineering.get_location_center" href="#datasist.feature_engineering.get_location_center">get_location_center</a></code></li>
-<li><code><a title="datasist.feature_engineering.get_qcut" href="#datasist.feature_engineering.get_qcut">get_qcut</a></code></li>
-<li><code><a title="datasist.feature_engineering.haversine_distance" href="#datasist.feature_engineering.haversine_distance">haversine_distance</a></code></li>
-<li><code><a title="datasist.feature_engineering.log_transform" href="#datasist.feature_engineering.log_transform">log_transform</a></code></li>
-<li><code><a title="datasist.feature_engineering.manhattan_distance" href="#datasist.feature_engineering.manhattan_distance">manhattan_distance</a></code></li>
-<li><code><a title="datasist.feature_engineering.merge_groupby" href="#datasist.feature_engineering.merge_groupby">merge_groupby</a></code></li>
-<li><code><a title="datasist.feature_engineering.to_date" href="#datasist.feature_engineering.to_date">to_date</a></code></li>
-</ul>
-</li>
-</ul>
-</nav>
-</main>
-<footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.1</a>.</p>
-</footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
+                        </details>
+                    </dd>
+                </dl>
+            </section>
+            <section>
+            </section>
+        </article>
+        <nav id="sidebar">
+            <h1><a href="index.html"><img src="datasist.png" alt="logo"></a></h1>
+            <div class="toc">
+                <ul></ul>
+            </div>
+            <ul id="index">
+                <li>
+                    <ul>
+                        <li><code><a title="Home" href="index.html">Back Home</a></code></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3><a href="#header-functions">Functions</a></h3>
+                    <ul class="">
+                        <li><code><a title="datasist.feature_engineering.bearing" href="#datasist.feature_engineering.bearing">bearing</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.bin_age" href="#datasist.feature_engineering.bin_age">bin_age</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.convert_dtype" href="#datasist.feature_engineering.convert_dtype">convert_dtype</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.create_balanced_data" href="#datasist.feature_engineering.create_balanced_data">create_balanced_data</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.drop_missing" href="#datasist.feature_engineering.drop_missing">drop_missing</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.drop_redundant" href="#datasist.feature_engineering.drop_redundant">drop_redundant</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.fill_missing_cats" href="#datasist.feature_engineering.fill_missing_cats">fill_missing_cats</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.fill_missing_num" href="#datasist.feature_engineering.fill_missing_num">fill_missing_num</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.get_location_center" href="#datasist.feature_engineering.get_location_center">get_location_center</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.get_qcut" href="#datasist.feature_engineering.get_qcut">get_qcut</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.haversine_distance" href="#datasist.feature_engineering.haversine_distance">haversine_distance</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.log_transform" href="#datasist.feature_engineering.log_transform">log_transform</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.manhattan_distance" href="#datasist.feature_engineering.manhattan_distance">manhattan_distance</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.merge_groupby" href="#datasist.feature_engineering.merge_groupby">merge_groupby</a></code>
+                        </li>
+                        <li><code><a title="datasist.feature_engineering.to_date" href="#datasist.feature_engineering.to_date">to_date</a></code>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </main>
+    <footer id="footer">
+        <p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad()</script>
 </body>
+
 </html>
