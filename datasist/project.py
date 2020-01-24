@@ -63,13 +63,13 @@ def startproject(project_name=None):
                     the folder structure created by the Azure team (https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview)
                   '''
     parser = argparse.ArgumentParser(prog='project',description=DESCRIPTION)
-    parser.add_argument('project_name', default='data_project', type=str, help='Name of directory to contain folders')
+    parser.add_argument('name', default='data_project', type=str, help='Name of directory to contain folders')
     args = parser.parse_args()
 
     if project_name:
         project_name = project_name
     else:
-        project_name = args.project_name
+        project_name = args.name
 
     print("Creating project {}".format(project_name))
 
