@@ -62,14 +62,13 @@ def startproject(project_name=None):
                     The directory structure is by no means a globally recognized standard, but was inspired by
                     the folder structure created by the Azure team (https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview)
                   '''
-    parser = argparse.ArgumentParser(prog='project',description=DESCRIPTION)
-    parser.add_argument('name', default='data_project', type=str, help='Name of directory to contain folders')
-    args = parser.parse_args()
-
     name = ''
     if project_name:
         name = project_name
     else:
+        parser = argparse.ArgumentParser(prog='project',description=DESCRIPTION)
+        parser.add_argument('name', default='data_project', type=str, help='Name of directory to contain folders')
+        args = parser.parse_args()
         name = args.name
 
     print("Creating project {}".format(name))
