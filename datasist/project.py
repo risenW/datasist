@@ -66,14 +66,15 @@ def startproject(project_name=None):
     parser.add_argument('name', default='data_project', type=str, help='Name of directory to contain folders')
     args = parser.parse_args()
 
+    name = ''
     if project_name:
-        project_name = project_name
+        name = project_name
     else:
-        project_name = args.name
+        name = args.name
 
-    print("Creating project {}".format(project_name))
+    print("Creating project {}".format(name))
 
-    base_path = os.path.join(os.getcwd(), project_name)
+    base_path = os.path.join(os.getcwd(), name)
     data_path = os.path.join(base_path, 'data')
     output_path = os.path.join(base_path, 'outputs')
     model_path = os.path.join(output_path, 'models')
