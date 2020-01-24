@@ -4,7 +4,7 @@
 
 ## datasist: Python library for easy data modeling, visualization, exploration and analysis.
 
-| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.4-blue.svg)](https://pypi.org/project/datasist/) |
+| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5-blue.svg)](https://pypi.org/project/datasist/) |
 | :--- | :--- |
 | Release Status |  [![status](https://img.shields.io/badge/status-stable-brightgreen.svg)](./) |
 | License |  [![license](https://img.shields.io/badge/license-MIT-orange.svg)](./) |
@@ -20,16 +20,7 @@
 pip install datasist
 ```
 
-### Dependencies
-
-* Numpy
-* pandas
-* seaborn
-* matplotlib
-* scikit-learn
-* spacy
-
-### Installation from source
+### Installation from source (Developers)
 
 To install datasist from source you need python 3.6&gt; in addition to the normal dependencies above.
 

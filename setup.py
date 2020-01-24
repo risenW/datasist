@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setup(
       name='datasist',
-      version='1.4',
+      version='1.5',
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
       long_description=long_description,
