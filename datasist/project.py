@@ -6,9 +6,10 @@ import pickle
 import pandas as pd
 from pathlib import Path
 import logging
+import argparse
 
 
-def start_project(project_name=None):
+def startproject(project_name=None):
     '''
     Creates a standard data science project directory. This helps in
     easy team collaboration, rapid prototyping, easy reproducibility and fast iteration. 
@@ -17,7 +18,7 @@ def start_project(project_name=None):
     the folder structure created by the Azure team (https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview)
     and Edward Ma (https://makcedward.github.io/) of OOCL.
     
-    ### PROJECT STRUCTURE:
+    PROJECT STRUCTURE:
 
             ├── data
             │   ├── processed
@@ -32,17 +33,12 @@ def start_project(project_name=None):
             │       ├── test
             ├   ├── notebooks
 
-
-
             DETAILS:
-
             data: Stores data used for the experiments, including raw and intermediate processed data.
                 processed: stores all processed data files after cleaning, analysis, feature creation etc.
                 raw: Stores all raw data obtained from databases, file storages, etc.
-
             outputs:Stores all output files from an experiment.
                 models: Stores trained binary model files. This are models saved after training and evaluation for later use.
-
             src: Stores all source code including scripts and notebook experiments.
                 scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
                     modeling: Stores all scripts and code relating to model building, evaluation and saving.
@@ -51,21 +47,31 @@ def start_project(project_name=None):
                     test: Stores all test files for code in scripts.
                 notebooks: Stores all jupyter notebooks used for experimentation.
     
-    
     Parameters:
     -------------
         project_name: String, Filepath
-
             Name of filepath of the directory to initialize and create folders.
         
     Returns:
     -------------
         None
-    
     '''
-    if project_name is None:
-        raise ValueError(
-            "project_name: Expecting a string or filepath, got 'None'")
+
+    DESCRIPTION = '''Creates a standard data science project directory. This helps in
+                    easy team collaboration, rapid prototyping, easy reproducibility and fast iteration.       
+                    The directory structure is by no means a globally recognized standard, but was inspired by
+                    the folder structure created by the Azure team (https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview)
+                  '''
+    parser = argparse.ArgumentParser(prog='project',description=DESCRIPTION)
+    parser.add_argument('project_name', default='data_project', type=str, help='Name of directory to contain folders')
+    args = parser.parse_args()
+
+    if project_name:
+        project_name = project_name
+    else:
+        project_name = args.project_name
+
+    print("Creating project {}".format(project_name))
 
     base_path = os.path.join(os.getcwd(), project_name)
     data_path = os.path.join(base_path, 'data')
@@ -90,39 +96,7 @@ def start_project(project_name=None):
     os.makedirs(os.path.join(scripts_path, 'modeling'), exist_ok=True)
     os.makedirs(os.path.join(scripts_path, 'test'), exist_ok=True)
 
-    desc = '''
-    PROJECT STRUCTURE:
-
-            ├── data
-            │   ├── processed
-            │   └── raw
-            ├── outputs
-            │   ├── models
-            ├── src
-            │   ├── scripts
-            │       ├── ingest
-            │       ├── modeling
-            │       ├── preparation
-            │       ├── test
-            ├   ├── notebooks
-
-
-            data: Stores data used for the experiments, including raw and intermediate processed data.
-                processed: stores all processed data files after cleaning, analysis, feature creation etc.
-                raw: Stores all raw data obtained from databases, file storages, etc.
-
-            outputs:Stores all output files from an experiment.
-                models: Stores trained binary model files. This are models saved after training and evaluation for later use.
-
-            src: Stores all source code including scripts and notebook experiments.
-                scripts: Stores all code scripts usually in Python/R format. This is usually refactored from the notebooks.
-                    modeling: Stores all scripts and code relating to model building, evaluation and saving.
-                    preparation: Stores all scripts used for data preparation and cleaning.
-                    ingest: Stores all scripts used for reading in data from different sources like databases, web or file storage.
-                    test: Stores all test files for code in scripts.
-                notebooks: Stores all jupyter notebooks used for experimentation.
-
-    '''
+    
     #project configuration settings
     json_config = {
         "description":
@@ -135,13 +109,12 @@ def start_project(project_name=None):
 
     #create a readme.txt file to explain the folder structure
     with open(os.path.join(base_path, "README.txt"), 'w') as readme:
-        readme.write(desc)
+        readme.write(DESCRIPTION)
 
     with open(os.path.join(base_path, "config.txt"), 'w') as configfile:
         json.dump(json_config, configfile)
 
-    print("Project Initialized successfully in {}".format(base_path))
-    print("Check folder description in ReadMe.txt")
+    print("Project created successfully in {}".format(base_path))
 
 
 def save_model(model, name='model', method='jb'):

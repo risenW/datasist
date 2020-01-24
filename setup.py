@@ -1,12 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as cd:
   long_description = cd.read()
 
+with open('requirements.txt') as f:
+  requirements = f.readlines()
 
 setup(
       name='datasist',
-      packages=['datasist'],
       version='1.4',
       license='MIT',
       description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
@@ -17,6 +18,12 @@ setup(
       url='https://github.com/risenW/datasist',
       keywords=['Data Analysis', 'Feature Engineering', 'Visualization'],
       download_url='https://github.com/risenW/datasist/archive/v1.4.tar.gz', 
+      packages = find_packages(),
+      entry_points = {
+        'console_scripts': [
+          'startproject = datasist.project:startproject'
+        ]
+      },
       install_requires=[
         'pandas',
         'matplotlib',

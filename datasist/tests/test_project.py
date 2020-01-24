@@ -11,7 +11,7 @@ import logging
 
 #setup and teardown class to run before any test case
 def setup_function(module):
-    project.start_project("tests/sampletest")
+    project.startproject("tests/sampletest")
     logging.info("starting")
  
 def teardown_function(module):
@@ -26,7 +26,7 @@ def test_start_project():
                 'data',
                 'config.txt',
                 'outputs']
-    project.start_project("tests/sampletest")
+    project.startproject("tests/sampletest")
     output = os.listdir("tests/sampletest")
     assert set(expected) == set(output)
     assert len(expected) == len(output)
