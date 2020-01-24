@@ -86,17 +86,18 @@ def describe(data=None, name='', date_cols=None, show_categories=False, plot_mis
     print(num_features)
     _space()
 
+    print('Categorical Features in Data set')
+    display(cat_features)
+    _space()
+
     print('Statistical Description of Columns')
     display(data.describe())
     _space()
     
     print('Description of Categorical Features')
-    display(data.describe(include=[np.object, pd.Categorical]).T)
-    _space()
-
-    print('Categorical Features in Data set')
-    display(cat_features)
-    _space()
+    if cat_features != None:
+        display(data.describe(include=[np.object, pd.Categorical]).T)
+        _space()
           
     print('Unique class Count of Categorical features')
     display(get_unique_counts(data))
