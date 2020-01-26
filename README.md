@@ -9,7 +9,9 @@
 | Release Status |  [![status](https://img.shields.io/badge/status-stable-brightgreen.svg)](./) |
 | License |  [![license](https://img.shields.io/badge/license-MIT-orange.svg)](./) |
 | Build Status |  [![build status](https://travis-ci.org/risenW/datasist.svg?branch=master)](./) |
-
+| Downloads | ![PyPI - Downloads](https://img.shields.io/pypi/dm/datasist?style=plastic) |
+| Source Rank | ![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/datasist)
+| Twitter | ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fdatasistlibrary) |
 ### What is it?
 
 **datasist** is a python package providing fast, quick, and an abstracted interface to popular and frequently used functions or techniques relating to data analysis, visualization, data exploration, feature engineering, Computer, NLP, Deep Learning, modeling, model deployment etc.
