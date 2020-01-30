@@ -30,7 +30,8 @@ setup(
         'seaborn',
         'numpy',
         'jupyter',
-        'scikit-learn'
+        'scikit-learn',
+        'nltk'
         ],
       classifiers=[
         'Development Status :: 5 - Production/Stable',   
