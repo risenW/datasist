@@ -2,7 +2,7 @@
 
 ![datasist](https://risenw.github.io/datasist/datasist.png)
 
-## datasist: Python library for easy data modeling, visualization, exploration and analysis.
+## datasist: Python library for easy data analysis, visualization, exploration and modeling
 
 | Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5-blue.svg)](https://pypi.org/project/datasist/) |
 | :--- | :--- |
