@@ -44,25 +44,19 @@ pip install -e .
 
 ### Documentation
 
-API documentation can be found [here](https://risenw.github.io/datasist/index.html)
+Full documentaion can be found [here](https://risingodegua.gitbook.io/datasist-doc/)
 
 ### Contributing to datasist
 
 All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome.
 
-A detailed overview on how to contribute can be found in the [**contributing guide**](https://risenw.github.io/datasist/contributing.html).
+If you would like to contribute to datasist, find a detailed contribution guide [**here**](https://risingodegua.gitbook.io/datasist-doc/contributing).
 
-If you are simply looking to start working with the datasist codebase, navigate to the [GitHub "issues"tab](https://github.com/risenW/datasist/issues) and start looking through interesting issues. There are a number of issues listed under good first issue where you could start out.
 
 ### Using Datasist
+[Quick start guide](https://risingodegua.gitbook.io/datasist-doc/quickstart)
 
-#### Articles
-
-Detailed articles covering some of the important features of datasist and can be found [here](https://towardsdatascience.com/https-medium-com-risingdeveloper-easy-data-analysis-visualization-and-modeling-using-datasist-part1-8b26526dbe01) and [here](https://towardsdatascience.com/easy-data-analysis-visualization-and-modeling-using-datasist-part-2-d2ce7fbf79e3)
-
-[Basic classification example using Xente fraud dataset](https://risenw.github.io/datasist/classification_example.html)
-
-[Basic example using the Iris dataset](https://github.com/risenW/datasist/blob/master/datasist/examples/Example_irisdata.ipynb)
+[Tutorial guide](https://risenw.github.io/datasist/classification_example.html)
 
 #### Youtube Videos
 
@@ -70,7 +64,4 @@ Introduction to using Datasist, presented at NeuRips Meetup - PH. [Click Here](h
 
 Introduction to Datasist by DataKnight [Click Here](https://youtu.be/ErWa_WWu7vM)
 
-List of contributors [here](https://github.com/risenW/datasist/graphs/contributors)
-
-Logo design by [Heybee](https://twitter.com/therealheybee)
-
+[![Made in Nigeria](https://img.shields.io/badge/made%20in-nigeria-008751.svg?style=flat-square)](https://github.com/acekyd/made-in-nigeria)
