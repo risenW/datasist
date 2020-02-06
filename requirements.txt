@@ -45,7 +45,7 @@ nbformat=5.0.3=pypi_0
 ncurses=6.1=he6710b0_1
 notebook=6.0.2=pypi_0
 numpy=1.18.1=pypi_0
-nltk=3.2.5=pypi_0
+nltk=3.4.5=pypi_0
 openssl=1.1.1d=h7b6447c_3
 packaging=20.0=pypi_0
 pandas=0.25.3=pypi_0
