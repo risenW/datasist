@@ -8,16 +8,16 @@ with open('requirements.txt') as f:
 
 setup(
       name='datasist',
-      version='1.5',
+      version='1.5.1',
       license='MIT',
-      description='A Machine learning library that abstracts repetitve functions used by data scientist and machine learning engineers',
+      description='A Python library for easy data analysis, visualization, exploration and modeling',
       long_description=long_description,
       long_description_content_type="text/markdown",
       author='Rising Odegua',
       author_email='risingodegua@gmail.com',
       url='https://github.com/risenW/datasist',
-      keywords=['Data Analysis', 'Feature Engineering', 'Visualization'],
-      download_url='https://github.com/risenW/datasist/archive/v1.4.tar.gz', 
+      keywords=['Data Analysis', 'Feature Engineering', 'Visualization', 'project management', 'modeling', 'machine learning'],
+      download_url='https://github.com/risenW/datasist/archive/v1.5.1.tar.gz', 
       packages = find_packages(),
       entry_points = {
         'console_scripts': [
@@ -32,6 +32,7 @@ setup(
         'jupyter',
         'scikit-learn',
         'nltk'
+        'Joblib'
         ],
       classifiers=[
         'Development Status :: 5 - Production/Stable',   
