@@ -4,7 +4,7 @@
 
 ## datasist: Python library for easy data analysis, visualization, exploration and modeling
 
-| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5-blue.svg)](https://pypi.org/project/datasist/) |
+| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5.1-blue.svg)](https://pypi.org/project/datasist/) |
 | :--- | :--- |
 | Release Status |  [![status](https://img.shields.io/badge/status-stable-brightgreen.svg)](./) |
 | License |  [![license](https://img.shields.io/badge/license-MIT-orange.svg)](./) |
