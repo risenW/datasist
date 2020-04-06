@@ -257,7 +257,7 @@ def get_regression_report(y_true=None, prediction=None, show_r2_plot=True, save_
     '''
     mae = mean_absolute_error(y_true, prediction)
     mse = mean_squared_error(y_true, prediction)
-    msle = precision_score(y_true, prediction)
+    msle = mean_squared_log_error(y_true, prediction)
     r2 = r2_score(y_true, prediction)
     
     print("Mean Absolute Error: ", round(mae, 5))
