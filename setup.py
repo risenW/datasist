@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setup(
       name='datasist',
-      version='1.5.1',
+      version='1.5.2',
       license='MIT',
       description='A Python library for easy data analysis, visualization, exploration and modeling',
       long_description=long_description,
@@ -17,7 +17,7 @@ setup(
       author_email='risingodegua@gmail.com',
       url='https://github.com/risenW/datasist',
       keywords=['Data Analysis', 'Feature Engineering', 'Visualization', 'project management', 'modeling', 'machine learning'],
-      download_url='https://github.com/risenW/datasist/archive/v1.5.1.tar.gz', 
+      download_url='https://github.com/risenW/datasist/archive/v1.5.2.tar.gz', 
       packages = find_packages(),
       entry_points = {
         'console_scripts': [
