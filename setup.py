@@ -31,7 +31,7 @@ setup(
         'numpy',
         'jupyter',
         'scikit-learn',
-        'nltk'
+        'nltk',
         'Joblib'
         ],
       classifiers=[
