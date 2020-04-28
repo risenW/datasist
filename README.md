@@ -61,7 +61,3 @@ If you would like to contribute to datasist, find a detailed contribution guide 
 #### Youtube Videos
 
 Introduction to using Datasist, presented at NeuRips Meetup - PH. [Click Here](https://youtu.be/WYxSz6WBn-M)
-
-Introduction to Datasist by DataKnight [Click Here](https://youtu.be/ErWa_WWu7vM)
-
-[![Made in Nigeria](https://img.shields.io/badge/made%20in-nigeria-008751.svg?style=flat-square)](https://github.com/acekyd/made-in-nigeria)
