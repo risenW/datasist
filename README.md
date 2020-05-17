@@ -44,7 +44,7 @@ pip install -e .
 
 ### Documentation
 
-Full documentaion can be found [here](https://app.gitbook.com/@risingodegua/s/risingblog/datasist-doc/)
+Full documentaion can be found [here](https://risingodegua.gitbook.io/datasist-doc/)
 
 ### Contributing to datasist
 
