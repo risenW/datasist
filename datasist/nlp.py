@@ -2,7 +2,9 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
+from nltk.cluster.util import cosine_distance
 import string
+import re
 import numpy as np
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -88,7 +90,7 @@ def sentence_similarity(sentence1, sentence2, stopwords = nltk.corpus.stopwords.
         else:
             vect_array2[all_words.index(word)] += 1
     
-    similarity = 1 - cosine_distance(vect_array1, vect_array2)
+    similarity = np.round(1 - cosine_distance(vect_array1, vect_array2), 3)
 
     return similarity
 
@@ -110,10 +112,9 @@ def remove_newline(text):
         if i == "\n":
             continue
         else: 
-            cleaned_text.append(i.replace("[^a-zA-Z]", ""))
-    cleaned_text = " ".join(cleaned_text)
-    cleaned_text = re.sub(r'\[[0-9]*\]', ' ', cleaned_text)
-    return cleaned_text
+            cleaned_text.append(re.sub(r'[^a-zA-Z0-9_]', "", i))
+    
+    return " ".join([x for x in cleaned_text if x.strip()])
 
 
 def remove_unwanted_chars(sentence):
@@ -130,5 +131,7 @@ def remove_unwanted_chars(sentence):
     www_pattern = r'www.[^ ]+'
     non_alphabets = r'[^a-zA-Z]+'
     combined_pattern_removal = r'|'.join((mentions_pattern, http_pattern, www_pattern, non_alphabets))
-    return re.sub(combined_pattern_removal, " ", sentence)
+    return re.sub(combined_pattern_removal, " ", sentence).strip()
 
+
+print(remove_unwanted_chars("Me &amp; The Big Homie meanboy3000 #MEANBOY #MB #MBS #MMR #STEGMANLIFE @Stegman St. <url>	"))
