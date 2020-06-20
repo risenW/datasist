@@ -132,6 +132,3 @@ def remove_unwanted_chars(sentence):
     non_alphabets = r'[^a-zA-Z]+'
     combined_pattern_removal = r'|'.join((mentions_pattern, http_pattern, www_pattern, non_alphabets))
     return re.sub(combined_pattern_removal, " ", sentence).strip()
-
-
-print(remove_unwanted_chars("Me &amp; The Big Homie meanboy3000 #MEANBOY #MB #MBS #MMR #STEGMANLIFE @Stegman St. <url>	"))
