@@ -343,6 +343,10 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     if plot:
         sns.pointplot(y=model_scores, x=model_names)
         plt.xticks(rotation=90)
+        if scoring_metric is None:
+            plt.ylabel("Default_Scorer")
+        else:
+            plt.ylabel(scoring_metric)
         plt.title("Model comparison plot")
         plt.show()
 
