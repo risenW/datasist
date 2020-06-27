@@ -13,25 +13,6 @@ from IPython.display import display
 from collections import Counter
 
 
-def get_top_5(data):
-    '''
-    Returns top 5 rows in a dataframe
-    
-    Parameters:
-    -----------------
-        data:  DataFrame or named series.
-    
-    Returns:
-    -----------------
-        DataFrame or named series.
-    
-    '''
-    if data is None:
-        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
-
-    df = data.head(2)
-    return df
-
 
 
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
