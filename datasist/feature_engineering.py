@@ -6,6 +6,7 @@ import re
 import platform
 import pandas as pd
 import numpy as np
+import ppscore as ps
 
 if platform.system() == "Darwin":
     import matplotlib as plt
@@ -710,3 +711,70 @@ def _nan_in_class(data):
                 cols.append(col)
 
     return cols
+
+
+def feature_predictive_power(data,feature,target,id_column,top=5):
+    '''
+    Calculate the predictive power of features on a feature of interest for effective Exploratory data analysis and feature engineering 
+
+    Parameter:
+    -----------------------------------------
+    data: DataFrame
+
+        Data which contain the feature.
+
+    feature: str
+
+        Name of the Column of interest on which EDA or feature engineering is to be performed
+    
+    target: str 
+
+        Name of the target column in the data.
+    
+    id_column: str
+
+        Name of the ID column 
+
+    top(default = 5): int 
+
+        Top predictive columns for the feature 
+        Top must be less than number of features
+
+    Returns:
+        descriptive dataframe.
+    '''
+    df=data.copy()
+    data = data.drop(columns=[id_column],axis=1)
+    features = list(data.columns)
+
+    rt = ps.matrix(data)
+    if feature==id_column:
+        raise KeyError(f"{feature} is not a predictive feature, try any of {features}")
+        
+    predictors = pd.DataFrame(rt.loc[feature].sort_values(ascending=False))    
+    numerical_feats = []   
+    categorical_feats =[]
+    for f in features:
+        try: 
+            data[f] = data[f].astype(float)
+            numerical_feats.append(f)
+        except:
+            categorical_feats.append(f)
+            
+    #constant feature check
+    if len(rt.loc[feature].unique())==1:
+            raise Exception(f"{feature} is a constant difference feature, all other features are perfect predictors. \nConsideer dropping {feature}") 
+                            
+    #numerical cases
+    if feature in numerical_feats:
+        predictors = predictors[1:top+1].rename(columns={feature:'predictive_power'})
+        
+    #categorical cases
+    else:
+        #nominal feature check
+        if len(data[feature].unique()) > data.shape[0]*.75:
+            raise Exception(f"{feature} is a nominal feature, consider dropping it")
+        else:
+            predictors = predictors[1:top+1].rename(columns={feature:'predictive_power'})
+    
+    return predictors
