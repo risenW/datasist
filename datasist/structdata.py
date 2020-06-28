@@ -446,3 +446,14 @@ def _match_date(data):
     '''
     mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)
+
+
+def display_rows(data,num=2):
+    '''
+    Displays the required number of rows
+    
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+
+    return data.head(num)
