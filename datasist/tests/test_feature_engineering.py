@@ -15,6 +15,13 @@ df_dist = pd.DataFrame({'lat1': [10, 11, 12, 14],
                     'long1': [1,2,3,4],
                     'long2': [2,4,6,8]})
 
+df3 = pd.DataFrame({'ID': ['id1','id2','id3','id4'],
+                'size': [280, 20, 60, np.NaN],
+                'language': ['En', 'En', 'En', 'En'],
+                'label': [1,2, 1, 2]})
+
+
+
 #dataset to testing age bin
 table = pd.DataFrame(np.random.randint(16, 70,size=(50,2)),  columns=('Age','just_number'))
 table['Salary'] = np.random.randint(5000, 10000, size=(50,))
@@ -74,3 +81,8 @@ def test_bin_age():
                                             labels = data_label, drop_original= True)
     output = temp_df['Age_binned'].nunique()
     assert expected == output
+
+def test_feature_predictive_power():
+    data = df3
+    df_pred_power = feature_engineering.feature_predictive_power(data,'size','label',id_column='ID',top=2)
+    assert type(df_pred_power) == pd.core.frame.DataFrame
