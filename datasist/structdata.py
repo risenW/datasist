@@ -457,3 +457,29 @@ def display_rows(data,num=2):
         raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
 
     return data.head(num)
+
+def train_test_split(data=None,train_ratio=None):
+
+    '''
+    Splits a dataframe into train and test subsets.
+
+    Parameters:
+    -----------
+        data: DataFrame  
+
+        train_ratio: float 
+
+
+    Returns:
+    -------
+        DataFrame
+            A train dataframe and a test dataframe after split of input dataframe.
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame, got 'None'")
+
+    train_size = int(len(data) * (train_ratio))
+    df_train = data[:train_size]
+    df_test = data[train_size:]
+    
+    return df_train, df_test   
