@@ -72,7 +72,7 @@ Next, you'll create an isolated datasist development environment:
 
 Follow the steps below:
 
-1. cd to the datasit source directory
+1. cd to the datasist source directory
 
 ```cd datasist```
 
