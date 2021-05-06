@@ -444,8 +444,14 @@ def _match_date(data):
     '''
         Return a list of columns that matches the DateTime expression
     '''
-    mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
+    if (data.shape[0]) >= 20:
+        size = 20
+    else:
+        size = data.shape[0]
+    mask = data.sample(size).astype(str).apply(
+        lambda x: x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)
+    
 
 
 def display_rows(data,num=2):
