@@ -348,3 +348,31 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
 
     return fitted_model, model_scores
 
+
+
+def calculate_mean(data = None):
+    '''
+    This function calculates the mean  of a series
+
+    Parameters
+    ----------------
+        data:  Series
+
+            a pandas series data
+        
+    
+    Returns
+    ---------------
+    a value of the mean 
+    """
+    '''
+
+    if data is None:
+        raise ValueError("data: data can't be 'None' or empty")
+        
+    length = len(data.to_list())
+    mean = sum(data)/length
+
+    return mean
+
+   

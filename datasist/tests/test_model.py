@@ -42,3 +42,7 @@ def test_compare_model_regression():
     assert type(model_scores) is list
     assert hasattr(fitted_model[0], "predict")
 
+
+# def test_calculate_mean():
+
+
