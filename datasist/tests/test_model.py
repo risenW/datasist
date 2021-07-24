@@ -3,7 +3,9 @@ import pytest
 import os
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, GradientBoostingClassifier, RandomForestRegressor
-from datasist.model import compare_model
+from datasist.model import compare_model, calculate_mean
+import pandas as pd
+
 
 def test_compare_model_classification():
     x_train, y_train = make_classification(
@@ -43,6 +45,12 @@ def test_compare_model_regression():
     assert hasattr(fitted_model[0], "predict")
 
 
-# def test_calculate_mean():
+def test_calculate_mean():
+    df = pd.Series([20,30])
+    expected = 25
+    output = calculate_mean(df)
+
+    assert expected == output
+
 
 

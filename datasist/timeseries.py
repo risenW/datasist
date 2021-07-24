@@ -226,7 +226,7 @@ def get_period_of_day(date_col=None):
         raise ValueError("date_cols: Expect a date columns, got 'None'")
 
     
-    if date_col.dtype != np.int:
+    if date_col.dtype != np.int64:
         
         date_col_hr = pd.to_datetime(date_col).dt.hour
         return date_col_hr.map(_map_hours)
