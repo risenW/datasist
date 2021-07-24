@@ -82,7 +82,3 @@ def test_bin_age():
     output = temp_df['Age_binned'].nunique()
     assert expected == output
 
-def test_feature_predictive_power():
-    data = df3
-    df_pred_power = feature_engineering.feature_predictive_power(data,'size','label',id_column='ID',top=2)
-    assert type(df_pred_power) == pd.core.frame.DataFrame

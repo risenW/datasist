@@ -37,7 +37,7 @@ def test_remove_apostrophe():
 
 def test_stemming():
     text = "I am loving this"
-    expected = ' I am love thi'
+    expected = ' i am love thi'
     output = stemming(text)
 
     assert output == expected
