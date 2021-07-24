@@ -4,12 +4,13 @@
 
 ## datasist: Python library for easy data analysis, visualization, exploration and modeling
 
-| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5-blue.svg)](https://pypi.org/project/datasist/) |
+| Latest Release |  [![latest release](https://img.shields.io/badge/pip-v1.5.2-blue.svg)](https://pypi.org/project/datasist/) |
 | :--- | :--- |
 | Release Status |  [![status](https://img.shields.io/badge/status-stable-brightgreen.svg)](./) |
 | License |  [![license](https://img.shields.io/badge/license-MIT-orange.svg)](./) |
 | Build Status |  [![build status](https://travis-ci.org/risenW/datasist.svg?branch=master)](./) |
-| Downloads | ![PyPI - Downloads](https://img.shields.io/pypi/dm/datasist?style=plastic) |
+| Total Downloads | [![Downloads](https://pepy.tech/badge/datasist)](https://pepy.tech/project/datasist) |
+| Monthly Downloads | [![Downloads](https://pepy.tech/badge/datasist/month)](https://pepy.tech/project/datasist/month) |
 | Source Rank | ![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/datasist)
 | Twitter | ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fdatasistlibrary) |
 ### What is it?
@@ -61,7 +62,3 @@ If you would like to contribute to datasist, find a detailed contribution guide 
 #### Youtube Videos
 
 Introduction to using Datasist, presented at NeuRips Meetup - PH. [Click Here](https://youtu.be/WYxSz6WBn-M)
-
-Introduction to Datasist by DataKnight [Click Here](https://youtu.be/ErWa_WWu7vM)
-
-[![Made in Nigeria](https://img.shields.io/badge/made%20in-nigeria-008751.svg?style=flat-square)](https://github.com/acekyd/made-in-nigeria)

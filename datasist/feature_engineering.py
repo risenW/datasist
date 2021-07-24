@@ -6,6 +6,7 @@ import re
 import platform
 import pandas as pd
 import numpy as np
+import ppscore as ps
 
 if platform.system() == "Darwin":
     import matplotlib as plt
@@ -710,3 +711,4 @@ def _nan_in_class(data):
                 cols.append(col)
 
     return cols
+

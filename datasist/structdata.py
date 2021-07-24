@@ -12,6 +12,9 @@ from .visualizations import class_count, plot_missing
 from IPython.display import display
 from collections import Counter
 
+
+
+
 def describe(data=None, name='', date_cols=None, show_categories=False, plot_missing=False):
     '''
     Calculates statistics and information about a data set. Information displayed are
@@ -134,7 +137,7 @@ def get_cat_feats(data=None):
     if data is None:
         raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
 
-    cat_features = num_features = data.select_dtypes(include=['object']).columns
+    cat_features = data.select_dtypes(include=['object']).columns
 
     return list(cat_features)
 
@@ -441,5 +444,22 @@ def _match_date(data):
     '''
         Return a list of columns that matches the DateTime expression
     '''
-    mask = data.sample(20).astype(str).apply(lambda x : x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
+    if (data.shape[0]) >= 20:
+        size = 20
+    else:
+        size = data.shape[0]
+    mask = data.sample(size).astype(str).apply(
+        lambda x: x.str.match(r'(\d{2,4}-\d{2}-\d{2,4})+').all())
     return set(data.loc[:, mask].columns)
+    
+
+
+def display_rows(data,num=2):
+    '''
+    Displays the required number of rows
+    
+    '''
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame/ numpy2d array, got 'None'")
+
+    return data.head(num)

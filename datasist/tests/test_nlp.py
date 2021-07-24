@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from datasist.nlp import convert_lower_case, remove_stopwords, remove_punctuation, remove_apostrophe, stemming
+from datasist.nlp import convert_lower_case, remove_stopwords, remove_punctuation, remove_apostrophe, stemming, sentence_similarity, remove_newline, remove_unwanted_chars
 
 
 def test_lower_case():
@@ -37,7 +37,31 @@ def test_remove_apostrophe():
 
 def test_stemming():
     text = "I am loving this"
-    expected = ' I am love thi'
+    expected = ' i am love thi'
     output = stemming(text)
 
     assert output == expected
+
+def test_sentence_similarity():
+    sentence1 = "Datasist is a very amazing package"
+    sentence2 = "I think Datasist is a very amazing package"
+    expected = 0.866
+    output = sentence_similarity(sentence1, sentence2)
+
+    assert output == expected
+
+def test_remove_newline():
+    text = ")This is a line \n This is a new line ^ -- * 2020"
+    expected = "This is a line This is a new line 2020"
+    output = remove_newline(text)
+
+    assert output == expected 
+
+def test_remove_unwanted_chars():
+    text = "Me &amp; The Big Homie meanboy3000 #MEANBOY #MB #MBS #MMR #STEGMANLIFE @Stegman St. <url>	"
+    expected = "Me amp The Big Homie meanboy MEANBOY MB MBS MMR STEGMANLIFE Stegman St url"
+    output = remove_unwanted_chars(text)
+
+    assert output == expected
+
+

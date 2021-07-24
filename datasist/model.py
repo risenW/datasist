@@ -257,7 +257,7 @@ def get_regression_report(y_true=None, prediction=None, show_r2_plot=True, save_
     '''
     mae = mean_absolute_error(y_true, prediction)
     mse = mean_squared_error(y_true, prediction)
-    msle = precision_score(y_true, prediction)
+    msle = mean_squared_log_error(y_true, prediction)
     r2 = r2_score(y_true, prediction)
     
     print("Mean Absolute Error: ", round(mae, 5))
@@ -343,6 +343,10 @@ def compare_model(models_list=None, x_train=None, y_train=None, scoring_metric=N
     if plot:
         sns.pointplot(y=model_scores, x=model_names)
         plt.xticks(rotation=90)
+        if scoring_metric is None:
+            plt.ylabel("Default_Scorer")
+        else:
+            plt.ylabel(scoring_metric)
         plt.title("Model comparison plot")
         plt.show()
 
