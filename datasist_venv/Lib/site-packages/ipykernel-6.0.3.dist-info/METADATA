@@ -1,0 +1,77 @@
+Metadata-Version: 2.1
+Name: ipykernel
+Version: 6.0.3
+Summary: IPython Kernel for Jupyter
+Home-page: https://ipython.org
+Author: IPython Development Team
+Author-email: ipython-dev@scipy.org
+License: BSD
+Keywords: Interactive,Interpreter,Shell,Web
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: COPYING.md
+Requires-Dist: debugpy (<2.0,>=1.0.0)
+Requires-Dist: ipython (<8.0,>=7.23.1)
+Requires-Dist: traitlets (<6.0,>=4.1.0)
+Requires-Dist: jupyter-client (<7.0)
+Requires-Dist: tornado (<7.0,>=4.2)
+Requires-Dist: matplotlib-inline (<0.2.0,>=0.1.0)
+Requires-Dist: appnope ; platform_system == "Darwin"
+Requires-Dist: importlib-metadata (<4) ; python_version < "3.8.0"
+Provides-Extra: test
+Requires-Dist: pytest (!=5.3.4) ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: flaky ; extra == 'test'
+Requires-Dist: nose ; extra == 'test'
+Requires-Dist: ipyparallel ; extra == 'test'
+
+# IPython Kernel for Jupyter
+
+This package provides the IPython kernel for Jupyter.
+
+## Installation from source
+
+1. `git clone`
+2. `cd ipykernel`
+3. `pip install -e .`
+
+After that, all normal `ipython` commands will use this newly-installed version of the kernel.
+
+## Running tests
+
+Ensure you have `nosetests` and the `nose-warnings-filters` plugin installed with
+
+```bash
+pip install nose nose-warnings-filters
+```
+
+and then from the root directory
+
+```bash
+nosetests ipykernel
+```
+
+## Running tests with coverage
+
+Follow the instructions from `Running tests`. Ensure you have the `coverage` module installed with
+
+```bash
+pip install coverage
+```
+
+and then from the root directory
+
+```bash
+nosetests --with-coverage --cover-package ipykernel ipykernel
+```
+
+

@@ -12,6 +12,7 @@ from IPython.display import display
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
 import sklearn.metrics as sklm
+from ipywidgets import widgets
 
 
 
@@ -659,3 +660,47 @@ def autoviz(data):
 
         av = AutoViz_Class()
         av.AutoViz(filename='', dfte=data, max_cols_analyzed=50)
+
+
+def features_plot(data,target):
+    '''
+    Makes a scatter plot for a particular numerical feature chosen by a drawdown  to show their relationship with the target.
+    
+    Parameters
+    ------------
+
+        data : DataFrame, array, or list of arrays.
+
+            The data to plot.
+
+        target: string or integer. 
+
+            The target(label) column name in the dataset, if not provided, 
+            we this function throw an error.
+
+    
+
+    Returns
+    -------
+        A drawsown containing only numerical features together with the selected features scatter plot against the target
+    '''
+
+    if data is None:
+        raise ValueError("data: Expecting a DataFrame or Series, got 'None'")
+
+    if data[target].dtype != 'float64' and data[target].dtype != 'int64':
+        raise ValueError("target: target not a continous value")
+
+    features = [c for c in data.columns if (data[c].dtype == 'float64' or data[c].dtype == 'int64') and c != target]
+    
+    
+    def plot_feature(column):
+        plt.plot(data[column], data[target], '.')
+        plt.xlabel(column)
+        plt.ylabel('target')
+
+    dropdown_menu = [k for k in features]
+
+    return widgets.interact(plot_feature, column=dropdown_menu);
+        
+    
