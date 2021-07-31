@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from . import structdata
+from datasist import structdata
 from IPython.display import display
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
