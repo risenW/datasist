@@ -16,7 +16,7 @@ else:
 
 import seaborn as sns
 
-from .structdata import get_cat_feats, get_num_feats, get_date_cols
+from datasist.structdata import get_cat_feats, get_num_feats, get_date_cols
 from dateutil.parser import parse
 
 
@@ -153,13 +153,13 @@ def fill_missing_num(data=None, num_features=None, method='mean', missing_col=Fa
     for feat in features:
         if missing_col:
             df[feat + '_missing_value'] = (df[feat].isna()).astype('int64')
-        if method is 'mean':
+        if method == 'mean':
             mean = df[feat].mean()
             df[feat].fillna(mean, inplace=True)
-        elif method is 'median':
+        elif method == 'median':
             median = df[feat].median()
             df[feat].fillna(median, inplace=True)
-        elif method is 'mode':
+        elif method == 'mode':
             mode = df[feat].mode()[0]
             df[feat].fillna(mode, inplace=True)
         else:
