@@ -3,8 +3,8 @@
 /dist/
 *.pypirc
 /*.pypirc
-/build/
 /idea/
 /.vscode/
 /pytest_cache/
 /venv/
+/build/
